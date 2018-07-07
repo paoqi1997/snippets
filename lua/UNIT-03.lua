@@ -36,7 +36,7 @@ then
 elseif (city == 'Shanghai')  -- 上海
 then
     print('East China')
-elseif (city == 'GuangZhou') -- 广州
+elseif (city == 'Guangzhou') -- 广州
 then
     print('South China')
 elseif (city == 'Shenzhen')  -- 深圳
