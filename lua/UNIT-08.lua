@@ -120,7 +120,7 @@ box1 = setmetatable
     {
         __add =
         function(lhs, rhs)
-            cnt = 0
+            local cnt = 0
             if #lhs < #rhs then
                 cnt = #lhs
             else
@@ -165,7 +165,7 @@ box3 = setmetatable
     {
         __tostring =
         function(table)
-            sum = 0
+            local sum = 0
             for i, v in pairs(table) do
                 sum = sum + v
             end
