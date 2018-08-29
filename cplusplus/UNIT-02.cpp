@@ -1,3 +1,7 @@
+/**
+ * C++之sizeof运算符
+ */
+
 #include <iostream>
 
 using std::cout;

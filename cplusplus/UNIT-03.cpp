@@ -1,3 +1,7 @@
+/**
+ * C++之数组指针
+ */
+
 #include <iostream>
 
 using std::cout;
