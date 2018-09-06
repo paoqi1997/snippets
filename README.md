@@ -13,3 +13,5 @@
 + cplusplus
 
 + lua
+
++ shell
