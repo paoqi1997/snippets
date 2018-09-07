@@ -34,6 +34,7 @@ echo `expr index $language Script` # 5
 # 遍历数组
 array=(1 3 5 7 9)
 echo ${array[@]}
+echo ${array[*]}
 
 array[0]=2
 array[1]=4
