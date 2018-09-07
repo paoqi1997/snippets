@@ -4,6 +4,8 @@ Shell代码段。
 
 # 目录
 
-bash是比较稳妥的选择。
+bash比sh好得多。
 
 + UNIT-01 : Shell之初体验
+
++ UNIT-02 : Shell之传递参数
