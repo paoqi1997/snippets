@@ -12,6 +12,8 @@
 
 + cplusplus
 
++ golang
+
 + lua
 
 + shell
