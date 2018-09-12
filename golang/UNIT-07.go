@@ -59,4 +59,15 @@ func main() {
 
     pc[4] = 8
     fmt.Println(pc, len(pc), cap(pc)) // [5 6 7 8 8] 5 8
+
+    pic := [][]int {
+        []int{1, 0, 0}, []int{0, 1, 0}, []int{0, 0, 1},
+    }
+
+    for i := 0; i < 3; i++ {
+        for j := 0; j < 3; j++ {
+            fmt.Printf("%d ", pic[i][j])
+        }
+        fmt.Printf("\n")
+    }
 }
