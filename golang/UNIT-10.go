@@ -59,7 +59,7 @@ func main() {
     kuikui := player{1, 100}
     fmt.Printf("Id: %d, Level: %d\n", kuikui.getid(), getcharge(kuikui))
 
-    var val num_type = 8
+    val := num_type(8)
     fmt.Println(val.fibonacci())      // 21
 
     yoghurt := role{1, "maid"}
