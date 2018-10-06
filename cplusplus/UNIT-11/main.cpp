@@ -29,7 +29,7 @@ int main()
 {
     std::ifstream fs;
 
-    fs.open("conf.ini", std::ios_base::in);
+    fs.open("./conf.ini", std::ios_base::in);
 
     std::string buf;
 
