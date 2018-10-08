@@ -29,7 +29,7 @@ public:
     {
         cout << "Creating girl..." << endl;
     }
-    ~girl() noexcept override
+    ~girl() noexcept
     {
         cout << "Deleting girl..." << endl;
     }
