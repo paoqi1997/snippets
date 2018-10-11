@@ -1,61 +1,67 @@
 /**
- * C++之std::forward
+ * C++之模板特化
  */
 
 #include <iostream>
-#include <utility>
+#include <cstdlib>
 
 using std::cout;
 using std::endl;
 
-struct Obj
+template <typename T>
+size_t add(T x, T y)
 {
-    Obj() : n(0) {}
+    return x + y;
+}
 
-    Obj(int _n) : n(_n) {}
+// 模板全特化
+template <>
+size_t add(char x, char y)
+{
+    return (x - '0') + (y - '0');
+}
 
-    int n;
+template <>
+size_t add(const char *x, const char *y)
+{
+    return std::atoi(x) + std::atoi(y);
+}
+
+template <typename Iterator>
+struct iterator_traits
+{
+    using difference_type = typename Iterator::difference_type;
+    using value_type      = typename Iterator::value_type;
+    using pointer         = typename Iterator::pointer;
+    using reference       = typename Iterator::reference;
 };
 
-void func(Obj& obj)
-{
-    cout << obj.n << " : " << "Obj&" << endl;
-}
-
-void func(Obj&& obj)
-{
-    cout << obj.n << " : " << "Obj&&" << endl;
-}
-
-// 普通转发
+// 模板偏特化
 template <typename T>
-void fcc(T param)
+struct iterator_traits<T*>
 {
-    func(param);
-}
+    using difference_type = ptrdiff_t;
+    using value_type      = T;
+    using pointer         = T*;
+    using reference       = T&;
+};
 
-// 完美转发
 template <typename T>
-void foo(T&& param)
+struct iterator_traits<const T*>
 {
-    func(std::forward<T>(param));
-}
+    using difference_type = ptrdiff_t;
+    using value_type      = T;
+    using pointer         = const T*;
+    using reference       = const T&;
+};
 
 int main()
 {
-    Obj   x;
-    Obj&  y = x;
-    Obj&& z = Obj(3);
+    cout << add(2, 4) << endl;     // 6
 
-    fcc(x);      // Obj&
-    fcc(y);      // Obj&
-    fcc(z);      // Obj&
-    fcc(Obj(4)); // Obj&
+    cout << add('2', '4') << endl; // 6
 
-    foo(x);      // Obj&
-    foo(y);      // Obj&
-    foo(z);      // Obj&
-    foo(Obj(4)); // Obj&&
+    cout << add("2", "4") << endl; // 6
 
     return 0;
 }

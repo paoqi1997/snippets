@@ -1,53 +1,59 @@
 /**
- * C++之虚析构函数
+ * C++之带权重的随机算法
  */
 
 #include <iostream>
+#include <cstdio>
+#include <ctime>
+#include <cstdlib>
+#include <numeric>
+#include <iterator>
 
 using std::cout;
 using std::endl;
 
-class person
+void printInfo(int *weights, size_t length)
 {
-public:
-    person(int _age) : age(_age)
-    {
-        cout << "Creating person..." << endl;
-    }
-    virtual ~person() noexcept
-    {
-        cout << "Deleting person..." << endl;
-    }
-private:
-    int age;
-};
+    int left = 0, right = weights[0];
 
-class girl : public person
-{
-public:
-    girl(int _age) : person(_age), cup('C')
+    for (size_t i = 0; i < length; ++i)
     {
-        cout << "Creating girl..." << endl;
+        std::printf("Index: %d, Weight: %d", i, weights[i]);
+
+        std::printf(", Section: [%d, %d)\n", left, right);
+
+        if (i + 1 < length)
+        {
+            left += weights[i], right += weights[i + 1];
+        }
     }
-    ~girl() noexcept
-    {
-        cout << "Deleting girl..." << endl;
-    }
-private:
-    char cup;
-};
+}
 
 int main()
 {
-    // Creating person...
-    // Creating girl...
-    person *p = new girl(18);
+    // Range: [0, 100)
+    int weights[] = {30, 20, 10, 40};
 
-    cout << "Waiting..." << endl;
+    size_t length = sizeof(weights) / sizeof(int);
 
-    // Deleting girl...
-    // Deleting person...
-    delete p;
+    printInfo(weights, length);
+
+    std::srand(std::time(nullptr));
+
+    int total = std::accumulate(std::begin(weights), std::end(weights), 0);
+
+    int point = std::rand() % total;
+
+    cout << "Value: " << point << endl;
+
+    for (size_t i = 0; i < length; point -= weights[i++])
+    {
+        if (point < weights[i])
+        {
+            cout << "Index: " << i << endl;
+            break;
+        }
+    }
 
     return 0;
 }

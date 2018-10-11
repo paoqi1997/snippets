@@ -1,67 +1,53 @@
 /**
- * C++之模板特化
+ * C++之虚析构函数
  */
 
 #include <iostream>
-#include <cstdlib>
 
 using std::cout;
 using std::endl;
 
-template <typename T>
-size_t add(T x, T y)
+class person
 {
-    return x + y;
-}
-
-// 模板全特化
-template <>
-size_t add(char x, char y)
-{
-    return (x - '0') + (y - '0');
-}
-
-template <>
-size_t add(const char *x, const char *y)
-{
-    return std::atoi(x) + std::atoi(y);
-}
-
-template <typename Iterator>
-struct iterator_traits
-{
-    using difference_type = typename Iterator::difference_type;
-    using value_type      = typename Iterator::value_type;
-    using pointer         = typename Iterator::pointer;
-    using reference       = typename Iterator::reference;
+public:
+    person(int _age) : age(_age)
+    {
+        cout << "Creating person..." << endl;
+    }
+    virtual ~person() noexcept
+    {
+        cout << "Deleting person..." << endl;
+    }
+private:
+    int age;
 };
 
-// 模板偏特化
-template <typename T>
-struct iterator_traits<T*>
+class girl : public person
 {
-    using difference_type = ptrdiff_t;
-    using value_type      = T;
-    using pointer         = T*;
-    using reference       = T&;
-};
-
-template <typename T>
-struct iterator_traits<const T*>
-{
-    using difference_type = ptrdiff_t;
-    using value_type      = T;
-    using pointer         = const T*;
-    using reference       = const T&;
+public:
+    girl(int _age) : person(_age), cup('C')
+    {
+        cout << "Creating girl..." << endl;
+    }
+    ~girl() noexcept
+    {
+        cout << "Deleting girl..." << endl;
+    }
+private:
+    char cup;
 };
 
 int main()
 {
-    cout << add(2, 4) << endl;     // 6
+    // Creating person...
+    // Creating girl...
+    person *p = new girl(18);
 
-    cout << add('2', '4') << endl; // 6
+    cout << "Waiting..." << endl;
 
-    cout << add("2", "4") << endl; // 6
+    // Deleting girl...
+    // Deleting person...
+    delete p;
 
     return 0;
 }

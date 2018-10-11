@@ -1,5 +1,5 @@
 /**
- * C++之枚举
+ * C++之节点访问
  */
 
 #include <iostream>
@@ -7,41 +7,52 @@
 using std::cout;
 using std::endl;
 
-enum numset {
-    ONE = 1, TWO, THREE, FOUR, FIVE
+template <typename T>
+struct node
+{
+    T element; node<T> *next;
+
+    node() : next(nullptr) {}
+
+    node(const T& _element) : element(_element), next(nullptr) {}
 };
 
 int main()
 {
-    numset num = THREE;
+    node<int> *root = new node<int>(1); root->next = new node<int>(2);
 
-    cout << num << endl; // 3
+    node<int> *p = root;
 
-    num = static_cast<numset>(7);
+    //  root ==  p |  root->next ==  p->next
+    cout <<  root << ' ' <<  p << ' ' <<  root->next << ' ' <<  p->next << endl;
 
-    cout << num << endl; // 7
+    // &root != &p | &root->next == &p->next
+    cout << &root << ' ' << &p << ' ' << &root->next << ' ' << &p->next << endl;
 
-    switch (num)
-    {
-    case ONE:
-        cout << "ONE" << endl;
-        break;
-    case TWO:
-        cout << "TWO" << endl;
-        break;
-    case THREE:
-        cout << "THREE" << endl;
-        break;
-    case FOUR:
-        cout << "FOUR" << endl;
-        break;
-    case FIVE:
-        cout << "FIVE" << endl;
-        break;
-    default:
-        cout << "UNKNOWN" << endl;
-        break;
-    }
+    // 1 1 2
+    cout << root->element << ' ' << p->element << ' ' << root->next->element << endl;
+
+    p->element = 3;
+
+    // 3 3 2
+    cout << root->element << ' ' << p->element << ' ' << root->next->element << endl;
+
+    p->next->element = 4;
+
+    // 3 3 4
+    cout << root->element << ' ' << p->element << ' ' << root->next->element << endl;
+
+    p = p->next;
+
+    // 3 4 4
+    cout << root->element << ' ' << p->element << ' ' << root->next->element << endl;
+
+    p->element = 5;
+
+    // 3 5 5
+    cout << root->element << ' ' << p->element << ' ' << root->next->element << endl;
+
+    delete root->next; delete root;
 
     return 0;
 }
