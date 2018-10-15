@@ -8,68 +8,37 @@
 using std::cout;
 using std::endl;
 
-class boy;
-class girl;
-
-// 防止循环引用
-class boy
+class object : public std::enable_shared_from_this<object>
 {
 public:
-    boy() noexcept
+    object(int _n) : n(_n)
     {
-        cout << "Creating boy..." << endl;
+        cout << "Creating object..." << endl;
     }
-    ~boy() noexcept
+    ~object() noexcept
     {
-        cout << "Deleting boy..." << endl;
+        cout << "Deleting object..." << endl;
     }
-    void setgirlfriend(const std::shared_ptr<girl>& mygirl)
+    // 在类的内部获得自身的shared_ptr
+    std::shared_ptr<object> get_sptr()
     {
-        girlfriend = mygirl;
-    }
-private:
-    std::weak_ptr<girl> girlfriend;
-};
-
-class girl
-{
-public:
-    girl() noexcept
-    {
-        cout << "Creating girl..." << endl;
-    }
-    ~girl() noexcept
-    {
-        cout << "Deleting girl..." << endl;
-    }
-    void setboyfriend(const std::shared_ptr<boy>& myboy)
-    {
-        boyfriend = myboy;
+        return this->shared_from_this();
     }
 private:
-    std::weak_ptr<boy> boyfriend;
+    int n;
 };
 
 int main()
 {
-    // Creating boy...
-    std::shared_ptr<boy> boyptr(new boy());
+    // Creating object...
+    std::shared_ptr<object> po = std::make_shared<object>(0);
 
-    // Creating girl...
-    std::shared_ptr<girl> girlptr(new girl());
+    auto pt = po->get_sptr();
 
-    // 1 1
-    cout << boyptr.use_count() << ' ' << girlptr.use_count() << endl;
+    // 0 2
+    cout << pt.unique() << ' ' << pt.use_count() << endl;
 
-    boyptr->setgirlfriend(girlptr);
-
-    girlptr->setboyfriend(boyptr);
-
-    // 1 1
-    cout << boyptr.use_count() << ' ' << girlptr.use_count() << endl;
-
-    // Deleting girl...
-    // Deleting boy...
+    // Deleting object...
 
     return 0;
 }

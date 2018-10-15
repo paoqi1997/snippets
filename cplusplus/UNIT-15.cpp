@@ -3,42 +3,52 @@
  */
 
 #include <iostream>
+#include <string>
 #include <memory>
 
 using std::cout;
 using std::endl;
 
-class object : public std::enable_shared_from_this<object>
+class girl
 {
 public:
-    object(int _n) : n(_n)
+    girl(const char *_name) : name(_name)
     {
-        cout << "Creating object..." << endl;
+        cout << "Creating " << name << "..." << endl;
     }
-    ~object() noexcept
+    ~girl() noexcept
     {
-        cout << "Deleting object..." << endl;
+        cout << "Deleting " << name << "..." << endl;
     }
-    // 在类的内部获得自身的shared_ptr
-    std::shared_ptr<object> get_sptr()
+    const char *getname() const
     {
-        return this->shared_from_this();
+        return name.c_str();
     }
 private:
-    int n;
+    std::string name;
 };
 
 int main()
 {
-    // Creating object...
-    std::shared_ptr<object> po = std::make_shared<object>(0);
+    // Creating Tutu...
+    // Creating Kuikui...
+    std::shared_ptr<girl> girls
+    (
+        // 使用shared_ptr管理动态数组时需要自定义deleter
+        new girl[2]{ girl{"Tutu"}, girl{"Kuikui"} }, std::default_delete<girl[]>()
+    );
 
-    auto pt = po->get_sptr();
+    auto pg = girls.get();
 
-    // 0 2
-    cout << pt.unique() << ' ' << pt.use_count() << endl;
+    // Tutu Kuikui
+    for (size_t i = 0; i < 2; ++i)
+    {
+        cout << pg[i].getname() << ' ';
+    }
+    cout << endl;
 
-    // Deleting object...
+    // Deleting Kuikui...
+    // Deleting Tutu...
 
     return 0;
 }
