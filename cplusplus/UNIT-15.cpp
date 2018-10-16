@@ -20,10 +20,7 @@ public:
     {
         cout << "Deleting " << name << "..." << endl;
     }
-    const char *getname() const
-    {
-        return name.c_str();
-    }
+    const char *getname() const { return name.c_str(); }
 private:
     std::string name;
 };
