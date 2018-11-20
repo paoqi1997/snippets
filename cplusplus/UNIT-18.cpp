@@ -1,47 +1,51 @@
 /**
- * C++之数字与字符
+ * C++之智能指针第四弹
  */
 
 #include <iostream>
-#include <cstdio>
-#include <string>
+#include <memory>
 
 using std::cout;
 using std::endl;
 
-inline size_t char2num(char c)
+class object
 {
-    return c - '0';
-}
-
-inline char num2char(size_t n)
-{
-    return static_cast<char>(n + 48);
-}
-
-inline size_t str2num(const char *s)
-{
-    return std::atoi(s);
-}
-
-inline const char *num2str(size_t n)
-{
-    return std::to_string(n).c_str();
-}
+public:
+    object(int _n) : n(_n)
+    {
+        cout << "Creating object" << '(' << n << ')' << "..." << endl;
+    }
+    ~object() noexcept
+    {
+        cout << "Deleting object" << '(' << n << ')' << "..." << endl;
+    }
+    int getn() const { return n; }
+private:
+    int n;
+};
 
 int main()
 {
-    // 字符转数字
-    std::printf("%d\n", char2num('2'));   // 2
+    // Creating object(1)...
+    std::unique_ptr<object> up(new object(1));
 
-    // 数字转字符
-    std::printf("%c\n", num2char(8));     // 8
+    auto p = up.get();
 
-    // 字符串转数字
-    std::printf("%d\n", str2num("9527")); // 9527
+    // 1
+    cout << p->getn() << endl;
 
-    // 数字转字符串
-    std::printf("%s\n", num2str(123456)); // 123456
+    // Creating object(2)...
+    // Deleting object(1)...
+    up.reset(new object(2));
+
+    // 通过release()方法返回的裸指针需要手动delete释放对象
+    auto q = up.release();
+
+    // 2
+    cout << q->getn() << endl;
+
+    // Deleting object(2)...
+    delete q;
 
     return 0;
 }
