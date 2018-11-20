@@ -10,7 +10,7 @@ echo -e 'Line 1.\nLine 2.'
 # 将结果定向至文件
 echo 'NMSL! I am your brother!' > TonyHorse.txt
 
-# 显示date命令执行结果
+# 打印输出date命令的执行结果
 echo `date`
 
 # 格式化输出
