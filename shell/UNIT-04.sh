@@ -4,13 +4,13 @@
 Shell之传递参数
 !
 
-# bash UNIT-02.sh 1 2
+# bash UNIT-04.sh 1 2
 
 echo "currpid: $$"
 
 echo "options: $-"
 
-# UNIT-02.sh
+# UNIT-04.sh
 echo "name: $0"
 
 # 2 parameters: 1 2

@@ -37,7 +37,7 @@ echo ${archive:-$dll}        # /usr/local/lib/libpao.so.1
 # 如果archive为空或者被删除，那么返回dll，并将archive的值设置为dll
 echo ${archive:=$dll}        # /usr/local/lib/libpao.so.1
 # 如果archive为空或者被删除，那么将消息送到标准错误输出
-echo ${archive:?'Failured!'} # /usr/local/lib/libpao.so.1
+echo ${archive:?'Failed!'}   # /usr/local/lib/libpao.so.1
 
 archive='/usr/local/lib/libpao.a'
 
@@ -45,5 +45,4 @@ echo ${archive}              # /usr/local/lib/libpao.a
 echo ${archive:+$dll}        # /usr/local/lib/libpao.so.1
 echo ${archive:-$dll}        # /usr/local/lib/libpao.a
 echo ${archive:=$dll}        # /usr/local/lib/libpao.a
-echo ${archive:?'Failured!'} # /usr/local/lib/libpao.a
-
+echo ${archive:?'Failed!'}   # /usr/local/lib/libpao.a
