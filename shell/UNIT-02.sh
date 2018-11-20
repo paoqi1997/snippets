@@ -1,47 +1,52 @@
 #!/bin/bash
 
 :<<!
-Shell之传递参数
+Shell之初体验
 !
 
-# bash UNIT-02.sh 1 2
+# 定义变量
+content='NMSL'
+echo "$content! I am your brother!"
 
-echo "currpid: $$"
+# 只读变量
+readonly name='Xiaochuan'
+echo $name
 
-echo "options: $-"
+# 删除变量
+unset content
+echo $content
 
-# UNIT-02.sh
-echo "name: $0"
+# 拼接字符串
+action='kkp'
+echo 'zai?'" $action"    # zai? kkp
 
-# 2 parameters: 1 2
-echo "$# parameters: $1 $2"
+# 获取字符串长度
+distribution='Arch Linux'
+echo ${#distribution}    # 10
 
-# Successful!
-if [ "$1" != '1' ]; then
-    echo 'Failed!'
-else
-    echo 'Successful!'
-fi
+# 提取子字符串
+echo ${distribution:0:4} # Arch
 
-# 1
-# 2
-for i in $*; do
-    echo $i
+# 查找子字符串
+language='JavaScript'
+echo `expr index $language Script` # 5
+
+# 遍历数组
+array=(1 3 5 7 9)
+echo ${array[@]}
+echo ${array[*]}
+
+array[0]=2
+array[1]=4
+array[2]=6
+array[3]=8
+array[4]=10
+
+for i in 0 1 2 3 4
+do
+    echo ${array[i]}
 done
 
-# 1
-# 2
-for i in $@; do
-    echo $i
-done
-
-# 1 2
-for j in "$*"; do
-    echo $j
-done
-
-# 1
-# 2
-for j in "$@"; do
-    echo $j
-done
+# 获取数组长度
+echo ${#array[@]} # 5
+echo ${#array[*]} # 5
