@@ -6,44 +6,44 @@ Shell之变量替换
 
 dll='/usr/local/lib/libpao.so.1'
 
-echo $dll
+echo $dll        # /usr/local/lib/libpao.so.1
 
 #
-echo ${dll#????} #
+echo ${dll#????} # /local/lib/libpao.so.1
 
 #
-echo ${dll#*/}   #
+echo ${dll#*/}   # usr/local/lib/libpao.so.1
 #
-echo ${dll##*/}  #
+echo ${dll##*/}  # libpao.so.1
 #
-echo ${dll#*.}   #
+echo ${dll#*.}   # so.1
 #
-echo ${dll##*.}  #
+echo ${dll##*.}  # 1
 
 #
-echo ${dll%/*}   #
+echo ${dll%/*}   # /usr/local/lib
 #
-echo ${dll%%/*}  #
+echo ${dll%%/*}  # None
 #
-echo ${dll%.*}   #
+echo ${dll%.*}   # /usr/local/lib/libpao.so
 #
-echo ${dll%%.*}  #
+echo ${dll%%.*}  # /usr/local/lib/libpao
 
-echo $archive
+echo $archive                # None
 #
-echo ${archive:+$dll}        #
+echo ${archive:+$dll}        # None
 #
-echo ${archive:-$dll}        #
+echo ${archive:-$dll}        # /usr/local/lib/libpao.so.1
 #
-echo ${archive:=$dll}        #
+echo ${archive:=$dll}        # /usr/local/lib/libpao.so.1
 #
-echo ${archive:?'Failured!'} #
+echo ${archive:?'Failured!'} # /usr/local/lib/libpao.so.1
 
 archive='/usr/local/lib/libpao.a'
 
-echo ${archive}              #
-echo ${archive:+$dll}        #
-echo ${archive:-$dll}        #
-echo ${archive:=$dll}        #
-echo ${archive:?'Failured!'} #
+echo ${archive}              # /usr/local/lib/libpao.a
+echo ${archive:+$dll}        # /usr/local/lib/libpao.so.1
+echo ${archive:-$dll}        # /usr/local/lib/libpao.a
+echo ${archive:=$dll}        # /usr/local/lib/libpao.a
+echo ${archive:?'Failured!'} # /usr/local/lib/libpao.a
 
