@@ -1,52 +1,49 @@
 #!/bin/bash
 
 :<<!
-Shell之初体验
+Shell之变量替换
 !
 
-# 定义变量
-content='NMSL'
-echo "$content! I am your brother!"
+dll='/usr/local/lib/libpao.so.1'
 
-# 只读变量
-readonly name='Xiaochuan'
-echo $name
+echo $dll
 
-# 删除变量
-unset content
-echo $content
+#
+echo ${dll#????} #
 
-# 拼接字符串
-action='kkp'
-echo 'zai?'" $action"    # zai? kkp
+#
+echo ${dll#*/}   #
+#
+echo ${dll##*/}  #
+#
+echo ${dll#*.}   #
+#
+echo ${dll##*.}  #
 
-# 获取字符串长度
-distribution='Arch Linux'
-echo ${#distribution}    # 10
+#
+echo ${dll%/*}   #
+#
+echo ${dll%%/*}  #
+#
+echo ${dll%.*}   #
+#
+echo ${dll%%.*}  #
 
-# 提取子字符串
-echo ${distribution:0:4} # Arch
+echo $archive
+#
+echo ${archive:+$dll}        #
+#
+echo ${archive:-$dll}        #
+#
+echo ${archive:=$dll}        #
+#
+echo ${archive:?'Failured!'} #
 
-# 查找子字符串
-language='JavaScript'
-echo `expr index $language Script` # 5
+archive='/usr/local/lib/libpao.a'
 
-# 遍历数组
-array=(1 3 5 7 9)
-echo ${array[@]}
-echo ${array[*]}
+echo ${archive}              #
+echo ${archive:+$dll}        #
+echo ${archive:-$dll}        #
+echo ${archive:=$dll}        #
+echo ${archive:?'Failured!'} #
 
-array[0]=2
-array[1]=4
-array[2]=6
-array[3]=8
-array[4]=10
-
-for i in 0 1 2 3 4
-do
-    echo ${array[i]}
-done
-
-# 获取数组长度
-echo ${#array[@]} # 5
-echo ${#array[*]} # 5
