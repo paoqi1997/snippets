@@ -98,7 +98,7 @@ if [ -z $s ]; then
     echo "the length of string is zero."
 fi
 
-if [ -n $s ]; then
+if [ -n "$s" ]; then
     echo "the length of string isn't zero."
 fi
 
