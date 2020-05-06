@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <utility>
 
 class Obj
 {
@@ -59,12 +60,26 @@ private:
     char *str;
 };
 
-void func(Obj& obj) {
-    std::printf("paramType: Obj&\n");
+template <typename T>
+void _func(T& param) {
+    std::printf("paramType: T&\n");
 }
 
-void func(Obj&& obj) {
-    std::printf("paramType: Obj&&\n");
+template <typename T>
+void _func(T&& param) {
+    std::printf("paramType: T&&\n");
+}
+
+template <typename T>
+void func(T&& param)
+{
+    _func(param);
+}
+
+template <typename T>
+void func_with_forward(T&& param)
+{
+    _func(std::forward<T>(param));
 }
 
 #endif // UTIL_H
