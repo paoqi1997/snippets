@@ -12,5 +12,10 @@ int main()
 
     print_sizeof_info();
 
+    // bitfield
+    cout << "cpp/base/bitfield" << endl;
+
+    test_bitfield();
+
     return 0;
 }

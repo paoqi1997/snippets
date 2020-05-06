@@ -37,4 +37,21 @@ inline void print_sizeof_info()
     PRINT_INFO("long double", long double);
 }
 
+inline void test_bitfield()
+{
+    struct BitField1 {
+        char a: 1;
+        char b: 1;
+        char c: 6;
+    };
+    struct BitField2 {
+        char a: 1;
+        char b: 1;
+        char c: 6;
+        char d: 1;
+    };
+    std::printf("bits: %zu, bits2: %zu\n",
+        sizeof(BitField1), sizeof(BitField2));
+}
+
 #endif // UTIL_H
