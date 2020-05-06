@@ -10,9 +10,9 @@
 
 目前包含以下编程语言：
 
-+ cplusplus
++ cpp
 
-+ golang
++ go
 
 + lua
 
