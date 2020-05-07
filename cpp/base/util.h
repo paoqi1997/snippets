@@ -10,7 +10,7 @@ do {                                                \
     std::printf("%s: %zu\n", type_s, sizeof(type)); \
 } while (0)
 
-inline void print_sizeof_info()
+inline void unit_sizeof()
 {
 #ifdef WIN32
     std::cout << "os: windows" << std::endl;
@@ -37,7 +37,7 @@ inline void print_sizeof_info()
     PRINT_INFO("long double", long double);
 }
 
-inline void test_bitfield()
+inline void unit_bitfield()
 {
     struct BitField1 {
         char a: 1;
@@ -50,8 +50,31 @@ inline void test_bitfield()
         char c: 6;
         char d: 1;
     };
-    std::printf("bits: %zu, bits2: %zu\n",
+    std::printf("bytes: %zu, %zu\n",
         sizeof(BitField1), sizeof(BitField2));
+}
+
+inline void unit_array()
+{
+    int m[][3] = {{1, 2, 3}, {4, 5, 6}};
+
+    // 数组指针
+    int (*p1)[3] = m;
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            std::cout << *(*(p1 + i) + j) << ' ';
+        }
+    }
+    std::cout << std::endl;
+
+    // 指针数组
+    int *p2[] = {m[0], m[1]};
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            std::cout << *(*(p2 + i) + j) << ' ';
+        }
+    }
+   std::cout << std::endl;
 }
 
 #endif // UTIL_H

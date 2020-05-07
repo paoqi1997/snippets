@@ -9,13 +9,15 @@ int main()
 {
     // sizeof
     cout << "cpp/base/sizeof" << endl;
-
-    print_sizeof_info();
+    unit_sizeof();
 
     // bitfield
     cout << "cpp/base/bitfield" << endl;
+    unit_bitfield();
 
-    test_bitfield();
+    // array
+    cout << "cpp/base/array" << endl;
+    unit_array();
 
     return 0;
 }
