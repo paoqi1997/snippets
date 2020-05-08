@@ -23,5 +23,9 @@ int main()
     cout << "cpp/base/class" << endl;
     unit_class();
 
+    // traits
+    cout << "cpp/base/traits" << endl;
+    unit_traits();
+
     return 0;
 }
