@@ -19,5 +19,9 @@ int main()
     cout << "cpp/base/array" << endl;
     unit_array();
 
+    // class
+    cout << "cpp/base/class" << endl;
+    unit_class();
+
     return 0;
 }

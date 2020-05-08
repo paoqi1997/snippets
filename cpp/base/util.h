@@ -77,4 +77,96 @@ inline void unit_array()
    std::cout << std::endl;
 }
 
+namespace shape1
+{
+
+class circle {
+public:
+    const char* getName() const { return "circle"; }
+};
+class square {
+public:
+    const char* getName() const { return "square"; }
+};
+class triangle {
+public:
+    const char* getName() const { return "triangle"; }
+};
+
+template <typename T>
+void printName(const T& param)
+{
+    std::cout << param.getName() << std::endl;
+}
+
+} // namespace shape1
+
+namespace shape2
+{
+
+class shape {
+public:
+    virtual const char* getName() const = 0;
+};
+class circle : public shape {
+public:
+    const char* getName() const override { return "circle"; }
+};
+class square : public shape {
+public:
+    const char* getName() const override { return "square"; }
+};
+class triangle : public shape {
+public:
+    const char* getName() const override { return "triangle"; }
+};
+
+void printName(const shape& shapeObj)
+{
+    std::cout << shapeObj.getName() << std::endl;
+}
+
+} // namespace shape2
+
+class classA {
+public:
+    classA() { std::cout << "classA::classA" << std::endl; }
+    virtual ~classA() { std::cout << "classA::~classA" << std::endl; }
+};
+class classB : public classA {
+public:
+    classB() { std::cout << "classB::classB" << std::endl; }
+    ~classB() { std::cout << "classB::~classB" << std::endl; }
+};
+class classC : public classB {
+public:
+    classC() { std::cout << "classC::classC" << std::endl; }
+    ~classC() { std::cout << "classC::~classC" << std::endl; }
+};
+
+inline void unit_class()
+{
+    // 静态多态
+    shape1::circle circleObj1;
+    shape1::square squareObj1;
+    shape1::triangle triangleObj1;
+
+    shape1::printName(circleObj1);
+    shape1::printName(squareObj1);
+    shape1::printName(triangleObj1);
+
+    // 动态多态
+    shape2::circle circleObj2;
+    shape2::square squareObj2;
+    shape2::triangle triangleObj2;
+
+    shape2::printName(circleObj2);
+    shape2::printName(squareObj2);
+    shape2::printName(triangleObj2);
+
+    // We need virtual destructor.
+    classA *p = new classC;
+    delete p;
+}
+
 #endif // UTIL_H
