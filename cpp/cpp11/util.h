@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <memory>
 #include <utility>
 
 class Obj
@@ -81,5 +82,21 @@ void func_with_forward(T&& param)
 {
     _func(std::forward<T>(param));
 }
+
+class Engine : public std::enable_shared_from_this<Engine>
+{
+public:
+    Engine(const char *_name) : name(_name)
+    {
+        std::printf("Engine::Engine(\"%s\")\n", _name);
+    }
+    ~Engine() { std::cout << "Engine::~Engine" << std::endl; }
+    const char* getName() const { return name; }
+    std::shared_ptr<Engine> getPtr() {
+        return shared_from_this();
+    }
+private:
+    const char *name;
+};
 
 #endif // UTIL_H
