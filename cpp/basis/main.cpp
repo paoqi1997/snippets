@@ -8,23 +8,23 @@ using std::endl;
 int main()
 {
     // sizeof
-    cout << "cpp/base/sizeof" << endl;
+    cout << "cpp/basis/sizeof" << endl;
     unit_sizeof();
 
     // bitfield
-    cout << "cpp/base/bitfield" << endl;
+    cout << "cpp/basis/bitfield" << endl;
     unit_bitfield();
 
     // array
-    cout << "cpp/base/array" << endl;
+    cout << "cpp/basis/array" << endl;
     unit_array();
 
     // class
-    cout << "cpp/base/class" << endl;
+    cout << "cpp/basis/class" << endl;
     unit_class();
 
     // traits
-    cout << "cpp/base/traits" << endl;
+    cout << "cpp/basis/traits" << endl;
     unit_traits();
 
     return 0;
