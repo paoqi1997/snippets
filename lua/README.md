@@ -6,10 +6,6 @@ Lua代码段。
 
 这个世界需要热更新。
 
-+ UNIT-01 : Lua之基本类型
-
-+ UNIT-02 : Lua之变量
-
 + UNIT-03 : Lua之控制流
 
 + UNIT-04 : Lua之函数
