@@ -10,7 +10,7 @@ do {                                                \
     std::printf("%s: %zu\n", type_s, sizeof(type)); \
 } while (0)
 
-inline void unit_sizeof()
+inline void test_sizeof()
 {
 #ifdef WIN32
     std::cout << "os: windows" << std::endl;
@@ -37,7 +37,7 @@ inline void unit_sizeof()
     PRINT_INFO("long double", long double);
 }
 
-inline void unit_bitfield()
+inline void test_bitfield()
 {
     struct BitField1 {
         char a: 1;
@@ -54,7 +54,7 @@ inline void unit_bitfield()
         sizeof(BitField1), sizeof(BitField2));
 }
 
-inline void unit_array()
+inline void test_array()
 {
     int m[][3] = {{1, 2, 3}, {4, 5, 6}};
 
@@ -144,7 +144,7 @@ public:
     ~classC() { std::cout << "classC::~classC" << std::endl; }
 };
 
-inline void unit_class()
+inline void test_class()
 {
     // 静态多态
     shape1::circle circleObj1;
@@ -436,7 +436,7 @@ private:
     T array[N];
 };
 
-inline void unit_traits()
+inline void test_traits()
 {
     pqArray<int, 10> array;
     for (auto it = array.rbegin(); it != array.rend(); ++it) {

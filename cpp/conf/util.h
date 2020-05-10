@@ -78,7 +78,7 @@ private:
     std::map<std::string, kv_pairs> properties;
 };
 
-inline void unit_ini()
+inline void test_ini()
 {
     INIReader oReader("config.ini");
     oReader.printInfo();

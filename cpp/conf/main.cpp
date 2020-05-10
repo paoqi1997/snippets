@@ -10,7 +10,7 @@ int main()
 {
     // ini
     cout << "cpp/conf/ini" << endl;
-    unit_ini();
+    test_ini();
 
     std::system("pause");
     return 0;

@@ -9,23 +9,23 @@ int main()
 {
     // sizeof
     cout << "cpp/basis/sizeof" << endl;
-    unit_sizeof();
+    test_sizeof();
 
     // bitfield
     cout << "cpp/basis/bitfield" << endl;
-    unit_bitfield();
+    test_bitfield();
 
     // array
     cout << "cpp/basis/array" << endl;
-    unit_array();
+    test_array();
 
     // class
     cout << "cpp/basis/class" << endl;
-    unit_class();
+    test_class();
 
     // traits
     cout << "cpp/basis/traits" << endl;
-    unit_traits();
+    test_traits();
 
     return 0;
 }
