@@ -20,8 +20,6 @@ Lua代码段。
 
 + UNIT-09 : Lua之协程
 
-+ UNIT-10 : Lua之文件I/O
-
 + UNIT-11 : Lua之错误处理
 
 + UNIT-12 : Lua之面向对象
