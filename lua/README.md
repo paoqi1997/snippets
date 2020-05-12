@@ -6,8 +6,6 @@ Lua代码段。
 
 这个世界需要热更新。
 
-+ UNIT-04 : Lua之函数
-
 + UNIT-05 : Lua之运算符、字符串及数组
 
 + UNIT-06 : Lua之iterator及table
