@@ -6,8 +6,6 @@ Lua代码段。
 
 这个世界需要热更新。
 
-+ UNIT-06 : Lua之iterator及table
-
 + UNIT-07 : Lua之模块
 
 + UNIT-08 : Lua之元表
