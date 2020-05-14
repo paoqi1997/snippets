@@ -8,8 +8,6 @@ Lua代码段。
 
 + UNIT-07 : Lua之模块
 
-+ UNIT-08 : Lua之元表
-
 + UNIT-09 : Lua之协程
 
 + UNIT-11 : Lua之错误处理
