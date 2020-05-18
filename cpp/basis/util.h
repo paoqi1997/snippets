@@ -196,67 +196,70 @@ struct iterator_traits<const T*>
     using reference       = const T&;
 };
 
-template <typename Iter> class reverse_iterator;
+/**
+ * _reverse_iterator
+ */
+template <typename Iter> class _reverse_iterator;
 
 template <typename Iter>
-reverse_iterator<Iter> make_reverse_iterator(Iter it)
+_reverse_iterator<Iter> make_reverse_iterator(Iter it)
 {
-    return reverse_iterator<Iter>(it);
+    return _reverse_iterator<Iter>(it);
 }
 
 template <typename Iter1, typename Iter2>
-bool operator == (const reverse_iterator<Iter1>& lhs, const reverse_iterator<Iter2>& rhs)
+bool operator == (const _reverse_iterator<Iter1>& lhs, const _reverse_iterator<Iter2>& rhs)
 {
     return lhs.base() == rhs.base();
 }
 
 template <typename Iter1, typename Iter2>
-bool operator != (const reverse_iterator<Iter1>& lhs, const reverse_iterator<Iter2>& rhs)
+bool operator != (const _reverse_iterator<Iter1>& lhs, const _reverse_iterator<Iter2>& rhs)
 {
     return lhs.base() != rhs.base();
 }
 
 template <typename Iter1, typename Iter2>
-bool operator < (const reverse_iterator<Iter1>& lhs, const reverse_iterator<Iter2>& rhs)
+bool operator < (const _reverse_iterator<Iter1>& lhs, const _reverse_iterator<Iter2>& rhs)
 {
     return lhs.base() >  rhs.base();
 }
 
 template <typename Iter1, typename Iter2>
-bool operator <= (const reverse_iterator<Iter1>& lhs, const reverse_iterator<Iter2>& rhs)
+bool operator <= (const _reverse_iterator<Iter1>& lhs, const _reverse_iterator<Iter2>& rhs)
 {
     return lhs.base() >= rhs.base();
 }
 
 template <typename Iter1, typename Iter2>
-bool operator > (const reverse_iterator<Iter1>& lhs, const reverse_iterator<Iter2>& rhs)
+bool operator > (const _reverse_iterator<Iter1>& lhs, const _reverse_iterator<Iter2>& rhs)
 {
     return lhs.base() <  rhs.base();
 }
 
 template <typename Iter1, typename Iter2>
-bool operator >= (const reverse_iterator<Iter1>& lhs, const reverse_iterator<Iter2>& rhs)
+bool operator >= (const _reverse_iterator<Iter1>& lhs, const _reverse_iterator<Iter2>& rhs)
 {
     return lhs.base() <= rhs.base();
 }
 
 template <typename Iter>
-reverse_iterator<Iter> operator +
-(typename reverse_iterator<Iter>::difference_type n, const reverse_iterator<Iter>& rhs)
+_reverse_iterator<Iter> operator +
+(typename _reverse_iterator<Iter>::difference_type n, const _reverse_iterator<Iter>& rhs)
 {
     return rhs + n;
 }
 
 template <typename Iter1, typename Iter2>
 auto operator -
-(const reverse_iterator<Iter1>& lhs,
- const reverse_iterator<Iter2>& rhs) -> decltype(rhs.base() - lhs.base())
+(const _reverse_iterator<Iter1>& lhs,
+ const _reverse_iterator<Iter2>& rhs) -> decltype(rhs.base() - lhs.base())
 {
     return rhs.base() - lhs.base();
 }
 
 template <typename Iter>
-class reverse_iterator
+class _reverse_iterator
 {
 public:
     using iterator_type   = Iter;
@@ -265,22 +268,22 @@ public:
     using pointer         = typename iterator_traits<Iter>::pointer;
     using reference       = typename iterator_traits<Iter>::reference;
 
-    reverse_iterator() = default;
+    _reverse_iterator() = default;
 
-    reverse_iterator(const iterator_type& iter) { it = iter; }
+    _reverse_iterator(const iterator_type& iter) { it = iter; }
 
     template <typename U>
-    reverse_iterator(const reverse_iterator<U>& rhs)
+    _reverse_iterator(const _reverse_iterator<U>& rhs)
     {
         if (&rhs != this) {
             it = rhs.it;
         }
     }
 
-    reverse_iterator& operator = (const iterator_type& iter) { it = iter; return *this; }
+    _reverse_iterator& operator = (const iterator_type& iter) { it = iter; return *this; }
 
     template <typename U>
-    reverse_iterator& operator = (const reverse_iterator<U>& rhs)
+    _reverse_iterator& operator = (const _reverse_iterator<U>& rhs)
     {
         if (&rhs != this) {
             it = rhs.it;
@@ -295,69 +298,72 @@ public:
 
     reference operator [] (difference_type n) const { return *(it - n); }
 
-    reverse_iterator& operator ++ () { --it; return *this; }
-    reverse_iterator& operator -- () { ++it; return *this; }
+    _reverse_iterator& operator ++ () { --it; return *this; }
+    _reverse_iterator& operator -- () { ++it; return *this; }
 
-    reverse_iterator operator ++ (int) {
+    _reverse_iterator operator ++ (int) {
         auto rhs = *this; --it; return rhs;
     }
-    reverse_iterator operator -- (int) {
+    _reverse_iterator operator -- (int) {
         auto rhs = *this; ++it; return rhs;
     }
 
-    reverse_iterator operator + (difference_type n) const {
-        return reverse_iterator<iterator_type>(it - n);
+    _reverse_iterator operator + (difference_type n) const {
+        return _reverse_iterator<iterator_type>(it - n);
     }
-    reverse_iterator operator - (difference_type n) const {
-        return reverse_iterator<iterator_type>(it + n);
+    _reverse_iterator operator - (difference_type n) const {
+        return _reverse_iterator<iterator_type>(it + n);
     }
 
-    reverse_iterator& operator += (difference_type n) { it -= n; return *this; }
-    reverse_iterator& operator -= (difference_type n) { it += n; return *this; }
+    _reverse_iterator& operator += (difference_type n) { it -= n; return *this; }
+    _reverse_iterator& operator -= (difference_type n) { it += n; return *this; }
 private:
     Iter it;
 };
 
-template <typename T> class pqArray_iterator;
+/**
+ * Array_iterator
+ */
+template <typename T> class Array_iterator;
 
 template <typename T>
-bool operator == (const pqArray_iterator<T>& lhs, const pqArray_iterator<T>& rhs)
+bool operator == (const Array_iterator<T>& lhs, const Array_iterator<T>& rhs)
 {
     return lhs.base() == rhs.base();
 }
 
 template <typename T>
-bool operator != (const pqArray_iterator<T>& lhs, const pqArray_iterator<T>& rhs)
+bool operator != (const Array_iterator<T>& lhs, const Array_iterator<T>& rhs)
 {
     return lhs.base() != rhs.base();
 }
 
 template <typename T>
-bool operator < (const pqArray_iterator<T>& lhs, const pqArray_iterator<T>& rhs)
+bool operator < (const Array_iterator<T>& lhs, const Array_iterator<T>& rhs)
 {
     return lhs.base() >  rhs.base();
 }
 
 template <typename T>
-bool operator <= (const pqArray_iterator<T>& lhs, const pqArray_iterator<T>& rhs)
+bool operator <= (const Array_iterator<T>& lhs, const Array_iterator<T>& rhs)
 {
     return lhs.base() >= rhs.base();
 }
 
 template <typename T>
-bool operator > (const pqArray_iterator<T>& lhs, const pqArray_iterator<T>& rhs)
+bool operator > (const Array_iterator<T>& lhs, const Array_iterator<T>& rhs)
 {
     return lhs.base() <  rhs.base();
 }
 
 template <typename T>
-bool operator >= (const pqArray_iterator<T>& lhs, const pqArray_iterator<T>& rhs)
+bool operator >= (const Array_iterator<T>& lhs, const Array_iterator<T>& rhs)
 {
     return lhs.base() <= rhs.base();
 }
 
 template <typename T>
-class pqArray_iterator
+class Array_iterator
 {
 public:
     using value_type      = T;
@@ -365,18 +371,18 @@ public:
     using pointer         = T*;
     using reference       = T&;
 
-    pqArray_iterator() = default;
+    Array_iterator() = default;
 
-    pqArray_iterator(pointer p) { ptr = p; }
-    pqArray_iterator(const pqArray_iterator& rhs)
+    Array_iterator(pointer p) { ptr = p; }
+    Array_iterator(const Array_iterator& rhs)
     {
         if (&rhs != this) {
             ptr = rhs.ptr;
         }
     }
 
-    pqArray_iterator& operator = (pointer p) { ptr = p; return *this; }
-    pqArray_iterator& operator = (const pqArray_iterator& rhs)
+    Array_iterator& operator = (pointer p) { ptr = p; return *this; }
+    Array_iterator& operator = (const Array_iterator& rhs)
     {
         if (&rhs != this) {
             ptr = rhs.ptr;
@@ -391,54 +397,63 @@ public:
 
     reference operator [] (difference_type n) const { return *(ptr + n); }
 
-    pqArray_iterator& operator ++ () { ++ptr; return *this; }
-    pqArray_iterator& operator -- () { --ptr; return *this; }
+    Array_iterator& operator ++ () { ++ptr; return *this; }
+    Array_iterator& operator -- () { --ptr; return *this; }
 
-    pqArray_iterator operator ++ (int) {
+    Array_iterator operator ++ (int) {
         auto rhs = *this; ++ptr; return rhs;
     }
-    pqArray_iterator operator -- (int) {
+    Array_iterator operator -- (int) {
         auto rhs = *this; --ptr; return rhs;
     }
 
-    pqArray_iterator operator + (difference_type n) const {
-        return pqArray_iterator<T>(ptr + n);
+    Array_iterator operator + (difference_type n) const {
+        return Array_iterator<T>(ptr + n);
     }
-    pqArray_iterator operator - (difference_type n) const {
-        return pqArray_iterator<T>(ptr - n);
+    Array_iterator operator - (difference_type n) const {
+        return Array_iterator<T>(ptr - n);
     }
 
-    pqArray_iterator& operator += (difference_type n) { ptr += n; return *this; }
-    pqArray_iterator& operator -= (difference_type n) { ptr -= n; return *this; }
+    Array_iterator& operator += (difference_type n) { ptr += n; return *this; }
+    Array_iterator& operator -= (difference_type n) { ptr -= n; return *this; }
 private:
     T *ptr;
 };
 
+/**
+ * Array
+ */
 template <typename T, std::size_t N>
-class pqArray
+class Array
 {
 public:
-    pqArray() = default;
+    using iterator               = Array_iterator<T>;
+    using const_iterator         = const Array_iterator<T>;
 
-    using iterator = pqArray_iterator<T>;
-    using const_iterator = const pqArray_iterator<T>;
+    using reverse_iterator       = _reverse_iterator<iterator>;
+    using const_reverse_iterator = _reverse_iterator<const_iterator>;
 
-    using riterator = reverse_iterator<iterator>;
-    using const_riterator = reverse_iterator<const_iterator>;
+    Array() = default;
+    Array(std::initializer_list<T> init)
+    {
+        std::size_t idx = 0;
+        for (auto it = init.begin(); it != init.end(); ++it) {
+            array[idx++] = *it;
+        }
+    }
 
-    riterator rbegin() { return array + N; }
-    const_riterator rbegin() const { return array + N; }
+    reverse_iterator rbegin() { return array + N - 1; }
+    const_reverse_iterator rbegin() const { return array + N - 1; }
 
-    riterator rend() { return array; }
-    const_riterator rend() const { return array; }
-
+    reverse_iterator rend() { return array - 1; }
+    const_reverse_iterator rend() const { return array - 1; }
 private:
     T array[N];
 };
 
 inline void test_traits()
 {
-    pqArray<int, 10> array;
+    Array<int, 5> array{1, 2, 3, 4, 5};
     for (auto it = array.rbegin(); it != array.rend(); ++it) {
         std::cout << *it << ' ';
     }
