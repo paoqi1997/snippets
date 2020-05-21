@@ -8,4 +8,4 @@ file (GLOB INCS *.h)
 source_group ("src" FILES ${SRCS})
 source_group ("include" FILES ${INCS})
 
-add_executable (app ${SRCS})
+add_executable (app ${SRCS} ${INCS})
