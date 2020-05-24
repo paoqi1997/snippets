@@ -57,7 +57,7 @@ function average(...)
         sum = sum + v
     end
     -- or return sum / #args
-    return sum / select('#', ...)
+    return sum / select('#', args)
 end
 
 print(average(1, 3, 5, 7, 9))

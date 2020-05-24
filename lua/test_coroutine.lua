@@ -35,11 +35,11 @@ print(coroutine.resume(co, 's5')) -- true
 client = coroutine.create(
     function(iNum)
         local iSendNum = iNum
-        while iSendNum < 5 do
+        while iSendNum <= 5 do
             print('[client] C2S: ' .. iSendNum)
             _, iRecvNum = coroutine.resume(server, iSendNum)
             print('[client] S2C: ' .. iRecvNum)
-            iSendNum = iRecvNum
+            iSendNum = iRecvNum + 1
         end
     end
 )
@@ -47,11 +47,15 @@ client = coroutine.create(
 server = coroutine.create(
     function(iNum)
         local iRecvNum = iNum
-        while iRecvNum < 5 do
+        while true do
             print('[server] C2S: ' .. iRecvNum)
             iSendNum = iRecvNum + 1
             print('[server] S2C: ' .. iSendNum)
             iRecvNum = coroutine.yield(iSendNum)
+            if iRecvNum == 5 then
+                print('[server] C2S: ' .. iRecvNum)
+                break
+            end
         end
     end
 )

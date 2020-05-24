@@ -58,10 +58,12 @@ if [ $x -gt 0 -o $y -gt 0 ]; then
     echo "$x > 0 or $y > 0"
 fi
 
-z=-1
+z=false
 
 if [ !$z ]; then
-    echo "$z < 0"
+    echo "\$z is false."
+else
+    echo "\$z is true."
 fi
 
 echo '------'

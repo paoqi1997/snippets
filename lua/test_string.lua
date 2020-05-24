@@ -45,9 +45,10 @@ print(string.format('%E', 255)) -- 2.550000E+002
 print(string.format('%x', 255)) -- ff
 print(string.format('%X', 255)) -- FF
 
+-- 2 apples
 print(string.match('I have eaten 2 apples.', '%d+ %a+'))
 
-colors = 'read|green|blue'
+colors = 'red|green|blue'
 
 s = ''
 for color in string.gmatch(colors, '%a+') do

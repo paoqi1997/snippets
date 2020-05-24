@@ -1,18 +1,18 @@
 #!/bin/bash
 
+# bash main.sh 127.0.0.1 8080
 source util.sh
 
-# bash main.sh 127.0.0.1 8080
 printInfo $#
 
 # 127.0.0.1
-#8080
+# 8080
 for arg in $*; do
     echo $arg
 done
 
 # 127.0.0.1
-#8080
+# 8080
 for arg in $@; do
     echo $arg
 done
@@ -23,7 +23,7 @@ for arg in "$*"; do
 done
 
 # 127.0.0.1
-#8080
+# 8080
 for arg in "$@"; do
     echo $arg
 done
