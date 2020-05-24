@@ -90,13 +90,52 @@ public:
     {
         std::printf("Engine::Engine(\"%s\")\n", _name);
     }
-    ~Engine() { std::cout << "Engine::~Engine" << std::endl; }
+    ~Engine()
+    {
+        std::printf("Engine::~Engine(\"%s\")\n", name);
+    }
     const char* getName() const { return name; }
     std::shared_ptr<Engine> getPtr() {
         return shared_from_this();
     }
 private:
     const char *name;
+};
+
+class Child;
+
+class Parent
+{
+public:
+    Parent() { std::cout << "Parent::Parent" << std::endl; }
+    ~Parent()
+    {
+        std::printf(
+            "Parent::~Parent(use_count=%d)\n", ptr.use_count()
+        );
+    }
+    void setChild(const std::shared_ptr<Child>& sp) {
+        ptr = sp;
+    }
+private:
+    std::shared_ptr<Child> ptr;
+};
+
+class Child
+{
+public:
+    Child() { std::cout << "Child::Child" << std::endl; }
+    ~Child()
+    {
+        std::printf(
+            "Child::~Child(use_count=%d)\n", ptr.use_count()
+        );
+    }
+    void setParent(const std::shared_ptr<Parent>& sp) {
+        ptr = sp;
+    }
+private:
+    std::weak_ptr<Parent> ptr;
 };
 
 #endif // UTIL_H

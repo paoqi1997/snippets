@@ -10,7 +10,7 @@
 
 using kv_pairs = std::map<std::string, std::string>;
 
-inline bool findC(std::string& s, char c)
+inline bool findC(const std::string& s, char c)
 {
     if (s.find(c) != std::string::npos) {
         return true;

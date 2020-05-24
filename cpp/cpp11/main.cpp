@@ -62,5 +62,14 @@ int main()
         std::unique_ptr<Engine, decltype(deleter)> engines2(new Engine[2]{"Unity", "Unreal"}, deleter);
     }
 
+    // 循环引用相关
+    {
+        std::shared_ptr<Parent> parent(new Parent);
+        std::shared_ptr<Child> child(new Child);
+
+        parent->setChild(child);
+        child->setParent(parent);
+    }
+
     return 0;
 }

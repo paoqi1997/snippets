@@ -14,7 +14,7 @@ int main()
     print_weights(li);
 
     auto pr = random_with_weights(li);
-    std::printf("res: %d in section %d.\n", pr.first, pr.second);
+    std::printf("res %d in section %d.\n", pr.first, pr.second);
 
     return 0;
 }

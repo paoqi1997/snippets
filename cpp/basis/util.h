@@ -169,6 +169,9 @@ inline void test_class()
     delete p;
 }
 
+/**
+ * iterator_traits
+ */
 template <typename Iterator>
 struct iterator_traits
 {
@@ -222,7 +225,7 @@ bool operator != (const _reverse_iterator<Iter1>& lhs, const _reverse_iterator<I
 template <typename Iter1, typename Iter2>
 bool operator < (const _reverse_iterator<Iter1>& lhs, const _reverse_iterator<Iter2>& rhs)
 {
-    return lhs.base() >  rhs.base();
+    return lhs.base() > rhs.base();
 }
 
 template <typename Iter1, typename Iter2>
@@ -234,7 +237,7 @@ bool operator <= (const _reverse_iterator<Iter1>& lhs, const _reverse_iterator<I
 template <typename Iter1, typename Iter2>
 bool operator > (const _reverse_iterator<Iter1>& lhs, const _reverse_iterator<Iter2>& rhs)
 {
-    return lhs.base() <  rhs.base();
+    return lhs.base() < rhs.base();
 }
 
 template <typename Iter1, typename Iter2>
@@ -341,7 +344,7 @@ bool operator != (const Array_iterator<T>& lhs, const Array_iterator<T>& rhs)
 template <typename T>
 bool operator < (const Array_iterator<T>& lhs, const Array_iterator<T>& rhs)
 {
-    return lhs.base() >  rhs.base();
+    return lhs.base() > rhs.base();
 }
 
 template <typename T>
@@ -353,7 +356,7 @@ bool operator <= (const Array_iterator<T>& lhs, const Array_iterator<T>& rhs)
 template <typename T>
 bool operator > (const Array_iterator<T>& lhs, const Array_iterator<T>& rhs)
 {
-    return lhs.base() <  rhs.base();
+    return lhs.base() < rhs.base();
 }
 
 template <typename T>
