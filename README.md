@@ -16,4 +16,6 @@
 
 + lua
 
++ python
+
 + shell

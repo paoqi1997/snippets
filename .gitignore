@@ -33,3 +33,6 @@
 
 # Output directories
 build
+
+# By-products
+__pycache__
