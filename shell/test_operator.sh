@@ -3,7 +3,7 @@
 x=2; y=4
 
 echo '------'
-echo 'Arithmetic Operators'
+echo 'Arithmetical Operators'
 echo '------'
 
 echo "$x + $y =" `expr $x + $y`
