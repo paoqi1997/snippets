@@ -15,18 +15,18 @@ def debug(func):
 def log(level):
     def wrapper(func):
         def inner(*args, **kwargs):
-            print('[%s] call %s()'%(level, func.__name__))
+            print('[%-5s] call %s()'%(level, func.__name__))
             func(*args, **kwargs)
         return inner
     return wrapper
 
 class Object:
-    def __init__(self):
+    def __init__(self) -> None:
         print('Object::Object()')
         self.m_BaseName = Object.__name__
 
 class Player(Object):
-    def __init__(self, nID: int):
+    def __init__(self, nID: int) -> None:
         super().__init__()
         print('Player::Player(%d)'%nID)
         self.m_ID = nID
