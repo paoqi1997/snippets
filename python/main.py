@@ -17,3 +17,16 @@ if __name__ == '__main__':
     # lambda返回的值作为该元素的权值，sort将按照权值大小进行排序
     # 奇数为False，偶数为True，故奇数在前
     print(sorted(box, key=lambda x: x % 2 == 0))
+
+    dInfo = {
+        'name': 'mysql',
+        'version': '8.0.19'
+    }
+    for kv in zip(dInfo.keys(), dInfo.values()):
+        print('{}: {}'.format(kv[0], kv[1]))
+
+    lstDBName = ['mariadb', 'mongodb', 'mysql', 'redis']
+    for idx, element in enumerate(lstDBName):
+        print('lstDBName[%d]=%s'%(idx, element))
+
+    print(['%s-x86_64'%name for name in lstDBName])
