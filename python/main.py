@@ -30,3 +30,8 @@ if __name__ == '__main__':
         print('lstDBName[%d]=%s'%(idx, element))
 
     print(['%s-x86_64'%name for name in lstDBName])
+
+    oLooper = util.Looper()
+    for _ in range(10):
+        oLooper.addTask(util.test(2))
+    oLooper.run()

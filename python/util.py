@@ -1,3 +1,6 @@
+import asyncio
+import time
+
 def sum():
     iSum = 0
     def inner(n):
@@ -44,3 +47,33 @@ class Player(Object):
             print('Player %d buy %d item(%d).'%(self.m_ID, iCount, nItemID))
         else:
             print('Player %d buy %d items(%d).'%(self.m_ID, iCount, nItemID))
+
+def sTime():
+    fTime = time.time()
+    group = time.localtime(fTime)
+    return time.strftime('%Y-%m-%d %H:%M:%S', group)
+
+async def __test(iDelay):
+    await asyncio.sleep(iDelay)
+
+async def test(iDelay):
+    await __test(iDelay)
+
+class Looper():
+    def __init__(self):
+        self.m_Looper = asyncio.get_event_loop()
+        self.m_Tasks = []
+
+    def __del__(self):
+        print('Looper::~Looper')
+        self.m_Looper.close()
+
+    def addTask(self, co):
+        self.m_Tasks.append(co)
+
+    def run(self):
+        print(sTime())
+        self.m_Looper.run_until_complete(
+            asyncio.wait(self.m_Tasks)
+        )
+        print(sTime())
