@@ -59,7 +59,7 @@ async def __test(iDelay):
 async def test(iDelay):
     await __test(iDelay)
 
-class Looper():
+class Looper:
     def __init__(self):
         self.m_Looper = asyncio.get_event_loop()
         self.m_Tasks = []
