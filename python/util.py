@@ -59,6 +59,10 @@ async def __test(iDelay):
 async def test(iDelay):
     await __test(iDelay)
 
+async def isValid():
+    await asyncio.sleep(1)
+    return True
+
 class Looper:
     def __init__(self):
         self.m_Looper = asyncio.get_event_loop()
@@ -77,3 +81,12 @@ class Looper:
             asyncio.wait(self.m_Tasks)
         )
         print(sTime())
+
+    def runTask(self, co):
+        oFuture = asyncio.ensure_future(co)
+        print(sTime())
+        self.m_Looper.run_until_complete(
+            asyncio.wait([oFuture])
+        )
+        print(sTime())
+        return oFuture

@@ -32,6 +32,8 @@ if __name__ == '__main__':
     print(['%s-x86_64'%name for name in lstDBName])
 
     oLooper = util.Looper()
-    for _ in range(10):
-        oLooper.addTask(util.test(2))
-    oLooper.run()
+    oFuture = oLooper.runTask(util.isValid())
+    if oFuture.result():
+        for _ in range(10):
+            oLooper.addTask(util.test(2))
+        oLooper.run()
