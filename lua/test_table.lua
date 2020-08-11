@@ -69,3 +69,18 @@ for _, v in pairs(libs) do
     s = s .. v .. ' '
 end
 print(s)
+
+-- 遍历时遇到nil，ipairs会终止遍历，pairs会跳过nil继续遍历
+engines = {
+    'unity', nil, 'unreal'
+}
+
+s1, s2 = '', ''
+for _, v in ipairs(engines) do
+    s1 = s1 .. v .. ' '
+end
+print(s1)
+for _, v in pairs(engines) do
+    s2 = s2 .. v .. ' '
+end
+print(s2)

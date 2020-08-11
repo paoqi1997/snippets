@@ -6,14 +6,18 @@
 -- Relational Operators: ==, ~=, <, <=, >, >=
 -- Logical Operators: and, or, not
 
-x, y = 2, 4
+x, y = 5, 2
 
-print(string.format('x + y = %d', x + y))
-print(string.format('x - y = %d', x - y))
-print(string.format('x * y = %d', x * y))
-print(string.format('x / y = %f', x / y))
-print(string.format('x %% y = %f', x % y))
-print(string.format('x ^ y = %d', x ^ y))
+print(string.format('%d + %d = %d', x, y, x + y))
+print(string.format('%d - %d = %d', x, y, x - y))
+print(string.format('%d * %d = %d', x, y, x * y))
+print(string.format('%d / %d = %f', x, y, x / y))   -- 实除
+print(string.format('%d // %d = %f', x, y, x // y)) -- 整除
+print(string.format('%d %% %d = %f', x, y, x % y))
+print(string.format('%d ^ %d = %d', x, y, x ^ y))
+
+print(tonumber('1024'))
+print(tostring(2048))
 
 print(string.byte('A'), string.char(65))
 print(string.byte('a'), string.char(97))

@@ -26,6 +26,13 @@ end
 
 print(myfunc(max, 1, 2))
 
+function myfn()
+    return 'DEEP', 'DARK', 'FANTASY'
+end
+
+-- 强制返回一个值
+print((myfn()))
+
 -- 返回多个值
 function sumList(list)
     local len = #list
