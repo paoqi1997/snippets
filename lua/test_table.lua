@@ -84,3 +84,19 @@ for _, v in pairs(engines) do
     s2 = s2 .. v .. ' '
 end
 print(s2)
+
+--[[
+ipairs不会输出键值对，但pairs会
+pairs输出键值对的时候，键值对的顺序不是固定的
+这是因为table在存储键值对的时候，是按键的哈希值存储的
+]]
+list = {
+    'Hello', x = 1, y = 2, z = 3, 11, game = 'rogue', 'World', 10
+}
+
+for k, v in ipairs(list) do
+    print('[ipairs] key: ' .. k .. ', value: ' .. v)
+end
+for k, v in pairs(list) do
+    print('[pairs] key: ' .. k .. ', value: ' .. v)
+end
