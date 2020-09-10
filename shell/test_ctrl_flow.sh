@@ -47,3 +47,26 @@ case $arch in
     echo 'windows-arm'
     ;;
 esac
+
+numbers='1'
+# $(seq 2 1 5) 亦可
+for i in {2..5}; do
+    numbers="$numbers, $i"
+done
+echo "[$numbers]"
+
+randnums="$RANDOM"
+for ((i = 2; i <= 10; ++i)); do
+    randnums="$randnums, $RANDOM"
+done
+echo "[$randnums]"
+
+files=''
+for file in `ls`; do
+    if [ ${#files} -eq 0 ]; then
+        files=$file
+    else
+        files="$files, $file"
+    fi
+done
+echo "[$files]"
