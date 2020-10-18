@@ -18,13 +18,28 @@ if __name__ == '__main__':
     # 奇数为False，偶数为True，故奇数在前
     print(sorted(box, key=lambda x: x % 2 == 0))
 
-    sContent = '未曾设想的道路'
-    # str -> bytes
-    bContent = sContent.encode('utf-8')
-    print(bContent)
+    s_utf8_content = '未曾设想的道路'
+    print(s_utf8_content)
 
-    # bytes -> str
-    print(bContent.decode('utf-8'))
+    # unicode -> utf-8
+    b_utf8_content = s_utf8_content.encode('utf-8')
+    # unicode -> gbk
+    b_gbk_content = s_utf8_content.encode('gbk')
+
+    print(b_utf8_content)
+    print(b_gbk_content)
+
+    # gbk -> unicode
+    s_gbk_content = b_gbk_content.decode('gbk')
+    print(s_gbk_content)
+
+    # unicode -> utf-8
+    b_utf8_content = s_gbk_content.encode('utf-8')
+    # unicode -> gbk
+    b_gbk_content = s_gbk_content.encode('gbk')
+
+    print(b_utf8_content)
+    print(b_gbk_content)
 
     dInfo = {
         'name': 'mysql',
