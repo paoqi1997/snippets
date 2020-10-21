@@ -1,4 +1,5 @@
 import asyncio
+import socket
 import time
 
 def sum():
@@ -47,6 +48,18 @@ class Player(Object):
             print('Player %d buy %d item(%d).'%(self.m_ID, iCount, nItemID))
         else:
             print('Player %d buy %d items(%d).'%(self.m_ID, iCount, nItemID))
+
+def getLocalIP() -> str:
+    """获取本机IP"""
+    sIP = socket.gethostbyname(socket.gethostname())
+    try:
+        # 创建一个UDP包，将本机IP放入UDP协议头中，然后从包中获取本机IP
+        oSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        oSocket.connect(('8.8.8.8', 80))
+        sIP = oSocket.getsockname()[0]
+    finally:
+        oSocket.close()
+    return sIP
 
 def sTime():
     fTime = time.time()

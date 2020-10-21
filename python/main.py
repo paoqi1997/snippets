@@ -18,6 +18,8 @@ if __name__ == '__main__':
     # 奇数为False，偶数为True，故奇数在前
     print(sorted(box, key=lambda x: x % 2 == 0))
 
+    print(util.getLocalIP())
+
     s_utf8_content = '未曾设想的道路'
     print(s_utf8_content)
 
