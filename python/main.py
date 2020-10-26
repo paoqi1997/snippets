@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+import os
+import sys
 import util
 
 if __name__ == '__main__':
@@ -19,6 +21,14 @@ if __name__ == '__main__':
     print(sorted(box, key=lambda x: x % 2 == 0))
 
     print(util.getLocalIP())
+
+    oIniConfig = util.IniConfig()
+    sFilePath = os.path.join(sys.path[0], "config.ini")
+    oIniConfig.read(sFilePath)
+
+    oIniConfig.set("net", "IP", "220.181.38.148")
+    with open(sFilePath, "w") as oFile:
+        oIniConfig.write(oFile)
 
     s_utf8_content = '未曾设想的道路'
     print(s_utf8_content)

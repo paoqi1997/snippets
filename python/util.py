@@ -1,4 +1,5 @@
 import asyncio
+import configparser
 import socket
 import time
 
@@ -60,6 +61,15 @@ def getLocalIP() -> str:
     finally:
         oSocket.close()
     return sIP
+
+class IniConfig(configparser.ConfigParser):
+    def optionxform(self, optionstr: str) -> str:
+        # 不自动转化为小写
+        return optionstr
+
+    def write(self, fp, space_around_delimiters: bool=False) -> None:
+        # 等号两边不添加空格
+        super().write(fp, space_around_delimiters)
 
 def sTime():
     fTime = time.time()
