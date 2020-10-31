@@ -10,12 +10,14 @@
 
 目前包含以下编程语言：
 
-+ cpp
++ C++
 
-+ go
++ Golang
 
-+ lua
++ JavaScript
 
-+ python
++ Lua
 
-+ shell
++ Python
+
++ Shell
