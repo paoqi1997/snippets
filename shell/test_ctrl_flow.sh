@@ -17,8 +17,8 @@ done
 echo $sum
 
 cnt=0
-while (($cnt < 5)); do
-    let cnt+=1
+while ((cnt < 5)); do
+    cnt=$((cnt + 1))
 done
 echo $cnt
 

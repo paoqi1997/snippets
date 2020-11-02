@@ -6,6 +6,9 @@ echo "$hello World!"
 readonly db='MySQL'
 echo $db
 
+version=$(cat /proc/version)
+echo $version
+
 unset hello
 echo $hello
 
