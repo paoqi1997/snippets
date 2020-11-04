@@ -55,6 +55,15 @@ for i in {2..5}; do
 done
 echo "[$numbers]"
 
+numbers='2'
+for i in $(seq 3 1 10); do
+    if [ $((i % 2)) -ne 0 ]; then
+        continue
+    fi
+    numbers="$numbers, $i"
+done
+echo "[$numbers]"
+
 randnums="$RANDOM"
 for ((i = 2; i <= 10; ++i)); do
     randnums="$randnums, $RANDOM"
