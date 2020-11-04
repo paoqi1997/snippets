@@ -14,3 +14,11 @@ console.log(mapobj);
 
 util.sortMap(mapobj);
 console.log(mapobj);
+
+let mymapobj = new Map([
+    [6, '3'], [4, '2'], [2, '1']
+]);
+console.log(mymapobj);
+
+mymapobj = util.sortedMap(mymapobj);
+console.log(mymapobj);

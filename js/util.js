@@ -2,7 +2,7 @@
 
 /**
  * 对传入的 Map 对象进行排序
- * @param {Map} mapobj Map 对象
+ * @param {Map} mapobj Map对象
  */
 exports.sortMap = function(mapobj) {
     let keys = [...mapobj.keys()];
@@ -16,7 +16,17 @@ exports.sortMap = function(mapobj) {
     mapobj.clear();
     keys.forEach(key => {
         mapobj.set(key, sortedMapObj.get(key));
-    })
+    });
+}
+
+/**
+ * 根据传入的 Map 对象返回一个新的已排序的 Map 对象
+ * @param {Map} mapobj Map对象
+ * @return {Map} 已排序的 Map 对象
+ */
+exports.sortedMap = function(mapobj) {
+    const arrayobj = Array.from(mapobj).sort();
+    return new Map(arrayobj.map( kv => [kv[0], kv[1]] ));
 }
 
 exports.test_dict = function() {
