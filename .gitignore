@@ -36,3 +36,6 @@ build
 
 # By-products
 __pycache__
+
+# Go files
+!go.mod
