@@ -2,16 +2,26 @@ package main
 
 import (
     "fmt"
+    "time"
 
+    "github.com/shirou/gopsutil/v3/cpu"
     "github.com/shirou/gopsutil/v3/mem"
 )
 
 func main() {
-    vmstat, _ := mem.VirtualMemory()
+    CpuUsedPercent, err := cpu.Percent(time.Second, false)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
 
-    usedpercent := vmstat.UsedPercent
-    free := vmstat.Free / (1024 * 1024)
-    total := vmstat.Total / (1024 * 1024)
+    vmstat, err := mem.VirtualMemory()
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
 
-    fmt.Printf("UsedPercent: %.2f%%, Free: %dMB, Total: %dMB\n", usedpercent, free, total)
+    MemUsedPercent := vmstat.UsedPercent
+
+    fmt.Printf("cpu: %.2f%%, mem: %.2f%%\n", CpuUsedPercent[0], MemUsedPercent)
 }
