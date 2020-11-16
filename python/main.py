@@ -2,7 +2,7 @@
 
 import os
 import sys
-import util
+from . import util
 
 if __name__ == '__main__':
     sumFunc = util.sum()
@@ -29,6 +29,10 @@ if __name__ == '__main__':
     oIniConfig.set("net", "IP", "220.181.38.148")
     with open(sFilePath, "w") as oFile:
         oIniConfig.write(oFile)
+
+    x, y = 2, 4
+    z = eval('x + y')
+    print(f'Result: {z}')
 
     s_utf8_content = '未曾设想的道路'
     print(s_utf8_content)

@@ -22,3 +22,7 @@ console.log(mymapobj);
 
 mymapobj = util.sortedMap(mymapobj);
 console.log(mymapobj);
+
+const x = 2; const y = 4;
+const z = eval(x + y);
+console.log(`Result: ${z}`);
