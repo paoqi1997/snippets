@@ -138,4 +138,22 @@ private:
     std::weak_ptr<Parent> ptr;
 };
 
+struct DataModel1
+{
+    char a;
+    char b;
+};
+
+struct DataModel2
+{
+    char a;
+    int b;
+};
+
+struct DataModel3
+{
+    alignas(8) char a;
+    char b;
+};
+
 #endif // UTIL_H

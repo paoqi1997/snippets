@@ -71,5 +71,12 @@ int main()
         child->setParent(parent);
     }
 
+    // alignof, ...
+    cout << "cpp/cpp11/align" << endl;
+
+    std::printf("[DataModel1] sizeof: %zu, alignof: %zu\n", sizeof(DataModel1), alignof(DataModel1));
+    std::printf("[DataModel2] sizeof: %zu, alignof: %zu\n", sizeof(DataModel2), alignof(DataModel2));
+    std::printf("[DataModel3] sizeof: %zu, alignof: %zu\n", sizeof(DataModel3), alignof(DataModel3));
+
     return 0;
 }
