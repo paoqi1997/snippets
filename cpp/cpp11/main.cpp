@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <iostream>
 #include <utility>
 
@@ -36,13 +37,13 @@ int main()
     auto engine = std::make_shared<Engine>("pqwan");
     std::printf("Engine(\"%s\") ref: %d\n", engine->getName(), engine.use_count());
 
-    auto sp = engine->getPtr();
+    auto sp1 = engine->getPtr();
     std::printf("Engine(\"%s\") ref: %d\n", engine->getName(), engine.use_count());
 
     std::weak_ptr<Engine> wp = engine;
     std::printf("Engine(\"%s\") ref: %d\n", engine->getName(), engine.use_count());
 
-    auto ssp = wp.lock();
+    auto sp2 = wp.lock();
     std::printf("Engine(\"%s\") ref: %d\n", engine->getName(), engine.use_count());
 
     // the array of std::shared_ptr
@@ -56,10 +57,10 @@ int main()
 
     // the array of std::unique_ptr
     {
-        std::unique_ptr<Engine[]> engines1(new Engine[2]{"Unity", "Unreal"});
+        std::unique_ptr<Engine[]> engines1(new Engine[2]{"CRYENGINE", "Godot"});
 
         auto deleter = std::default_delete<Engine[]>();
-        std::unique_ptr<Engine, decltype(deleter)> engines2(new Engine[2]{"Unity", "Unreal"}, deleter);
+        std::unique_ptr<Engine, decltype(deleter)> engines2(new Engine[2]{"CRYENGINE", "Godot"}, deleter);
     }
 
     // 循环引用相关

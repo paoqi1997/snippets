@@ -150,9 +150,9 @@ struct DataModel2
     int b;
 };
 
-struct DataModel3
+struct alignas(8) DataModel3
 {
-    alignas(8) char a;
+    char a;
     char b;
 };
 
