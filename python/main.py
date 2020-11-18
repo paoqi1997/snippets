@@ -2,7 +2,7 @@
 
 import os
 import sys
-from . import util
+import util
 
 if __name__ == '__main__':
     sumFunc = util.sum()
