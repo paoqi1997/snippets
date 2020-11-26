@@ -26,3 +26,9 @@ console.log(mymapobj);
 const x = 2; const y = 4;
 const z = eval(x + y);
 console.log(`Result: ${z}`);
+
+console.log(util.getTimeString());
+
+const sTime = '2038-03-08 20:00:00';
+const oDate = new Date(Date.parse(sTime));
+console.log(util.getTimeString(oDate));

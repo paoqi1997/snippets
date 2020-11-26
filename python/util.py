@@ -73,8 +73,8 @@ class IniConfig(configparser.ConfigParser):
 
 def sTime():
     fTime = time.time()
-    group = time.localtime(fTime)
-    return time.strftime('%Y-%m-%d %H:%M:%S', group)
+    oTimeStruct = time.localtime(fTime)
+    return time.strftime('%Y-%m-%d %H:%M:%S', oTimeStruct)
 
 async def __test(iDelay):
     await asyncio.sleep(iDelay)
