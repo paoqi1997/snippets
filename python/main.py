@@ -2,6 +2,8 @@
 
 import os
 import sys
+
+import scheduler
 import util
 
 if __name__ == '__main__':
@@ -76,3 +78,5 @@ if __name__ == '__main__':
         for _ in range(10):
             oLooper.addTask(util.test(2))
         oLooper.run()
+
+    scheduler.test_scheduler()
