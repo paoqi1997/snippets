@@ -72,8 +72,7 @@ class IniConfig(configparser.ConfigParser):
         super().write(fp, space_around_delimiters)
 
 def sTime():
-    fTime = time.time()
-    oTimeStruct = time.localtime(fTime)
+    oTimeStruct = time.localtime()
     return time.strftime('%Y-%m-%d %H:%M:%S', oTimeStruct)
 
 async def __test(iDelay):
@@ -99,17 +98,17 @@ class Looper:
         self.m_Tasks.append(co)
 
     def run(self):
-        print(sTime())
+        print('%s run::Begin'%sTime())
         self.m_Looper.run_until_complete(
             asyncio.wait(self.m_Tasks)
         )
-        print(sTime())
+        print('%s run::End'%sTime())
 
     def runTask(self, co):
         oFuture = asyncio.ensure_future(co)
-        print(sTime())
+        print('%s runTask::Begin'%sTime())
         self.m_Looper.run_until_complete(
             asyncio.wait([oFuture])
         )
-        print(sTime())
+        print('%s runTask::End'%sTime())
         return oFuture

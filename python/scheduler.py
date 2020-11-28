@@ -1,25 +1,25 @@
 import threading
 import time
-import util
+from util import sTime
 
 def test_scheduler():
     def call1():
-        print('%s new1Second'%util.sTime())
+        print('%s new1Second'%sTime())
 
     def call2():
-        print('%s new2Second'%util.sTime())
+        print('%s new2Second'%sTime())
 
     def call5():
-        print('%s new5Second'%util.sTime())
+        print('%s new5Second'%sTime())
 
     def call10():
-        print('%s new10Second'%util.sTime())
+        print('%s new10Second'%sTime())
 
     oScheduler = Scheduler()
-    oScheduler.addCall(Scheduler.T_1_SECOND, call1, "call1")
-    oScheduler.addCall(Scheduler.T_2_SECOND, call2, "call2")
-    oScheduler.addCall(Scheduler.T_5_SECOND, call5, "call5")
-    oScheduler.addCall(Scheduler.T_10_SECOND, call10, "call10")
+    oScheduler.addCall(Scheduler.T_1_SECOND, call1, 'call1')
+    oScheduler.addCall(Scheduler.T_2_SECOND, call2, 'call2')
+    oScheduler.addCall(Scheduler.T_5_SECOND, call5, 'call5')
+    oScheduler.addCall(Scheduler.T_10_SECOND, call10, 'call10')
     oScheduler.newClock()
 
 class Scheduler:
@@ -56,7 +56,7 @@ class Scheduler:
     def newClock(self):
         oTimeStruct = time.localtime()
         iTimeDiff = 10 - (oTimeStruct[5] % 10)
-        print('%s TimeDiff: %d'%(util.sTime(), iTimeDiff))
+        print('%s TimeDiff: %d'%(sTime(), iTimeDiff))
         oTimer = threading.Timer(iTimeDiff, self.new1Second)
         oTimer.run()
 

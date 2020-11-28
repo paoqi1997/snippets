@@ -25,11 +25,11 @@ if __name__ == '__main__':
     print(util.getLocalIP())
 
     oIniConfig = util.IniConfig()
-    sFilePath = os.path.join(sys.path[0], "config.ini")
+    sFilePath = os.path.join(sys.path[0], 'config.ini')
     oIniConfig.read(sFilePath)
 
-    oIniConfig.set("net", "IP", "220.181.38.148")
-    with open(sFilePath, "w") as oFile:
+    oIniConfig.set('net', 'IP', '220.181.38.148')
+    with open(sFilePath, 'w') as oFile:
         oIniConfig.write(oFile)
 
     x, y = 2, 4
