@@ -1,3 +1,5 @@
+package app;
+
 import patterns.singleton.*;
 
 public class Main {

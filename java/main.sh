@@ -1,4 +1,4 @@
 #!/bin/sh
 
-javac -cp . -d . src/Main.java
-java Main
+javac -cp src -d bin src/app/Main.java
+java -cp bin app/Main
