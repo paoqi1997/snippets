@@ -27,5 +27,9 @@ int main()
     cout << "cpp/basis/traits" << endl;
     test_traits();
 
+    // memlinkedlist
+    cout << "cpp/basis/memlinkedlist" << endl;
+    test_memlinkedlist();
+
     return 0;
 }

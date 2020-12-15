@@ -463,4 +463,42 @@ inline void test_traits()
     std::cout << std::endl;
 }
 
+template <typename T>
+union _Node
+{
+    _Node() : next(nullptr) {}
+    T element;
+    _Node *next;
+};
+
+using Element = int;
+using Node    = _Node<Element>;
+
+inline void test_memlinkedlist()
+{
+    std::size_t capacity = 63;
+    std::size_t datalen = capacity - sizeof(Node);
+    std::printf("Capacity: %zu, DataLen: %zu\n", capacity, datalen);
+
+    auto mem = new char[capacity];
+    auto node = reinterpret_cast<Node*>(mem);
+    node->next = nullptr;
+
+    std::size_t elementCount = datalen / sizeof(Element);
+    std::printf("ElementCount: %zu\n", elementCount);
+
+    auto body = reinterpret_cast<Element*>(mem + sizeof(Node));
+    for (std::size_t i = 0; i < elementCount; ++i) {
+        body[i] = i + 1;
+    }
+
+    std::printf("[%d", body[0]);
+    for (std::size_t i = 1; i < elementCount; ++i) {
+        std::printf(", %d", body[i]);
+    }
+    std::printf("]\n");
+
+    delete []mem;
+}
+
 #endif // UTIL_H
