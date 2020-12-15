@@ -445,11 +445,11 @@ public:
         }
     }
 
-    reverse_iterator rbegin() { return array + N - 1; }
-    const_reverse_iterator rbegin() const { return array + N - 1; }
+    reverse_iterator rbegin() { return iterator(array + N - 1); }
+    const_reverse_iterator rbegin() const { return const_iterator(array + N - 1); }
 
-    reverse_iterator rend() { return array - 1; }
-    const_reverse_iterator rend() const { return array - 1; }
+    reverse_iterator rend() { return iterator(array - 1); }
+    const_reverse_iterator rend() const { return const_iterator(array - 1); }
 private:
     T array[N];
 };

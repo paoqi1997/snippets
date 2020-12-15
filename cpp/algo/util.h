@@ -23,7 +23,7 @@ inline void print_weights(const std::vector<int>& weights)
 
 inline int random(std::size_t total)
 {
-    std::srand(unsigned int(std::time(nullptr)));
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
     return std::rand() % total;
 }
 

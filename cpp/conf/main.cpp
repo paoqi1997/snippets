@@ -12,6 +12,9 @@ int main()
     cout << "cpp/conf/ini" << endl;
     test_ini();
 
+#ifdef WIN32
     std::system("pause");
+#endif
+
     return 0;
 }
