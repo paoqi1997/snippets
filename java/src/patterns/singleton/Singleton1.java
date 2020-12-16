@@ -12,7 +12,7 @@ public class Singleton1 {
         return instance;
     }
 
-    public void print(String msg) {
-        System.out.println(msg);
+    public void intro() {
+        System.out.format("I am %s.\n", Singleton1.class.getSimpleName());
     }
 }
