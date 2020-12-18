@@ -2,6 +2,7 @@ package app;
 
 import patterns.abstractfactory.*;
 import patterns.factory.*;
+import patterns.observer.*;
 import patterns.singleton.*;
 
 public class Main {
@@ -32,5 +33,16 @@ public class Main {
         singleton1.intro();
         Singleton2 singleton2 = Singleton2.getInstance();
         singleton2.intro();
+
+        // Observer
+        System.out.println("[Observer Pattern]");
+        WeatherController controller = new WeatherController();
+
+        WeatherMonitor monitor = controller.getMonitor();
+        monitor.subscribe("rain", new RainSensor());
+        monitor.subscribe("snow", new SnowSensor());
+
+        controller.rain();
+        controller.snow();
     }
 }
