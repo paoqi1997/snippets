@@ -87,6 +87,12 @@ int main()
     cout << "[cpp/cpp11/constexpr]" << endl;
 
     int box[getRedisPort()];
+    cout << sizeof(box) / sizeof(decltype(box[0])) << endl;
+
+    // variadic templates
+    cout << "[cpp/cpp11/variadic_templates]" << endl;
+
+    cout << sum(1, 2, 3, 4, 5, 6) << endl;
 
     return 0;
 }

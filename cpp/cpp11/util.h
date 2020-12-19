@@ -159,16 +159,30 @@ struct alignas(8) DataModel3
 };
 
 enum class Ports {
-    SSH   = 22,
-    HTTP  = 80,
-    HTTPS = 443,
-    MYSQL = 3306,
-    REDIS = 6379
+    FTP    = 21,
+    SSH    = 22,
+    TELNET = 23,
+    HTTP   = 80,
+    HTTPS  = 443,
+    MYSQL  = 3306,
+    REDIS  = 6379
 };
 
 inline constexpr std::size_t getRedisPort()
 {
     return static_cast<std::size_t>(Ports::REDIS);
+}
+
+template <typename T>
+T sum(T t)
+{
+    return t;
+}
+
+template <typename T, typename... Args>
+T sum(T t, Args... args)
+{
+    return t + sum(args...);
 }
 
 #endif // UTIL_H
