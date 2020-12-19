@@ -167,6 +167,10 @@ inline void test_class()
     // We need virtual destructor.
     classA *p = new classC;
     delete p;
+
+    classA *d = new classA;
+    classC *q = dynamic_cast<classC*>(d);
+    delete d;
 }
 
 /**

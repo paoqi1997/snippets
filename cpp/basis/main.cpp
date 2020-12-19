@@ -8,27 +8,27 @@ using std::endl;
 int main()
 {
     // sizeof
-    cout << "cpp/basis/sizeof" << endl;
+    cout << "[cpp/basis/sizeof]" << endl;
     test_sizeof();
 
     // bitfield
-    cout << "cpp/basis/bitfield" << endl;
+    cout << "[cpp/basis/bitfield]" << endl;
     test_bitfield();
 
     // array
-    cout << "cpp/basis/array" << endl;
+    cout << "[cpp/basis/array]" << endl;
     test_array();
 
     // class
-    cout << "cpp/basis/class" << endl;
+    cout << "[cpp/basis/class]" << endl;
     test_class();
 
     // traits
-    cout << "cpp/basis/traits" << endl;
+    cout << "[cpp/basis/traits]" << endl;
     test_traits();
 
     // memlinkedlist
-    cout << "cpp/basis/memlinkedlist" << endl;
+    cout << "[cpp/basis/memlinkedlist]" << endl;
     test_memlinkedlist();
 
     return 0;
