@@ -12,7 +12,7 @@ class Obj
 public:
     Obj() : str(nullptr)
     {
-        std::cout << "Obj::Obj" << std::endl;
+        std::cout << "Obj::Obj(\"\")" << std::endl;
     }
     Obj(const char *s)
     {
@@ -49,10 +49,12 @@ public:
     }
     ~Obj()
     {
-        std::cout << "Obj::~Obj" << std::endl;
         if (str != nullptr) {
+            std::printf("Obj::~Obj(\"%s\")\n", str);
             delete []str;
             str = nullptr;
+        } else {
+            std::printf("Obj::~Obj(\"\")\n");
         }
     }
     char* getS() { return str; }
@@ -155,5 +157,18 @@ struct alignas(8) DataModel3
     char a;
     char b;
 };
+
+enum class Ports {
+    SSH   = 22,
+    HTTP  = 80,
+    HTTPS = 443,
+    MYSQL = 3306,
+    REDIS = 6379
+};
+
+inline constexpr std::size_t getRedisPort()
+{
+    return static_cast<std::size_t>(Ports::REDIS);
+}
 
 #endif // UTIL_H
