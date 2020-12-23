@@ -32,3 +32,9 @@ console.log(util.getTimeString());
 const sTime = '2038-03-08 20:00:00';
 const oDate = new Date(Date.parse(sTime));
 console.log(util.getTimeString(oDate));
+
+util.getPromise().then(value => {
+    console.log(`Value: ${value}`);
+}).catch(reason => {
+    console.log(`Reason: ${reason}`);
+});

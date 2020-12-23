@@ -99,3 +99,17 @@ exports.getTimeString = dateobj => {
 
     return `${iYear}-${sMonth}-${sDay} ${sHour}:${sMinute}:${sSecond}`;
 }
+
+exports.getPromise = () => {
+    const p = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const n = Math.ceil(Math.random() * 10);
+            if (n % 2 == 0) {
+                resolve(n);
+            } else {
+                reject(`${n} is not even.`);
+            }
+        }, 1000);
+    });
+    return p;
+}
