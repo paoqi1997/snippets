@@ -29,7 +29,7 @@ inline int random(std::size_t total)
 
 /**
  * weights: {30, 20, 10, 40}
- * section: [0, 100)
+ * interval: [0, 100)
  * 1: [0, 30), 2: [30, 50), 3: [50, 60), 4: [60, 100)
  */
 inline std::pair<int, int> random_with_weights(const std::vector<int>& weights)

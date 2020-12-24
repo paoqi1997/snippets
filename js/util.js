@@ -113,3 +113,11 @@ exports.getPromise = () => {
     });
     return p;
 }
+
+exports.gen = function* foo(x) {
+    const y1 = 2 * (yield x + 1);
+    console.log(`y1: ${y1}`); // 4
+    const y2 = yield 3 * y1;
+    console.log(`y2: ${y2}`); // 3
+    return x + y1 + y2;
+}

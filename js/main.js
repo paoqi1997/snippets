@@ -38,3 +38,9 @@ util.getPromise().then(value => {
 }).catch(reason => {
     console.log(`Reason: ${reason}`);
 });
+
+const g = util.gen(1);
+console.log(`n1: ${g.next().value}`);  // 2
+console.log(`n2: ${g.next(2).value}`); // 12
+console.log(`n3: ${g.next(3).value}`); // 8
+console.log(`n4: ${g.next(4).value}`); // undefined
