@@ -50,6 +50,12 @@ class Player(Object):
         else:
             print('Player %d buy %d items(%d).'%(self.m_ID, iCount, nItemID))
 
+def foo(*args, **kwargs):
+    print(f'args: {args}')
+    def __foo(**kwargs):
+        print(f'kwargs: {kwargs}')
+    __foo(**kwargs)
+
 def getLocalIP() -> str:
     """获取本机IP"""
     sIP = socket.gethostbyname(socket.gethostname())

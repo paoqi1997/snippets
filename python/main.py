@@ -23,6 +23,9 @@ if __name__ == '__main__':
     # 奇数为False，偶数为True，故奇数在前
     print(sorted(box, key=lambda x: x % 2 == 0))
 
+    util.foo(1, 2, x=3, y='4', z=[])
+    util.foo(*(1, 2), **{'x': 3, 'y': '4', 'z': []})
+
     print(util.getLocalIP())
 
     oIniConfig = util.IniConfig()
