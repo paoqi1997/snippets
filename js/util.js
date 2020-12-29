@@ -30,7 +30,7 @@ exports.sortedMap = function(mapobj) {
 }
 
 exports.test_dict = function() {
-    console.log('js/dict');
+    console.log('[js/dict]');
 
     let dInfo = {};
     dInfo['name'] = 'mysql';
@@ -46,7 +46,7 @@ exports.test_dict = function() {
 }
 
 exports.test_map = function() {
-    console.log('js/map');
+    console.log('[js/map]');
 
     let mapobj = new Map;
     mapobj.set('name', 'redis');
@@ -120,4 +120,12 @@ exports.gen = function* foo(x) {
     const y2 = yield 3 * y1;
     console.log(`y2: ${y2}`); // 3
     return x + y1 + y2;
+}
+
+exports.sum = () => {
+    let iSum = 0;
+    return n => {
+        iSum += n;
+        return iSum;
+    };
 }

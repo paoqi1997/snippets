@@ -44,3 +44,9 @@ console.log(`n1: ${g.next().value}`);  // 2
 console.log(`n2: ${g.next(2).value}`); // 12
 console.log(`n3: ${g.next(3).value}`); // 8
 console.log(`n4: ${g.next(4).value}`); // undefined
+
+const sumFunc = util.sum();
+console.log(sumFunc(1));
+console.log(sumFunc(2));
+console.log(sumFunc(3));
+console.log(sumFunc(4));
