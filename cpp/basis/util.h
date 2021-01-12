@@ -12,7 +12,7 @@ do {                                                \
 
 inline void test_sizeof()
 {
-#ifdef WIN32
+#ifdef _WIN32
     std::cout << "os: windows" << std::endl;
 #else
     std::cout << "os: linux" << std::endl;

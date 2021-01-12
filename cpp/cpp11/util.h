@@ -19,7 +19,7 @@ public:
         std::printf("Obj::Obj(\"%s\")\n", s);
         std::size_t len = std::strlen(s) + 1;
         str = new char[len];
-#ifdef WIN32
+#ifdef _WIN32
         strcpy_s(str, len, s);
 #else
         std::strcpy(str, s);
@@ -32,7 +32,7 @@ public:
             const char *s = rhs.str;
             std::size_t len = std::strlen(s) + 1;
             str = new char[len];
-#ifdef WIN32
+#ifdef _WIN32
             strcpy_s(str, len, s);
 #else
             std::strcpy(str, s);
