@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <cstdlib>
 #include <iostream>
 
@@ -13,7 +14,11 @@ int main()
     test_ini();
 
 #ifdef _WIN32
-    std::system("pause");
+    const char *cmd = "pause";
+    int status = std::system(cmd);
+    if (status != 0) {
+        std::printf("Failed to call std::system(\"%s\")\n", cmd);
+    }
 #endif
 
     return 0;
