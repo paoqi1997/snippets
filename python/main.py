@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import os
-import platform
 import sys
 
 import scheduler
@@ -39,12 +38,6 @@ if __name__ == '__main__':
     x, y = 2, 4
     z = eval('x + y')
     print(f'Result: {z}')
-
-    sCmd = 'paoqi'
-    iStatus = os.system(sCmd)
-    if platform.system() == 'Linux':
-        iStatus >>= 8
-    print(f'cmd: {sCmd}, status: {iStatus}')
 
     print(f'cpu(s): {os.cpu_count()}')
 
