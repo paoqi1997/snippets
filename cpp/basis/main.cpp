@@ -31,5 +31,9 @@ int main()
     cout << "[cpp/basis/memlinkedlist]" << endl;
     test_memlinkedlist();
 
+    // mutable
+    cout << "[cpp/basis/mutable]" << endl;
+    test_mutable();
+
     return 0;
 }

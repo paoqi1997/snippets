@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <cstdio>
 #include <iostream>
+#include <queue>
 
 #define PRINT_INFO(type_s, type)                    \
 do {                                                \
@@ -503,6 +504,29 @@ inline void test_memlinkedlist()
     std::printf("]\n");
 
     delete []mem;
+}
+
+template <typename T>
+class Queue : public std::queue<T>
+{
+public:
+    Queue() : std::queue<T>(), callcnt(0) { std::cout << "Queue::Queue()" << std::endl; }
+    ~Queue() { std::cout << "Queue::~Queue()" << std::endl; }
+    std::queue<T>::size_type size() const {
+        ++callcnt;
+        return std::queue<T>::size();
+    }
+private:
+    mutable std::size_t callcnt;
+};
+
+inline void test_mutable()
+{
+    Queue<int> q;
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    std::cout << q.size() << std::endl;
 }
 
 #endif // UTIL_H
