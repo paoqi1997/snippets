@@ -35,5 +35,9 @@ int main()
     cout << "[cpp/basis/mutable]" << endl;
     test_mutable();
 
+    // memops
+    cout << "[cpp/basis/memops]" << endl;
+    test_memops();
+
     return 0;
 }

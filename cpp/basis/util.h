@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <cstdio>
+#include <cstring>
 #include <iostream>
 #include <queue>
 
@@ -510,9 +511,10 @@ template <typename T>
 class Queue : public std::queue<T>
 {
 public:
+    using size_type = typename std::queue<T>::size_type;
     Queue() : std::queue<T>(), callcnt(0) { std::cout << "Queue::Queue()" << std::endl; }
     ~Queue() { std::cout << "Queue::~Queue()" << std::endl; }
-    std::queue<T>::size_type size() const {
+    size_type size() const {
         ++callcnt;
         return std::queue<T>::size();
     }
@@ -529,6 +531,17 @@ inline void test_mutable()
     q.push(3);
     std::size_t mysize = q.size();
     std::printf("size: %zu, callcount: %zu\n", mysize, q.getCallCount());
+}
+
+inline void test_memops()
+{
+    char s1[16] = "0123456789";
+    std::memcpy(s1 + 3, s1, 6);
+    std::printf("memcpy:  %s\n", s1);
+
+    char s2[16] = "0123456789";
+    std::memmove(s2 + 3, s2, 6);
+    std::printf("memmove: %s\n", s2);
 }
 
 #endif // UTIL_H

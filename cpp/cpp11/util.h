@@ -13,7 +13,7 @@ class Obj
 public:
     Obj() : str(nullptr)
     {
-        std::cout << "Obj::Obj(\"\")" << std::endl;
+        std::cout << "Obj::Obj()" << std::endl;
     }
     Obj(const char *s)
     {
@@ -55,7 +55,7 @@ public:
             delete []str;
             str = nullptr;
         } else {
-            std::printf("Obj::~Obj(\"\")\n");
+            std::printf("Obj::~Obj()\n");
         }
     }
     char* getS() { return str; }
