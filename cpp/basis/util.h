@@ -516,6 +516,7 @@ public:
         ++callcnt;
         return std::queue<T>::size();
     }
+    std::size_t getCallCount() const { return callcnt; }
 private:
     mutable std::size_t callcnt;
 };
@@ -526,7 +527,8 @@ inline void test_mutable()
     q.push(1);
     q.push(2);
     q.push(3);
-    std::cout << q.size() << std::endl;
+    std::size_t mysize = q.size();
+    std::printf("size: %zu, callcount: %zu\n", mysize, q.getCallCount());
 }
 
 #endif // UTIL_H

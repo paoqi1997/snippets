@@ -5,6 +5,7 @@
 #include <cstring>
 #include <iostream>
 #include <memory>
+#include <thread>
 #include <utility>
 
 class Obj
@@ -183,6 +184,13 @@ template <typename T, typename... Args>
 T sum(T t, Args... args)
 {
     return t + sum(args...);
+}
+
+thread_local static std::size_t g_n = 0;
+
+inline void threadFunc()
+{
+    std::printf("ThreadID: %ld, n: %zu\n", std::this_thread::get_id(), ++g_n);
 }
 
 #endif // UTIL_H

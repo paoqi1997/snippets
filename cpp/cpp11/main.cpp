@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <iostream>
+#include <thread>
 #include <utility>
 
 #include "util.h"
@@ -93,6 +94,15 @@ int main()
     cout << "[cpp/cpp11/variadic_templates]" << endl;
 
     cout << sum(1, 2, 3, 4, 5, 6) << endl;
+
+    // thread_local
+    cout << "[cpp/cpp11/thread_local]" << endl;
+
+    g_n = 3;
+    std::printf("ThreadID: %ld, n: %zu\n", std::this_thread::get_id(), g_n);
+
+    std::thread t(threadFunc);
+    t.join();
 
     return 0;
 }
