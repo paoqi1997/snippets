@@ -6,6 +6,39 @@
 -- Relational Operators: ==, ~=, <, <=, >, >=
 -- Logical Operators: and, or, not
 
+-- 666
+print(233 and 666)
+
+-- pollers.linux == pollers['linux']
+pollers = {
+    linux = 'epoll'
+}
+
+poller = pollers.win32 or 'select'
+-- select
+print(poller)
+
+-- true
+print(not nil)
+
+s = ''
+s = s .. bit32.band(1, 2) .. ' '   -- 0
+s = s .. bit32.bor(1, 2) .. ' '    -- 3
+s = s .. bit32.bnot(1) .. ' '      -- 4294967294
+s = s .. bit32.bxor(1, 2) .. ' '   -- 3
+s = s .. bit32.lshift(2, 1) .. ' ' -- 4
+s = s .. bit32.rshift(2, 1) .. ' ' -- 1
+print(s)
+
+s = ''
+s = s .. (1 & 2) .. ' '  -- 0
+s = s .. (1 | 2) .. ' '  -- 3
+s = s .. ~1 .. ' '       -- -2
+s = s .. (1 ~ 2) .. ' '  -- 3
+s = s .. (2 << 1) .. ' ' -- 4
+s = s .. (2 >> 1) .. ' ' -- 1
+print(s)
+
 x, y = 5, 2
 
 print(string.format('%d + %d = %d', x, y, x + y))

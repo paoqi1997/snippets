@@ -33,18 +33,3 @@ elseif (arch == '386') then
 else
     print('windows-arm')
 end
-
--- 666
-print(233 and 666)
-
--- pollers.linux == pollers['linux']
-pollers = {
-    linux = 'epoll'
-}
-
-poller = pollers.win32 or 'select'
--- select
-print(poller)
-
--- true
-print(not nil)
