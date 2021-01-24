@@ -17,5 +17,5 @@ if __name__ == '__main__':
     for _ in range(10):
         oCPUGatherer.printCpuUsedPercent()
         oCPUGathererX.printCpuUsedPercent()
-        print(f'{gatherer.getMemUsedPercent()}')
+        gatherer.printMemUsedPercent()
         time.sleep(1)

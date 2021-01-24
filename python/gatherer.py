@@ -1,5 +1,13 @@
 import os
 import re
+import time
+
+def sTime():
+    oTimeStruct = time.localtime()
+    return time.strftime('%Y-%m-%d %H:%M:%S', oTimeStruct)
+
+def printInfo(sInfo):
+    print('[%s] %s'%(sTime(), sInfo))
 
 def sum(li):
     iSum = 0
@@ -38,11 +46,9 @@ class CPUGatherer:
         iTotalDiff = self.m_iTotal - self.m_iLastTotal
         self.m_iLastIdle = self.m_iIdle
         self.m_iLastTotal = self.m_iTotal
-        if iTotalDiff == 0:
-            return '0.00%'
         fCpuUsedPercent = (iTotalDiff - iIdleDiff) / iTotalDiff
         sResult = '%.2f%%'%(fCpuUsedPercent * 100)
-        print(f'CPUGatherer:  {sResult}, ({iTotalDiff} - {iIdleDiff}) / {iTotalDiff}')
+        printInfo(f'CPUGatherer:  {sResult}, ({iTotalDiff} - {iIdleDiff}) / {iTotalDiff}')
 
 class CPUGathererX:
     def __init__(self):
@@ -71,12 +77,13 @@ class CPUGathererX:
         self.m_iLastBusy = self.m_iBusy
         fCpuUsedPercent = iBusyDiff / (iIdleDiff + iBusyDiff)
         sResult = '%.2f%%'%(fCpuUsedPercent * 100)
-        print(f'CPUGathererX: {sResult}, {iBusyDiff} / ({iIdleDiff} + {iBusyDiff})')
+        printInfo(f'CPUGathererX: {sResult}, {iBusyDiff} / ({iIdleDiff} + {iBusyDiff})')
 
-def getMemUsedPercent():
+def printMemUsedPercent():
     lstLine = getLines('/proc/meminfo')
+    oPattern = re.compile('\d+')
     for sLine in lstLine:
-        oMatch = re.search('\d+', sLine)
+        oMatch = oPattern.search(sLine)
         if oMatch != None:
             iValue = int(oMatch.group())
         else:
@@ -93,4 +100,4 @@ def getMemUsedPercent():
             iBuffers = iValue
     iMemUsed = iMemTotal - iMemFree - (iCached + iSReclaimable) - iBuffers
     fMemUsedPercent = iMemUsed / iMemTotal
-    return '%.2f%%'%(fMemUsedPercent * 100)
+    printInfo('mem: %.2f%%'%(fMemUsedPercent * 100))
