@@ -1,5 +1,35 @@
 'use strict';
 
+exports.test_list = function() {
+    console.log('[js/list]');
+
+    const li = [];
+    li.push(1, 2, 3);
+
+    for (let i = 0; i < li.length; ++i) {
+        console.log(`li[${i}]=${li[i]}`);
+    }
+
+    li.pop();
+    console.log(li);
+}
+
+exports.test_array = function() {
+    console.log('[js/array]');
+
+    const arrobj = new Array;
+    arrobj.push(1, 2, 3);
+
+    for (const pair of arrobj.entries()) {
+        console.log(`arrobj[${pair[0]}]=${pair[1]}`);
+    }
+
+    console.log(arrobj.slice(0, 2));
+
+    arrobj.splice(1, 1);
+    console.log(arrobj);
+}
+
 /**
  * 对传入的 Map 对象进行排序
  * @param {Map} mapobj Map对象

@@ -2,6 +2,9 @@
 
 const util = require('./util');
 
+util.test_list();
+util.test_array();
+
 util.test_dict();
 util.test_map();
 
