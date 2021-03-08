@@ -37,7 +37,10 @@ if __name__ == '__main__':
 
     x, y = 2, 4
     z = eval('x + y')
-    print(f'Result: {z}')
+    print(f'result(eval): {z}')
+
+    sObj = repr({1: 2, 3: 4})
+    print(f'result(repr): {sObj}')
 
     print(f'cpu(s): {os.cpu_count()}')
 
