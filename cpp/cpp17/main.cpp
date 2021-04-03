@@ -11,5 +11,9 @@ int main()
     cout << "[cpp/cpp17/std::any]" << endl;
     test_any();
 
+    // std::variant
+    cout << "[cpp/cpp17/std::variant]" << endl;
+    test_variant();
+
     return 0;
 }

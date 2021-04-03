@@ -2,8 +2,10 @@
 #define UTIL_H
 
 #include <any>
+#include <cstdint>
 #include <cstdio>
 #include <memory>
+#include <variant>
 
 inline void test_any()
 {
@@ -36,6 +38,42 @@ inline void test_any()
 
     delete []pc1;
     delete []pc3;
+}
+
+typedef union epoll_data {
+    void *ptr;
+    int fd;
+    std::uint32_t u32;
+    std::uint64_t u64;
+} epoll_data_t;
+
+struct ResetVisitor
+{
+    void operator () (void*& ptr) { ptr = nullptr; }
+    void operator () (int& num) { num = 0; }
+    void operator () (std::uint32_t& u32) { u32 = 0; }
+    void operator () (std::uint64_t& u64) { u64 = 0; }
+};
+
+inline void test_variant()
+{
+    epoll_data_t epoll_data1;
+
+    std::printf("%d\n", (epoll_data1.fd = 1));
+
+    std::variant<void*, int, std::uint32_t, std::uint64_t> epoll_data2;
+
+    epoll_data2 = 2;
+
+    std::printf("%zu %d\n", epoll_data2.index(), std::get<int>(epoll_data2)); // 1 2
+    std::visit(ResetVisitor(), epoll_data2);
+    std::printf("%zu %d\n", epoll_data2.index(), std::get<int>(epoll_data2)); // 1 0
+
+    epoll_data2 = static_cast<std::uint32_t>(3);
+
+    std::printf("%zu %d\n", epoll_data2.index(), std::get<std::uint32_t>(epoll_data2)); // 2 3
+    std::visit(ResetVisitor(), epoll_data2);
+    std::printf("%zu %d\n", epoll_data2.index(), std::get<std::uint32_t>(epoll_data2)); // 2 0
 }
 
 #endif // UTIL_H
