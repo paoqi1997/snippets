@@ -10,6 +10,7 @@
 #include <optional>
 #include <variant>
 
+// https://devblogs.microsoft.com/cppblog/stdany-how-when-and-why/
 inline void test_any()
 {
     void *user_data1 = new char[4];
