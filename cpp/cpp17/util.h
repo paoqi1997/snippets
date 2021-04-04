@@ -2,9 +2,12 @@
 #define UTIL_H
 
 #include <any>
+#include <cctype>
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <memory>
+#include <optional>
 #include <variant>
 
 inline void test_any()
@@ -74,6 +77,29 @@ inline void test_variant()
     std::printf("%zu %d\n", epoll_data2.index(), std::get<std::uint32_t>(epoll_data2)); // 2 3
     std::visit(ResetVisitor(), epoll_data2);
     std::printf("%zu %d\n", epoll_data2.index(), std::get<std::uint32_t>(epoll_data2)); // 2 0
+}
+
+inline std::optional<int> Atoi(const char *s)
+{
+    for (std::size_t i = 0; s[i] != '\0'; ++i) {
+        if (!std::isdigit(s[i])) {
+            return std::nullopt;
+        }
+    }
+
+    return std::atoi(s);
+}
+
+inline void test_optional()
+{
+    if (auto num = Atoi("648"); num) {
+        std::printf("%d\n", num.value());
+    } else {
+        std::printf("0\n");
+    }
+
+    auto num2 = Atoi("i18n");
+    std::printf("%d\n", num2.value_or(0));
 }
 
 #endif // UTIL_H

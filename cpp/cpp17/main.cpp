@@ -15,5 +15,9 @@ int main()
     cout << "[cpp/cpp17/std::variant]" << endl;
     test_variant();
 
+    // std::optional
+    cout << "[cpp/cpp17/std::optional]" << endl;
+    test_optional();
+
     return 0;
 }
