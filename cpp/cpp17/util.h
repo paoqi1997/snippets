@@ -2,15 +2,15 @@
 #define UTIL_H
 
 #include <any>
-#include <cctype>
 #include <cstdint>
 #include <cstdio>
-#include <cstdlib>
 #include <memory>
 #include <optional>
 #include <variant>
 
-// https://devblogs.microsoft.com/cppblog/stdany-how-when-and-why/
+/**
+ * https://devblogs.microsoft.com/cppblog/stdany-how-when-and-why/
+ */
 inline void test_any()
 {
     void *user_data1 = new char[4];
@@ -80,27 +80,25 @@ inline void test_variant()
     std::printf("%zu %d\n", epoll_data2.index(), std::get<std::uint32_t>(epoll_data2)); // 2 0
 }
 
-inline std::optional<int> Atoi(const char *s)
+inline std::optional<const char*> getPlayerName(std::size_t playerID)
 {
-    for (std::size_t i = 0; s[i] != '\0'; ++i) {
-        if (!std::isdigit(s[i])) {
-            return std::nullopt;
-        }
+    if (playerID == 1001) {
+        return "paoqi";
+    } else {
+        return std::nullopt;
     }
-
-    return std::atoi(s);
 }
 
 inline void test_optional()
 {
-    if (auto num = Atoi("648"); num) {
-        std::printf("%d\n", num.value());
+    if (auto name = getPlayerName(1001); name) {
+        std::printf("%s\n", name.value());
     } else {
-        std::printf("0\n");
+        std::printf("null\n");
     }
 
-    auto num2 = Atoi("i18n");
-    std::printf("%d\n", num2.value_or(0));
+    auto name2 = getPlayerName(1);
+    std::printf("%s\n", name2.value_or("null"));
 }
 
 #endif // UTIL_H
