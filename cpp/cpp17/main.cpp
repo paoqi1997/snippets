@@ -19,5 +19,9 @@ int main()
     cout << "[cpp/cpp17/std::optional]" << endl;
     test_optional();
 
+    // std::string_view
+    cout << "[cpp/cpp17/std::string_view]" << endl;
+    test_string_view();
+
     return 0;
 }

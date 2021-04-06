@@ -6,6 +6,8 @@
 #include <cstdio>
 #include <memory>
 #include <optional>
+#include <string>
+#include <string_view>
 #include <variant>
 
 /**
@@ -82,11 +84,7 @@ inline void test_variant()
 
 inline std::optional<const char*> getPlayerName(std::size_t playerID)
 {
-    if (playerID == 1001) {
-        return "paoqi";
-    } else {
-        return std::nullopt;
-    }
+    return playerID == 1001 ? std::optional<const char*>("paoqi") : std::nullopt;
 }
 
 inline void test_optional()
@@ -99,6 +97,15 @@ inline void test_optional()
 
     auto name2 = getPlayerName(1);
     std::printf("%s\n", name2.value_or("null"));
+}
+
+inline void test_string_view()
+{
+    std::string s("123456");
+
+    std::string_view sv(s);
+
+    std::printf("%s %zu\n", sv.data(), sv.length());
 }
 
 #endif // UTIL_H
