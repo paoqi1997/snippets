@@ -1,6 +1,8 @@
 #include <cstdio>
 #include <iostream>
+#include <map>
 #include <thread>
+#include <tuple>
 #include <utility>
 
 #include "util.h"
@@ -103,6 +105,18 @@ int main()
 
     std::thread t(threadFunc);
     t.join();
+
+    // std::tie
+    cout << "[cpp/cpp11/std::tie]" << endl;
+
+    std::map<int, int> mapobj;
+
+    std::map<int, int>::iterator mit;
+    bool inserted;
+
+    std::tie(mit, inserted) = mapobj.insert(std::make_pair(2, 3));
+
+    std::printf("mapobj[%d]=%d, inserted: %d\n", mit->first, mit->second, inserted);
 
     return 0;
 }

@@ -39,5 +39,9 @@ int main()
     cout << "[cpp/basis/memops]" << endl;
     test_memops();
 
+    // algo
+    cout << "[cpp/basis/algo]" << endl;
+    test_algo();
+
     return 0;
 }

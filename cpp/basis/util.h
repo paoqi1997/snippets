@@ -1,11 +1,14 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <iterator>
 #include <queue>
+#include <vector>
 
 #define PRINT_INFO(type_s, type)                    \
 do {                                                \
@@ -542,6 +545,24 @@ inline void test_memops()
     char s2[16] = "0123456789";
     std::memmove(s2 + 3, s2, 6);
     std::printf("memmove: %s\n", s2);
+}
+
+inline void test_algo()
+{
+    std::vector<int> vec{1, 3, 5, 7, 9};
+
+    std::for_each(vec.begin(), vec.end(), [](int ele) {
+        std::cout << ele << ' ';
+    });
+    std::cout << std::endl;
+
+    auto it = std::remove_if(vec.begin(), vec.end(), [](int ele) {
+        return ele == 5;
+    });
+    vec.erase(it, vec.end());
+
+    std::copy(vec.begin(), vec.end(), std::ostream_iterator<int>(std::cout, " "));
+    std::cout << std::endl;
 }
 
 #endif // UTIL_H
