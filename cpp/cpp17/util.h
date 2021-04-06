@@ -27,13 +27,13 @@ inline void test_any()
     *pn2 = 32;
 
     std::any user_data3;
-    std::printf("%d %s\n", user_data3.has_value(), user_data3.type().name());
+    std::printf("%d %s\n", user_data3.has_value(), user_data3.type().name()); // 0 void
 
     user_data3 = nullptr;
-    std::printf("%d %s\n", user_data3.has_value(), user_data3.type().name());
+    std::printf("%d %s\n", user_data3.has_value(), user_data3.type().name()); // 1 std::nullptr_t
 
     user_data3 = new char[4];
-    std::printf("%d %s\n", user_data3.has_value(), user_data3.type().name());
+    std::printf("%d %s\n", user_data3.has_value(), user_data3.type().name()); // 1 char * __ptr64
 
     char *pc3 = std::any_cast<char*>(user_data3);
 
@@ -68,18 +68,27 @@ inline void test_variant()
     std::printf("%d\n", (epoll_data1.fd = 1));
 
     std::variant<void*, int, std::uint32_t, std::uint64_t> epoll_data2;
+    int val1, val2;
 
     epoll_data2 = 2;
 
-    std::printf("%zu %d\n", epoll_data2.index(), std::get<int>(epoll_data2)); // 1 2
+    val1 = std::get<int>(epoll_data2), val2 = std::get<1>(epoll_data2);
+    std::printf("%zu %d %d\n", epoll_data2.index(), val1, val2); // 1 2 2
+
     std::visit(ResetVisitor(), epoll_data2);
-    std::printf("%zu %d\n", epoll_data2.index(), std::get<int>(epoll_data2)); // 1 0
+
+    val1 = std::get<int>(epoll_data2), val2 = std::get<1>(epoll_data2);
+    std::printf("%zu %d %d\n", epoll_data2.index(), val1, val2); // 1 0 0
 
     epoll_data2 = static_cast<std::uint32_t>(3);
 
-    std::printf("%zu %d\n", epoll_data2.index(), std::get<std::uint32_t>(epoll_data2)); // 2 3
+    val1 = std::get<std::uint32_t>(epoll_data2), val2 = std::get<2>(epoll_data2);
+    std::printf("%zu %d %d\n", epoll_data2.index(), val1, val2); // 2 3 3
+
     std::visit(ResetVisitor(), epoll_data2);
-    std::printf("%zu %d\n", epoll_data2.index(), std::get<std::uint32_t>(epoll_data2)); // 2 0
+
+    val1 = std::get<std::uint32_t>(epoll_data2), val2 = std::get<2>(epoll_data2);
+    std::printf("%zu %d %d\n", epoll_data2.index(), val1, val2); // 2 0 0
 }
 
 inline std::optional<const char*> getPlayerName(std::size_t playerID)
