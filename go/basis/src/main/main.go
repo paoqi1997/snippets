@@ -2,6 +2,7 @@ package main
 
 import (
     "fmt"
+    "time"
     "util"
 )
 
@@ -62,5 +63,34 @@ func main() {
         fmt.Printf("[succ] Type: %T\n", val)
     default:
         fmt.Printf("[fail] Type: %T\n", val)
+    }
+
+    done := false
+    ch := make(chan interface{})
+
+    ticker := time.NewTicker(1 * time.Second)
+    starttime := time.Now()
+
+    fmt.Println(starttime.Format("2006-01-02 15:04:05"))
+
+    go func() {
+        defer ticker.Stop()
+        for {
+            select {
+            case currtime := <-ticker.C:
+                if currtime.Unix() - starttime.Unix() >= 3 {
+                    fmt.Println(currtime.Format("2006-01-02 15:04:05"))
+                    close(ch)
+                }
+            case <-ch:
+                fmt.Println("Bye!")
+                done = true
+                return
+            }
+        }
+    }()
+
+    for !done {
+        time.Sleep(1 * time.Second)
     }
 }

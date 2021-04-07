@@ -103,8 +103,8 @@ int main()
     g_n = 3;
     std::printf("ThreadID: %ld, n: %zu\n", std::this_thread::get_id(), g_n);
 
-    std::thread t(threadFunc);
-    t.join();
+    std::thread thd(threadFunc);
+    thd.join();
 
     // std::tie
     cout << "[cpp/cpp11/std::tie]" << endl;
@@ -114,7 +114,11 @@ int main()
     std::map<int, int>::iterator mit;
     bool inserted;
 
-    std::tie(mit, inserted) = mapobj.insert(std::make_pair(2, 3));
+    auto t = std::tie(mit, inserted) = mapobj.insert(std::make_pair(2, 3));
+
+    std::printf("mapobj[%d]=%d, inserted: %d\n", mit->first, mit->second, inserted);
+
+    mit = std::get<0>(t), inserted = std::get<1>(t);
 
     std::printf("mapobj[%d]=%d, inserted: %d\n", mit->first, mit->second, inserted);
 
