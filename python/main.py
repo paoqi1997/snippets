@@ -31,7 +31,7 @@ if __name__ == '__main__':
     sFilePath = os.path.join(sys.path[0], 'config.ini')
     oIniConfig.read(sFilePath)
 
-    oIniConfig.set('net', 'IP', '220.181.38.148')
+    oIniConfig.set('net', 'ip', '220.181.38.148')
     with open(sFilePath, 'w') as oFile:
         oIniConfig.write(oFile)
 
