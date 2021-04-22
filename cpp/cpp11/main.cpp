@@ -97,6 +97,10 @@ int main()
 
     cout << sum(1, 2, 3, 4, 5, 6) << endl;
 
+    cout << Argc(1, 2, 3, 4, 5, 6) << endl;
+
+    print("I", "like", "C++.");
+
     // thread_local
     cout << "[cpp/cpp11/thread_local]" << endl;
 

@@ -186,6 +186,26 @@ T sum(T t, Args... args)
     return t + sum(args...);
 }
 
+template <typename... Args>
+std::size_t Argc(Args... args)
+{
+    // sizeof... operator
+    return sizeof...(args);
+}
+
+template <typename T>
+void print(const T& t)
+{
+    std::cout << t << std::endl;
+}
+
+template <typename T, typename... Args>
+void print(const T& t, const Args... args)
+{
+    std::cout << t << ' ';
+    print(args...);
+}
+
 thread_local static std::size_t g_n = 0;
 
 inline void threadFunc()
