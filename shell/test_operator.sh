@@ -82,6 +82,26 @@ echo '------'
 echo 'String Operators'
 echo '------'
 
+n=1
+
+if [ $n = '1' ]; then
+    echo "$n == '1'"
+else
+    echo "$n != '1'"
+fi
+
+if [ '$n' = '1' ]; then
+    echo "'\$n' == '1'"
+else
+    echo "'\$n' != '1'"
+fi
+
+if [ "$n" = '1' ]; then
+    echo "\"$n\" == '1'"
+else
+    echo "\"$n\" != '1'"
+fi
+
 s='Shell'
 
 if [ $s = 'Shell' ]; then
