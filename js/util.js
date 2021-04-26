@@ -159,3 +159,8 @@ exports.sum = () => {
         return iSum;
     };
 }
+
+exports.F = async () => {
+    const value = await exports.getPromise();
+    console.log(`Value[2]: ${value}`);
+}

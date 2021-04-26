@@ -37,9 +37,9 @@ const oDate = new Date(Date.parse(sTime));
 console.log(util.getTimeString(oDate));
 
 util.getPromise().then(value => {
-    console.log(`Value: ${value}`);
+    console.log(`Value[1]: ${value}`);
 }).catch(reason => {
-    console.log(`Reason: ${reason}`);
+    console.log(`Reason[1]: ${reason}`);
 });
 
 const g = util.gen(1);
@@ -53,3 +53,5 @@ console.log(sumFunc(1));
 console.log(sumFunc(2));
 console.log(sumFunc(3));
 console.log(sumFunc(4));
+
+util.F().catch(reason => console.log(`Reason[2]: ${reason}`));
