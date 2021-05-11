@@ -149,7 +149,7 @@ if [ -s $f ]; then
 fi
 
 if [ -f $f ]; then
-    echo "$f is a common file."
+    echo "$f is a regular file."
 fi
 
 if [ -d $f ]; then
