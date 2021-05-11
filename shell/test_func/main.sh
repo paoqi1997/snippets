@@ -10,7 +10,19 @@ echo "x: $x, res: $?"
 rm evil
 echo "status: $?"
 
-# 这里的 $# 传入给 printInfo 的 $1
+if [ $# -lt 1 ]; then
+    echo "没有填写参数！"
+fi
+
+if [ -z $1 ]; then
+    echo "参数不能为空！"
+    exit 1
+elif [ $1 = '/' -o $1 = "\\" ]; then
+    echo "参数不能为\"/\"或\"\\\"！"
+    exit 1
+fi
+
+# $# 是传入的参数个数，这里将它传给 printInfo 的 $1
 printInfo $#
 
 # 127.0.0.1
