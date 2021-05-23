@@ -159,7 +159,7 @@ struct alignas(8) DataModel3
     char b;
 };
 
-enum class Ports {
+enum class Port {
     FTP    = 21,
     SSH    = 22,
     TELNET = 23,
@@ -171,7 +171,7 @@ enum class Ports {
 
 inline constexpr std::size_t getRedisPort()
 {
-    return static_cast<std::size_t>(Ports::REDIS);
+    return static_cast<std::size_t>(Port::REDIS);
 }
 
 template <typename T>
