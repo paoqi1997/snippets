@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "crtp.h"
 #include "util.h"
 
 using std::cout;
@@ -42,6 +43,10 @@ int main()
     // algo
     cout << "[cpp/basis/algo]" << endl;
     test_algo();
+
+    // crtp
+    cout << "[cpp/basis/crtp]" << endl;
+    test_crtp();
 
     return 0;
 }
