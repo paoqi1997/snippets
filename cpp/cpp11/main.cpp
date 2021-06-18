@@ -41,16 +41,16 @@ int main()
 
     {
         auto engine = std::make_shared<Engine>("pqwan");
-        std::printf("Engine(\"%s\") ref: %d\n", engine->getName(), engine.use_count());
+        std::printf("Engine(\"%s\") ref: %d\n", engine->getName(), engine.use_count()); // 1
 
         auto sp1 = engine->getPtr();
-        std::printf("Engine(\"%s\") ref: %d\n", engine->getName(), engine.use_count());
+        std::printf("Engine(\"%s\") ref: %d\n", engine->getName(), engine.use_count()); // 2
 
         std::weak_ptr<Engine> wp = engine;
-        std::printf("Engine(\"%s\") ref: %d\n", engine->getName(), engine.use_count());
+        std::printf("Engine(\"%s\") ref: %d\n", engine->getName(), engine.use_count()); // 2
 
         auto sp2 = wp.lock();
-        std::printf("Engine(\"%s\") ref: %d\n", engine->getName(), engine.use_count());
+        std::printf("Engine(\"%s\") ref: %d\n", engine->getName(), engine.use_count()); // 3
     }
 
     // the array of std::shared_ptr

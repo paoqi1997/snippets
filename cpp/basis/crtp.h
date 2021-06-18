@@ -5,6 +5,15 @@
 template <typename Derived> class IComparable;
 
 template <typename Derived>
+bool operator > (const IComparable<Derived>& lhs, const IComparable<Derived>& rhs)
+{
+    const Derived& d1 = static_cast<const Derived&>(lhs);
+    const Derived& d2 = static_cast<const Derived&>(rhs);
+
+    return d2 < d1;
+}
+
+template <typename Derived>
 bool operator <= (const IComparable<Derived>& lhs, const IComparable<Derived>& rhs)
 {
     const Derived& d1 = static_cast<const Derived&>(lhs);
@@ -55,11 +64,6 @@ private:
 inline bool operator < (const Boy& boy1, const Boy& boy2)
 {
     return boy1.getDeposit() < boy2.getDeposit();
-}
-
-inline bool operator > (const Boy& boy1, const Boy& boy2)
-{
-    return boy1.getDeposit() > boy2.getDeposit();
 }
 
 inline void test_crtp()
