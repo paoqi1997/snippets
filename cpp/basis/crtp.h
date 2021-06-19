@@ -89,6 +89,36 @@ int Counter<T>::count = 0;
 class A : public Counter<A> {};
 class B : public Counter<B> {};
 
+template <class Derived>
+class INetObj
+{
+public:
+    void onConnect() {
+        static_cast<Derived*>(this)->_onConnect();
+    }
+    void _onConnect() {
+        std::cout << "Hello, I'm INetObj.\n";
+    }
+};
+
+class NetObj : public INetObj<NetObj> {};
+
+class CNetObj : public INetObj<CNetObj>
+{
+public:
+    void _onConnect() {
+        std::cout << "Hello, I'm CNetObj.\n";
+    }
+};
+
+class PQNetObj : public INetObj<PQNetObj>
+{
+public:
+    void _onConnect() {
+        std::cout << "Hello, I'm PQNetObj.\n";
+    }
+};
+
 inline void test_crtp()
 {
     std::cout << "part1:\n";
@@ -119,8 +149,18 @@ inline void test_crtp()
         PRINT(a4.use_count());
     }
 
-    PRINT(a1.use_count());
+    PRINT(Counter<A>::use_count());
 
     B b1;
-    PRINT(b1.use_count());
+    PRINT(Counter<B>::use_count());
+
+    std::cout << "part3:\n";
+
+    NetObj netobj;
+    CNetObj cnetobj;
+    PQNetObj pqnetobj;
+
+    netobj.onConnect();
+    cnetobj.onConnect();
+    pqnetobj.onConnect();
 }
