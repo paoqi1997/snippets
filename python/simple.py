@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+from functools import partial
+
 import copy
 import sys
 
@@ -76,3 +78,7 @@ if __name__ == '__main__':
 
     test_copy_dict()
     test_deepcopy_dict()
+
+    _pow2 = lambda base, exp: pow(base, exp)
+    pow2 = partial(_pow2, exp=2)
+    print(pow2(3))
