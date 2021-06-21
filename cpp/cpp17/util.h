@@ -4,10 +4,13 @@
 #include <any>
 #include <cstdint>
 #include <cstdio>
+#include <cstring>
+#include <iostream>
 #include <memory>
 #include <optional>
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <variant>
 
 /**
@@ -115,6 +118,45 @@ inline void test_string_view()
     std::string_view sv(s);
 
     std::printf("%s %zu\n", sv.data(), sv.length());
+}
+
+struct StringTag {};
+struct CStringTag {};
+
+struct String
+{
+    using tag = StringTag;
+    String(const char *s) : data(s) {}
+    std::string data;
+};
+
+struct CString
+{
+    using tag = CStringTag;
+    CString(const char *s) : data(const_cast<char*>(s)) {}
+    char *data;
+};
+
+template <typename T>
+std::size_t len(const T& t)
+{
+    using TagType = typename T::tag;
+
+    if constexpr (std::is_same<TagType, StringTag>::value) {
+        return t.data.length();
+    } else if (std::is_same<TagType, CStringTag>::value) {
+        return std::strlen(t.data);
+    } else {
+        return 0;
+    }
+}
+
+inline void test_tag_dispatch()
+{
+    String s = "abcd";
+    CString cs = "123456";
+
+    std::cout << len(s) << ' ' << len(cs) << std::endl;
 }
 
 #endif // UTIL_H

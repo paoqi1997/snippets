@@ -23,5 +23,9 @@ int main()
     cout << "[cpp/cpp17/std::string_view]" << endl;
     test_string_view();
 
+    // if constexpr
+    cout << "[cpp/cpp17/if_constexpr]" << endl;
+    test_tag_dispatch();
+
     return 0;
 }
