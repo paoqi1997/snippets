@@ -3,7 +3,6 @@
 import os
 import sys
 
-import scheduler
 import util
 
 if __name__ == '__main__':
@@ -47,25 +46,20 @@ if __name__ == '__main__':
     s_utf8_content = '未曾设想的道路'
     print(s_utf8_content)
 
-    # unicode -> utf-8
-    b_utf8_content = s_utf8_content.encode('utf-8')
-    # unicode -> gbk
-    b_gbk_content = s_utf8_content.encode('gbk')
+    by_utf8_content = s_utf8_content.encode('utf-8') # unicode -> utf-8
+    by_gbk_content = s_utf8_content.encode('gbk')    # unicode -> gbk
 
-    print(b_utf8_content)
-    print(b_gbk_content)
+    print(by_utf8_content)
+    print(by_gbk_content)
 
-    # gbk -> unicode
-    s_gbk_content = b_gbk_content.decode('gbk')
+    s_gbk_content = by_gbk_content.decode('gbk')    # gbk -> unicode
     print(s_gbk_content)
 
-    # unicode -> utf-8
-    b_utf8_content = s_gbk_content.encode('utf-8')
-    # unicode -> gbk
-    b_gbk_content = s_gbk_content.encode('gbk')
+    by_utf8_content = s_gbk_content.encode('utf-8') # unicode -> utf-8
+    by_gbk_content = s_gbk_content.encode('gbk')    # unicode -> gbk
 
-    print(b_utf8_content)
-    print(b_gbk_content)
+    print(by_utf8_content)
+    print(by_gbk_content)
 
     dInfo = {
         'name': 'mysql',
@@ -86,5 +80,3 @@ if __name__ == '__main__':
         for _ in range(10):
             oLooper.addTask(util.test(2))
         oLooper.run()
-
-    scheduler.test_scheduler()
