@@ -44,7 +44,7 @@ int main()
     cout << "[cpp/basis/algo]" << endl;
     test_algo();
 
-    // crtp
+    // 奇异递归模板模式（Curiously Recurring Template Pattern, CRTP）
     cout << "[cpp/basis/crtp]" << endl;
     test_crtp();
 
