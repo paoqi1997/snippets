@@ -45,10 +45,12 @@ int main()
     cout << "[cpp/basis/algo]" << endl;
     test_algo();
 
+    // https://en.cppreference.com/w/cpp/language/crtp
     // 奇异递归模板模式（Curiously Recurring Template Pattern, CRTP）
     cout << "[cpp/basis/crtp]" << endl;
     test_crtp();
 
+    // https://en.cppreference.com/w/cpp/language/pimpl
     // Pointer to implementation, PImpl
     cout << "[cpp/basis/pimpl]" << endl;
     test_pimpl();
