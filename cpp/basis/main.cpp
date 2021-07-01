@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "crtp.h"
+#include "pimpl.h"
 #include "util.h"
 
 using std::cout;
@@ -47,6 +48,10 @@ int main()
     // 奇异递归模板模式（Curiously Recurring Template Pattern, CRTP）
     cout << "[cpp/basis/crtp]" << endl;
     test_crtp();
+
+    // Pointer to implementation, PImpl
+    cout << "[cpp/basis/pimpl]" << endl;
+    test_pimpl();
 
     return 0;
 }
