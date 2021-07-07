@@ -164,3 +164,15 @@ exports.F = async () => {
     const value = await exports.getPromise();
     console.log(`Value[2]: ${value}`);
 }
+
+/**
+ * 获取 RegExp.test 的调用封装
+ * @param {RegExp} reobj RegExp对象
+ * @return 调用封装
+ */
+exports.curryingCheck = reobj => {
+    /** @param {string} text 文本对象 */
+    return text => {
+        return reobj.test(text);
+    };
+}

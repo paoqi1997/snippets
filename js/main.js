@@ -55,3 +55,13 @@ console.log(sumFunc(3));
 console.log(sumFunc(4));
 
 util.F().catch(reason => console.log(`Reason[2]: ${reason}`));
+
+console.log('[js/currying]');
+
+const isNumber = util.curryingCheck(/[0-9]+/);
+const isLetter = util.curryingCheck(/[a-zA-Z]+/);
+
+console.log(isNumber(1));
+console.log(isNumber('a'));
+console.log(isLetter(1));
+console.log(isLetter('a'));
