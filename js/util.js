@@ -201,3 +201,45 @@ exports.merge = (obj1, obj2) => {
         }
     }
 }
+
+/**
+ * 判断对象类型是否与给定类型一致
+ * @param {Object} obj Object对象
+ * @param {string} type 类型
+ * @return 判断结果
+ */
+exports.is_type = (() => {
+    const getType = obj => {
+        // for example: "[object String]"
+        const type = Object.prototype.toString.call(obj);
+        // 0: "object String]"
+        // 1: "String"
+        return /object\s(.*)]/.exec(type)[1];
+    };
+
+    const isType = (obj, sType) => {
+        const sType_ = getType(obj);
+        console.log(`[internal] ${sType_}`);
+        return sType_.toLowerCase() === sType;
+    };
+
+    return isType;
+})();
+
+exports.deepcopy = obj => {
+    if (typeof obj !== 'object' || obj === null) {
+        return;
+    }
+
+    const res = this.is_type(obj, 'array') ? [] : {};
+
+    for (const key in obj) {
+        if (typeof obj[key] === 'object') {
+            this.deepcopy(obj[key]);
+        }
+
+        res[key] = obj[key];
+    }
+
+    return res;
+}

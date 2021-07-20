@@ -85,4 +85,17 @@ console.log(l2);
 util.merge(l1, l2);
 console.log(l2);
 
+console.log('[js/deepcopy]');
+
+console.log(util.is_type('', 'string'));
+console.log(util.is_type(11, 'number'));
+console.log(util.is_type([], 'array'));
+console.log(util.is_type({}, 'object'));
+
+const d3 = util.deepcopy(d1);
+
+d3[1] = '?';
+console.log(d1);
+console.log(d3);
+
 console.log('[js/...]');
