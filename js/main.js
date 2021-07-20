@@ -65,3 +65,24 @@ console.log(isNumber(1));
 console.log(isNumber('a'));
 console.log(isLetter(1));
 console.log(isLetter('a'));
+
+console.log('[js/merge]');
+
+const d1 = {
+    1: 2, 2: 4, 3: 6, 'd': {'k1': 'v1', 'k2': 'v2', 'k3': [1, 3, 5, 7, 9]},
+    'l': [{'k_': 'v_'}]
+};
+const d2 = { 1: 3, 2: 5, 'l': [{'kk': 'vv'}] };
+
+console.log(d2);
+util.merge(d1, d2);
+console.log(d2);
+
+const l1 = [1, 2, 3, 4, {'k': 'v'}];
+const l2 = [3];
+
+console.log(l2);
+util.merge(l1, l2);
+console.log(l2);
+
+console.log('[js/...]');

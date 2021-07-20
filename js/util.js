@@ -176,3 +176,28 @@ exports.curryingCheck = reobj => {
         return reobj.test(text);
     };
 }
+
+/**
+ * 将 obj1 合并到 obj2 中
+ * @param {Object} obj1 Object对象
+ * @param {Object} obj2 Object对象
+ */
+exports.merge = (obj1, obj2) => {
+    if (typeof obj1 !== 'object' || obj1 === null) {
+        return;
+    }
+    if (typeof obj2 !== 'object' || obj2 === null) {
+        return;
+    }
+
+    for (const key in obj1) {
+        if (!(key in obj2)) {
+            obj2[key] = obj1[key];
+            continue;
+        }
+
+        if (typeof obj1[key] === 'object') {
+            this.merge(obj1[key], obj2[key]);
+        }
+    }
+}
