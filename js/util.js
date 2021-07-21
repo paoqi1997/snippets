@@ -144,6 +144,11 @@ exports.getPromise = () => {
     return p;
 }
 
+exports.F = async prefix => {
+    const value = await exports.getPromise();
+    console.log(`${prefix}Value[2]: ${value}`);
+}
+
 exports.gen = function* foo(x) {
     const y1 = 2 * (yield x + 1);
     console.log(`y1: ${y1}`); // 4
@@ -158,11 +163,6 @@ exports.sum = () => {
         iSum += n;
         return iSum;
     };
-}
-
-exports.F = async () => {
-    const value = await exports.getPromise();
-    console.log(`Value[2]: ${value}`);
 }
 
 /**
