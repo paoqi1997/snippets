@@ -3,7 +3,9 @@
 import threading
 import time
 
-from util import sTime
+def sTime():
+    oTimeStruct = time.localtime()
+    return time.strftime('%Y-%m-%d %H:%M:%S', oTimeStruct)
 
 def test_scheduler():
     def call1():

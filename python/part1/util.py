@@ -3,6 +3,10 @@ import configparser
 import socket
 import time
 
+def sTime():
+    oTimeStruct = time.localtime()
+    return time.strftime('%Y-%m-%d %H:%M:%S', oTimeStruct)
+
 def sum():
     iSum = 0
     def inner(n):
@@ -76,10 +80,6 @@ class IniConfig(configparser.ConfigParser):
     def write(self, fp, space_around_delimiters: bool=False) -> None:
         # 等号两边不添加空格
         super().write(fp, space_around_delimiters)
-
-def sTime():
-    oTimeStruct = time.localtime()
-    return time.strftime('%Y-%m-%d %H:%M:%S', oTimeStruct)
 
 async def __test(iDelay):
     await asyncio.sleep(iDelay)
