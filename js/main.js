@@ -90,8 +90,8 @@ console.log(d2);
 util.merge(d1, d2);
 console.log(d2);
 
-const l1 = [1, 2, 3, 4, {'k': 'v'}];
-const l2 = [3];
+const l1 = { 'list': [ ['v_h', 'v_s'], ['v_n'], ['v_g', 'v_g'] ] };
+const l2 = { 'list': [ ['v_r', 'v_s', 'v_c'], ['v_m', 'v_m'] ] };
 
 console.log(l2);
 util.merge(l1, l2);

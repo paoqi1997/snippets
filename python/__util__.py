@@ -105,8 +105,6 @@ def merge(obj1, obj2):
                 merge(obj1[i], obj2[i])
                 continue
 
-            obj2[i] = obj1[i]
-
     if t_obj1 == t_dict:
         for key in obj1:
             if key not in obj2:
