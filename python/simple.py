@@ -57,3 +57,22 @@ if __name__ == '__main__':
 
     with ut.open_r(sFilePath) as oFile:
         print(oFile.read())
+
+    print('[py/merge]')
+
+    d1 = {
+        1: 2, 2: 4, 3: 6, 'd': {'k1': 'v1', 'k2': 'v2', 'k3': [1, 3, 5, 7, 9]},
+        'l': [{'k_': 'v_'}]
+    }
+    d2 = { 1: 3, 2: 5, 'l': [{'kk': 'vv'}] }
+
+    print(f'd2: {d2}')
+    ut.merge(d1, d2)
+    print(f'd2: {d2}')
+
+    l1 = { 'list': [ ['v_h', 'v_s'], ['v_n'], ['v_g', 'v_g'] ] }
+    l2 = { 'list': [ ['v_r', 'v_s', 'v_c'], ['v_m', 'v_m'] ] }
+
+    print(f'l2: {l2}')
+    ut.merge(l1, l2)
+    print(f'l2: {l2}')

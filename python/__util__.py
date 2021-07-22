@@ -74,3 +74,45 @@ def open_r(filepath: str):
         print(f'closed: {oFile.closed}')
         oFile.close()
         print(f'closed: {oFile.closed}')
+
+def merge(obj1, obj2):
+    if obj1 == None or obj2 == None:
+        return
+
+    t_obj1 = type(obj1)
+    t_obj2 = type(obj2)
+
+    # obj1 和 obj2 的类型要一致
+    if t_obj1 != t_obj2:
+        return
+
+    t_list = type([])
+    t_dict = type({})
+
+    if t_obj1 != t_list and t_obj1 != t_dict:
+        return
+    if t_obj2 != t_list and t_obj2 != t_dict:
+        return
+
+    if t_obj1 == t_list:
+        for i in range(len(obj1)):
+            if i >= len(obj2):
+                obj2.append(obj1[i])
+                continue
+
+            t_v = type(obj1[i])
+            if t_v == t_list or t_v == t_dict:
+                merge(obj1[i], obj2[i])
+                continue
+
+            obj2[i] = obj1[i]
+
+    if t_obj1 == t_dict:
+        for key in obj1:
+            if key not in obj2:
+                obj2[key] = obj1[key]
+                continue
+
+            t_v = type(obj1[key])
+            if t_v == t_list or t_v == t_dict:
+                merge(obj1[key], obj2[key])
