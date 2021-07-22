@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 
 from functools import partial
+from platform import system
 
+import os
 import sys
 
 import __util__ as ut
@@ -43,3 +45,15 @@ if __name__ == '__main__':
     _pow2 = lambda base, exp: pow(base, exp)
     pow2 = partial(_pow2, exp=2)
     print(pow2(3))
+
+    print('[py/contextmanager]')
+
+    if system() == 'Windows':
+        sFilePath = 'C:\\Windows\\System32\\drivers\\etc\\hosts'
+    else:
+        sFilePath = os.path.join(sys.path[0], __file__)
+
+    print(sFilePath)
+
+    with ut.open_r(sFilePath) as oFile:
+        print(oFile.read())

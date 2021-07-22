@@ -1,3 +1,5 @@
+from contextlib import contextmanager
+
 import copy
 
 class Student:
@@ -54,3 +56,21 @@ def test_deepcopy_dict():
     dOutput = copy.deepcopy(dLang)
     dOutput['os'].append('android')
     print(dLang)
+
+@contextmanager
+def open_r(filepath: str):
+    _ = '-' * 8
+    sLine = f'{_} open_r {_}'
+    print(sLine)
+
+    try:
+        oFile = open(filepath, 'r')
+        yield oFile
+    except FileNotFoundError:
+        print(f'{filepath} not found.')
+    finally:
+        print(sLine)
+
+        print(f'closed: {oFile.closed}')
+        oFile.close()
+        print(f'closed: {oFile.closed}')
