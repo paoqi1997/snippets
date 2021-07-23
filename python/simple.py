@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 
+from collections import OrderedDict
 from functools import partial
 from platform import system
 
+import copy
 import os
 import sys
 
@@ -66,9 +68,16 @@ if __name__ == '__main__':
     }
     d2 = { 1: 3, 2: 5, 'l': [{'kk': 'vv'}] }
 
+    od1 = OrderedDict(copy.deepcopy(d1))
+    od2 = OrderedDict(copy.deepcopy(d2))
+
     print(f'd2: {d2}')
     ut.merge(d1, d2)
     print(f'd2: {d2}')
+
+    print(f'od2: {od2}')
+    ut.merge(od1, od2)
+    print(f'od2: {od2}')
 
     l1 = { 'list': [ ['v_h', 'v_s'], ['v_n'], ['v_g', 'v_g'] ] }
     l2 = { 'list': [ ['v_r', 'v_s', 'v_c'], ['v_m', 'v_m'] ] }

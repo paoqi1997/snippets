@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from contextlib import contextmanager
 
 import copy
@@ -88,10 +89,13 @@ def merge(obj1, obj2):
 
     t_list = type([])
     t_dict = type({})
+    t_od = type(OrderedDict())
 
-    if t_obj1 != t_list and t_obj1 != t_dict:
+    tt = (t_list, t_dict, t_od)
+
+    if t_obj1 not in tt:
         return
-    if t_obj2 != t_list and t_obj2 != t_dict:
+    if t_obj2 not in tt:
         return
 
     if t_obj1 == t_list:
@@ -101,16 +105,15 @@ def merge(obj1, obj2):
                 continue
 
             t_v = type(obj1[i])
-            if t_v == t_list or t_v == t_dict:
+            if t_v in tt:
                 merge(obj1[i], obj2[i])
-                continue
 
-    if t_obj1 == t_dict:
+    if t_obj1 in (t_dict, t_od):
         for key in obj1:
             if key not in obj2:
                 obj2[key] = obj1[key]
                 continue
 
             t_v = type(obj1[key])
-            if t_v == t_list or t_v == t_dict:
+            if t_v in tt:
                 merge(obj1[key], obj2[key])
