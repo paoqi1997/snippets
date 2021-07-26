@@ -117,3 +117,23 @@ def merge(obj1, obj2):
             t_v = type(obj1[key])
             if t_v in tt:
                 merge(obj1[key], obj2[key])
+
+def delWith(d: dict, dd: dict):
+    t_d = type(d)
+    t_dd = type(dd)
+    t_dict = type({})
+
+    if t_d != t_dict or t_dd != t_dict:
+        return
+
+    lstKey = []
+
+    for key in d:
+        if key in dd:
+            if type(dd[key]) == t_dict:
+                delWith(d[key], dd[key])
+            else:
+                lstKey.append(key)
+
+    for key in lstKey:
+        del d[key]

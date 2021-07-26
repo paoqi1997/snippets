@@ -97,6 +97,12 @@ console.log(l2);
 util.merge(l1, l2);
 console.log(l2);
 
+console.log('[js/delWith]');
+
+console.log(d2);
+util.delWith(d2, { 'd': { 'k1': '?' } });
+console.log(d2);
+
 console.log('[js/is_type]');
 
 console.log(util.is_type('', 'string'));

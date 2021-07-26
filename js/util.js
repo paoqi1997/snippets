@@ -203,6 +203,36 @@ exports.merge = (obj1, obj2) => {
 }
 
 /**
+ * 根据 dd 将 d 中的键删除
+ * @param {Object} d 被执行删除操作的对象
+ * @param {Object} dd 参考对象
+ */
+exports.delWith = (d, dd) => {
+    if (typeof d !== 'object' || d === null) {
+        return;
+    }
+    if (typeof dd !== 'object' || dd === null) {
+        return;
+    }
+
+    const li = [];
+
+    for (const key in d) {
+        if (key in dd) {
+            if (typeof dd[key] === 'object') {
+                this.delWith(d[key], dd[key]);
+            } else {
+                li.push(key);
+            }
+        }
+    }
+
+    for (let i = 0; i < li.length; ++i) {
+        delete d[li[i]];
+    }
+}
+
+/**
  * 判断对象类型是否与给定类型一致
  * @param {Object} obj Object对象
  * @param {string} type 类型

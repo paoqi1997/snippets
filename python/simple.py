@@ -85,3 +85,9 @@ if __name__ == '__main__':
     print(f'l2: {l2}')
     ut.merge(l1, l2)
     print(f'l2: {l2}')
+
+    print('[py/delWith]')
+
+    print(f'd2: {d2}')
+    ut.delWith(d2, { 'd': { 'k1': '?' } })
+    print(f'd2: {d2}')
