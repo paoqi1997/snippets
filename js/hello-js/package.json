@@ -1,0 +1,16 @@
+{
+  "name": "hello-js",
+  "version": "0.1.0",
+  "description": "Hello JavaScript!",
+  "main": "index.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "paoqi",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.22.0"
+  }
+}

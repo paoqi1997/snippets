@@ -36,6 +36,10 @@ build
 
 # By-products
 __pycache__
+*.tags
 
 # Go files
 !go.mod
+
+# Node.js modules
+node_modules
