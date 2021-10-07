@@ -12,7 +12,8 @@ Hello TypeScript!
 
 >npm init -y
 
->npm i -g typescript
+>npm i fastify
+>npm i -D typescript @types/node
 
->tsc --init
+>npx tsc --init
 ```
