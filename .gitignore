@@ -37,6 +37,7 @@ build
 # By-products
 __pycache__
 *.tags
+ts/**/*.js
 
 # Go files
 !go.mod

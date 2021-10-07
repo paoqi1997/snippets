@@ -23,3 +23,5 @@
 + Python
 
 + Shell
+
++ TypeScript
