@@ -4,6 +4,8 @@ const axios = require('axios');
 const fs    = require('fs');
 const path  = require('path');
 
+const { printInfo } = require('./util');
+
 const image      = 'nginx';
 const parentPath = path.join(__dirname, 'tags');
 const filePath   = path.join(parentPath, `${image}.tags`);
@@ -12,9 +14,13 @@ function writeToFile(tags) {
     fs.writeFile(filePath, tags.join('\n') + '\n', err => {
         if (err) {
             console.log(err);
+        } else {
+            printInfo('End.');
         }
     });
 }
+
+printInfo('Begin.');
 
 axios({
     'method': 'get',
@@ -24,6 +30,8 @@ axios({
         'scope': `repository:library/${image}:pull`
     }
 }).then(response => {
+    printInfo(`Get token succ, image: ${image}`);
+
     const token = response.data.token;
 
     axios({
@@ -33,6 +41,8 @@ axios({
             'Authorization': `Bearer ${token}`
         }
     }).then(response => {
+        printInfo(`Request v2 api succ, image: ${image}`);
+
         const tags = response.data.tags;
 
         fs.access(parentPath, fs.constants.F_OK, err => {
