@@ -1,9 +1,9 @@
-import * as util from './util';
+import { Student } from './util';
 
-let stu = new util.Student('paoqi');
+const stu = new Student('paoqi');
 
 stu.name = '';
-stu.setGrade('math', 'A');
+stu.setGrade('medicine', 'A');
 
-console.log(stu.getGrade('math'));
+console.log(stu.getGrade('medicine'));
 console.log(stu.getGrade('chemistry'));

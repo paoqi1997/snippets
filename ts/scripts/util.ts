@@ -11,7 +11,7 @@ class Person {
 
     set name(newName: string) {
         if (newName.length === 0) {
-            console.log('The new name is empty!');
+            console.log('The new name can not be empty!');
         } else {
             this.name_ = newName;
         }
