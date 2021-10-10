@@ -25,7 +25,7 @@ function StrToInt13(s) {
  * 给定时间是否不早于当天指定时分秒的时间
  * @param {number} timestamp 时间戳
  * @param {string} Hms 时分秒
- * @returns 比较结果
+ * @returns {boolean} 比较结果
  */
 function laterThan(timestamp, Hms) {
     const YMD = m(timestamp).format(FMT_YMD);
@@ -37,7 +37,7 @@ function laterThan(timestamp, Hms) {
  * 以每天零点为分界线，计算从开始时间到今天是第几天
  * @param {string} startTime 开始时间
  * @param {number} n 开始时间作为第 n 天
- * @returns 第几天
+ * @returns {number} 第几天
  */
 function dayN(startTime, n) {
     n = n === undefined ? 1 : n;
@@ -49,7 +49,7 @@ function dayN(startTime, n) {
  * @param {number} startTime 开始时间
  * @param {string} Hms 时分秒
  * @param {number} n 开始时间作为第 n 天
- * @returns 第几天
+ * @returns {number} 第几天
  */
 function dayN_Hms(startTime, Hms, n) {
     let ans = 0;
