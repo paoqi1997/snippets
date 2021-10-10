@@ -1,7 +1,7 @@
 {
-  "name": "hello-axios",
+  "name": "hello-nm",
   "version": "0.1.0",
-  "description": "Hello Axios!",
+  "description": "Hello Node.js modules!",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
