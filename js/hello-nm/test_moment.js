@@ -2,8 +2,8 @@
 
 const m = require('moment');
 
-const fmt  = 'YYYY-MM-DD HH:mm:ss';
-const fmt2 = 'YYYY-MM-DD';
+const FMT_YMD_Hms = 'YYYY-MM-DD HH:mm:ss';
+const FMT_YMD     = 'YYYY-MM-DD';
 
 function Int10() {
     return m().unix();
@@ -14,11 +14,11 @@ function Int13() {
 }
 
 function Int13ToStr(timestamp) {
-    return m(timestamp).format(fmt);
+    return m(timestamp).format(FMT_YMD_Hms);
 }
 
 function StrToInt13(s) {
-    return m(s, fmt).valueOf();
+    return m(s, FMT_YMD_Hms).valueOf();
 }
 
 /**
@@ -28,8 +28,8 @@ function StrToInt13(s) {
  * @returns 比较结果
  */
 function laterThan(timestamp, Hms) {
-    const YMD = m(timestamp).format(fmt2);
-    const ts = m(`${YMD} ${Hms}`, fmt).valueOf();
+    const YMD = m(timestamp).format(FMT_YMD);
+    const ts = m(`${YMD} ${Hms}`, FMT_YMD_Hms).valueOf();
     return timestamp >= ts;
 }
 
@@ -41,7 +41,7 @@ function laterThan(timestamp, Hms) {
  */
 function dayN(startTime, n) {
     n = n === undefined ? 1 : n;
-    return m().diff(m(startTime, fmt2), 'days') + n;
+    return m().diff(m(startTime, FMT_YMD), 'days') + n;
 }
 
 /**
@@ -58,7 +58,7 @@ function dayN_Hms(startTime, Hms, n) {
         ans += 1;
     }
 
-    const YMD = m(startTime).format(fmt2);
+    const YMD = m(startTime).format(FMT_YMD);
 
     ans += dayN(YMD, 0) + n;
 
