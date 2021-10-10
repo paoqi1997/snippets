@@ -4,12 +4,14 @@
   "description": "Hello Node.js modules!",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test-moment": "node test_moment.js"
   },
   "keywords": [],
   "author": "paoqi",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.22.0"
+    "axios": "^0.22.0",
+    "moment": "^2.29.1"
   }
 }
