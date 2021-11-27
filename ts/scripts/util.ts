@@ -30,7 +30,7 @@ export class Student extends Person {
         if (subject in this.grades) {
             return this.grades[subject];
         } else {
-            return null;
+            return '';
         }
     }
 

@@ -1,0 +1,20 @@
+{
+  "name": "hello-ts",
+  "version": "0.1.0",
+  "description": "Hello TypeScript!",
+  "main": "main.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node main.js",
+    "test-js": "npm run build && npm run start",
+    "test-ts": "ts-node main.ts"
+  },
+  "keywords": [],
+  "author": "paoqi",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^16.11.10",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
+  }
+}
