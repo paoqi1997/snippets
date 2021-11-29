@@ -1,4 +1,4 @@
-module use-redis
+module hello-redis
 
 go 1.14
 
