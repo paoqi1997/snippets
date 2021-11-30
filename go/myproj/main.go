@@ -2,26 +2,19 @@ package main
 
 import (
     "fmt"
-    "time"
 
-    "github.com/shirou/gopsutil/v3/cpu"
-    "github.com/shirou/gopsutil/v3/mem"
+    "myproj/util"
 )
 
 func main() {
-    CpuUsedPercent, err := cpu.Percent(time.Second, false)
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
+    physicalCounts := util.GetPhysicalCpuCounts()
+    fmt.Printf("physical count(s): %d\n", physicalCounts)
 
-    vmstat, err := mem.VirtualMemory()
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
+    logicalCounts := util.GetLogicalCpuCounts()
+    fmt.Printf("logical count(s): %d\n", logicalCounts)
 
-    MemUsedPercent := vmstat.UsedPercent
+    cpuUsedPercent := util.GetCpuUsedPercent()
+    memUsedPercent := util.GetMemUsedPercent()
 
-    fmt.Printf("cpu: %.2f%%, mem: %.2f%%\n", CpuUsedPercent[0], MemUsedPercent)
+    fmt.Printf("cpu: %.2f%%, mem: %.2f%%\n", cpuUsedPercent, memUsedPercent)
 }
