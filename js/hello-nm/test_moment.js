@@ -69,23 +69,50 @@ function dayN_Hms(startTime, Hms, n) {
     return ans;
 }
 
-let v = Int10();
-console.log(v);
+/**
+ * 现在距离目标时间还剩多少天
+ * @param {string} targetTime 目标时间
+ * @returns 剩余天数
+ */
+function days_left(targetTime) {
+    const YMD = m().format(FMT_YMD);
+    const m1 = m(YMD, FMT_YMD);
+    const m2 = m(targetTime, FMT_YMD);
+    return m2.diff(m1, 'days');
+}
 
-v = Int13();
-console.log(v);
+function TEST_Transform() {
+    console.log('[TEST_Transform]');
 
-v = Int13ToStr(v);
-console.log(v);
+    let v = Int10();
+    console.log(v);
 
-v = StrToInt13(v);
-console.log(v);
+    v = Int13();
+    console.log(v);
 
-console.log(dayN('2021-10-01'));
-console.log(dayN('2021-10-01', 3));
+    v = Int13ToStr(v);
+    console.log(v);
 
-v = StrToInt13('2021-10-07 04:59:59');
-console.log(dayN_Hms(v, '05:00:00', 0));
+    v = StrToInt13(v);
+    console.log(v);
+}
 
-v = StrToInt13('2021-10-07 05:59:59');
-console.log(dayN_Hms(v, '05:00:00', 0));
+function TEST_DayN() {
+    console.log('[TEST_DayN]');
+
+    console.log(dayN('2021-10-01'));
+    console.log(dayN('2021-10-01', 3));
+
+    console.log(dayN('1949-10-01'));
+
+    let v = StrToInt13('2021-10-07 04:59:59');
+    console.log(dayN_Hms(v, '05:00:00', 0));
+
+    v = StrToInt13('2021-10-07 05:00:00');
+    console.log(dayN_Hms(v, '05:00:00', 0));
+
+    console.log(days_left('2022-09-01'));
+}
+
+TEST_Transform();
+TEST_DayN();
