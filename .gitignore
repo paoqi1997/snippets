@@ -38,6 +38,7 @@ build
 __pycache__
 *.tags
 ts/**/*.js
+rust/**/target
 
 # Go files
 !go.mod
