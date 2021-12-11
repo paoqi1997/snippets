@@ -18,7 +18,7 @@ function Int13ToStr(timestamp) {
 }
 
 function StrToInt13(s) {
-    return m(s, FMT_YMD_Hms).valueOf();
+    return m(s).valueOf();
 }
 
 /**
@@ -29,7 +29,7 @@ function StrToInt13(s) {
  */
 function laterThan(timestamp, Hms) {
     const YMD = m(timestamp).format(FMT_YMD);
-    const ts = m(`${YMD} ${Hms}`, FMT_YMD_Hms).valueOf();
+    const ts = m(`${YMD} ${Hms}`).valueOf();
     return timestamp >= ts;
 }
 
@@ -41,7 +41,7 @@ function laterThan(timestamp, Hms) {
  */
 function dayN(startTime, n) {
     n = n === undefined ? 1 : n;
-    return m().diff(m(startTime, FMT_YMD), 'days') + n;
+    return m().diff(m(startTime), 'days') + n;
 }
 
 /**
@@ -76,8 +76,8 @@ function dayN_Hms(startTime, Hms, n) {
  */
 function days_left(targetTime) {
     const YMD = m().format(FMT_YMD);
-    const m1 = m(YMD, FMT_YMD);
-    const m2 = m(targetTime, FMT_YMD);
+    const m1 = m(YMD);
+    const m2 = m(targetTime);
     return m2.diff(m1, 'days');
 }
 
@@ -114,5 +114,19 @@ function TEST_DayN() {
     console.log(days_left('2022-09-01'));
 }
 
+function TEST_Days() {
+    console.log('[TEST_Days]');
+
+    console.log(`Last Monday: ${m().days(1 - 7).format(FMT_YMD_Hms)}`);
+    console.log(`Last Sunday: ${m().days(7 - 7).format(FMT_YMD_Hms)}`);
+
+    console.log(`This Monday: ${m().days(1).format(FMT_YMD_Hms)}`);
+    console.log(`This Sunday: ${m().days(7).format(FMT_YMD_Hms)}`);
+
+    console.log(`Next Monday: ${m().days(1 + 7).format(FMT_YMD_Hms)}`);
+    console.log(`Next Sunday: ${m().days(7 + 7).format(FMT_YMD_Hms)}`);
+}
+
 TEST_Transform();
 TEST_DayN();
+TEST_Days();
