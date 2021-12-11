@@ -1,4 +1,4 @@
-use actix_web::{get, post, web, App, HttpResponse, HttpRequest, HttpServer, Responder};
+use actix_web::{get, post, web, App, HttpRequest, HttpResponse, HttpServer, Responder};
 
 // curl 127.0.0.1:8080
 // curl 127.0.0.1:8080/player/paoqi
