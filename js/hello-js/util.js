@@ -1,7 +1,18 @@
 'use strict';
 
+function getUnit(unit) {
+    return `>>> TEST$${unit}`;
+}
+
+function printUnit(unit) {
+    console.log(getUnit(unit));
+}
+
+exports.getUnit = getUnit;
+exports.printUnit = printUnit;
+
 exports.test_list = function() {
-    console.log('[js/list]');
+    printUnit('list');
 
     const li = [];
     li.push(1, 2, 3);
@@ -15,7 +26,7 @@ exports.test_list = function() {
 }
 
 exports.test_array = function() {
-    console.log('[js/array]');
+    printUnit('array');
 
     const arrobj = new Array;
     arrobj.push(1, 2, 3);
@@ -60,7 +71,7 @@ exports.sortedMap = function(mapobj) {
 }
 
 exports.test_dict = function() {
-    console.log('[js/dict]');
+    printUnit('dict');
 
     let dInfo = {};
     dInfo['name'] = 'mysql';
@@ -76,7 +87,7 @@ exports.test_dict = function() {
 }
 
 exports.test_map = function() {
-    console.log('[js/map]');
+    printUnit('map');
 
     let mapobj = new Map;
     mapobj.set('name', 'redis');
@@ -144,9 +155,9 @@ exports.getPromise = () => {
     return p;
 }
 
-exports.F = async prefix => {
+exports.F = async unit => {
     const value = await exports.getPromise();
-    console.log(`${prefix}Value[2]: ${value}`);
+    console.log(`${unit}\nValue_(2): ${value}`);
 }
 
 exports.gen = function* foo(x) {
