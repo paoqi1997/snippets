@@ -41,35 +41,6 @@ exports.test_array = function() {
     console.log(arrobj);
 }
 
-/**
- * 对传入的 Map 对象进行排序
- * @param {Map} mapobj Map对象
- */
-exports.sortMap = function(mapobj) {
-    let keys = [...mapobj.keys()];
-    keys.sort();
-
-    let sortedMapObj = new Map;
-    keys.forEach(key => {
-        sortedMapObj.set(key, mapobj.get(key));
-    });
-
-    mapobj.clear();
-    keys.forEach(key => {
-        mapobj.set(key, sortedMapObj.get(key));
-    });
-}
-
-/**
- * 根据传入的 Map 对象返回一个新的已排序的 Map 对象
- * @param {Map} mapobj Map对象
- * @return {Map} 已排序的 Map 对象
- */
-exports.sortedMap = function(mapobj) {
-    const arrayobj = Array.from(mapobj).sort();
-    return new Map(arrayobj.map( kv => [kv[0], kv[1]] ));
-}
-
 exports.test_dict = function() {
     printUnit('dict');
 
@@ -106,6 +77,35 @@ exports.test_map = function() {
         self.set(`${sKey}`, `_${sValue}`);
     });
     console.log([...mapobj.values()]);
+}
+
+/**
+ * 对传入的 Map 对象进行排序
+ * @param {Map} mapobj Map对象
+ */
+ exports.sortMap = function(mapobj) {
+    let keys = [...mapobj.keys()];
+    keys.sort();
+
+    let sortedMapObj = new Map;
+    keys.forEach(key => {
+        sortedMapObj.set(key, mapobj.get(key));
+    });
+
+    mapobj.clear();
+    keys.forEach(key => {
+        mapobj.set(key, sortedMapObj.get(key));
+    });
+}
+
+/**
+ * 根据传入的 Map 对象返回一个新的已排序的 Map 对象
+ * @param {Map} mapobj Map对象
+ * @return {Map} 已排序的 Map 对象
+ */
+exports.sortedMap = function(mapobj) {
+    const arrayobj = Array.from(mapobj).sort();
+    return new Map(arrayobj.map( kv => [kv[0], kv[1]] ));
 }
 
 /**
@@ -283,4 +283,28 @@ exports.deepcopy = obj => {
     }
 
     return res;
+}
+
+class Exception {
+    constructor(code, message) {
+        this.code = code;
+        this.message = message;
+    }
+}
+
+class NotFoundException extends Exception {
+    constructor() {
+        super(404, 'Not Found');
+    }
+}
+
+exports.test_exception = () => {
+    printUnit('exception');
+    try {
+        throw new NotFoundException();
+    } catch (e) {
+        if (e instanceof NotFoundException) {
+            console.error(e.code, e.message);
+        }
+    }
 }

@@ -121,3 +121,5 @@ const d3 = util.deepcopy(d1);
 d3[1] = '?';
 console.log(d1);
 console.log(d3);
+
+util.test_exception();
