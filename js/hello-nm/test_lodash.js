@@ -37,11 +37,22 @@ function test_uniqWith() {
     console.log(_.uniqWith(li, _.isEqual));
 }
 
+function test_concat() {
+    console.log('TEST$_.concat');
+
+    const l1 = [1, 2, 3, { a: 'aa' }];
+    const l2 = [4, 5, 6, { b: 'bb' }];
+
+    const l1_2 = _.concat(l1, l2);
+    console.log(l1_2);
+}
+
 function tests() {
     test_compact();
     test_omit();
     test_random();
     test_uniqWith();
+    test_concat();
 }
 
 tests();

@@ -127,6 +127,10 @@ function TEST_Days() {
     console.log(`Next Sunday: ${m().days(7 + 7).format(FMT_YMD_Hms)}`);
 }
 
-TEST_Transform();
-TEST_DayN();
-TEST_Days();
+function TESTS() {
+    TEST_Transform();
+    TEST_DayN();
+    TEST_Days();
+}
+
+TESTS();
