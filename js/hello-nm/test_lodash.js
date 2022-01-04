@@ -47,12 +47,25 @@ function test_concat() {
     console.log(l1_2);
 }
 
+function test_remove() {
+    console.log('TEST$_.remove');
+
+    const l = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    console.log(l);
+
+    const removedList = _.remove(l, (x) => {
+        return x % 2 === 0;
+    });
+    console.log(l, removedList);
+}
+
 function tests() {
     test_compact();
     test_omit();
     test_random();
     test_uniqWith();
     test_concat();
+    test_remove();
 }
 
 tests();
