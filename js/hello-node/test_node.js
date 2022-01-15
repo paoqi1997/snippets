@@ -2,8 +2,15 @@
 
 const mod = require('./mod');
 
-mod.getNodeVersion().then((sVersion) => {
-    console.log(sVersion);
-});
+async function main() {
+    mod.getNodeVersion().then((sVersion) => {
+        console.log(sVersion);
+    });
 
-console.log(mod.getNodeVersionSync());
+    const version = await mod.getNodeVersion();
+    console.log(version);
+
+    console.log(mod.getNodeVersionSync());
+}
+
+main();
