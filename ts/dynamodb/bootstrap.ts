@@ -17,6 +17,7 @@ export async function main(port: number) {
     const playerID = v4();
     const roleID = '002918';
     const roleName = 'paoqi';
+    const roleLevel = 24;
 
     const params: AWS.DynamoDB.CreateTableInput = {
         TableName,
@@ -75,6 +76,30 @@ export async function main(port: number) {
         console.log(`[INFO] query: ${JSON.stringify(queryResult)}`);
     } catch (err: any) {
         console.log(`[ERROR] query: ${err.message}`);
+        return;
+    }
+
+    const updateParams: AWS.DynamoDB.DocumentClient.UpdateItemInput = {
+        TableName,
+        Key: { playerID, roleID },
+        UpdateExpression: 'SET #level = :level',
+        ConditionExpression: 'attribute_exists(#id) AND #id = :id',
+        ExpressionAttributeNames: {
+            '#id': 'roleID',
+            '#level': 'roleLevel',
+        },
+        ExpressionAttributeValues: {
+            ':id': roleID,
+            ':level': roleLevel,
+        },
+        ReturnValues: 'UPDATED_NEW',
+    };
+
+    try {
+        const updateResult = await docClient.update(updateParams).promise();
+        console.log(`[INFO] update: ${JSON.stringify(updateResult)}`);
+    } catch (err: any) {
+        console.log(`[ERROR] update: ${err.message}`);
         return;
     }
 
