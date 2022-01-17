@@ -12,22 +12,23 @@ export async function main(port: number) {
 
     const dynamodb = new DynamoDB(options);
 
-    const TableName = 'PlayerName';
+    const TableName = 'Role';
 
     const playerID = v4();
-    const playerName = 'paoqi';
+    const roleID = '002918';
+    const roleName = 'paoqi';
 
     const params: AWS.DynamoDB.CreateTableInput = {
         TableName,
         KeySchema: [{
             AttributeName: 'playerID', KeyType: 'HASH',
         }, {
-            AttributeName: 'playerName', KeyType: 'RANGE',
+            AttributeName: 'roleID', KeyType: 'RANGE',
         }],
         AttributeDefinitions: [{
             AttributeName: 'playerID', AttributeType: 'S',
         }, {
-            AttributeName: 'playerName', AttributeType: 'S',
+            AttributeName: 'roleID', AttributeType: 'S',
         }],
         ProvisionedThroughput: {
             ReadCapacityUnits: 5, WriteCapacityUnits: 5,
@@ -47,7 +48,7 @@ export async function main(port: number) {
     const docClient = new DynamoDB.DocumentClient(options);
 
     const putParams: AWS.DynamoDB.DocumentClient.PutItemInput = {
-        TableName, Item: { playerID, playerName },
+        TableName, Item: { playerID, roleID, roleName },
     };
 
     try {
@@ -58,22 +59,34 @@ export async function main(port: number) {
         return;
     }
 
-    try {
-        const queryParams: AWS.DynamoDB.DocumentClient.QueryInput = {
-            TableName,
-            KeyConditionExpression: '#id = :id',
-            ExpressionAttributeNames: {
-                '#id': 'playerID'
-            },
-            ExpressionAttributeValues: {
-                ':id': playerID
-            },
-        };
+    const queryParams: AWS.DynamoDB.DocumentClient.QueryInput = {
+        TableName,
+        KeyConditionExpression: '#id = :id',
+        ExpressionAttributeNames: {
+            '#id': 'playerID',
+        },
+        ExpressionAttributeValues: {
+            ':id': playerID,
+        },
+    };
 
+    try {
         const queryResult = await docClient.query(queryParams).promise();
         console.log(`[INFO] query: ${JSON.stringify(queryResult)}`);
     } catch (err: any) {
         console.log(`[ERROR] query: ${err.message}`);
+        return;
+    }
+
+    const getParams: AWS.DynamoDB.DocumentClient.GetItemInput = {
+        TableName, Key: { playerID, roleID },
+    };
+
+    try {
+        const getResult = await docClient.get(getParams).promise();
+        console.log(`[INFO] get: ${JSON.stringify(getResult)}`);
+    } catch (err: any) {
+        console.log(`[ERROR] get: ${err.message}`);
         return;
     }
 }
