@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
  * https://stackoverflow.com/questions/55993448/async-await-is-not-working-javascript-dynamodb
  */
 export async function main(port: number) {
-    let options: AWS.DynamoDB.ClientConfiguration = {
+    const options: AWS.DynamoDB.ClientConfiguration = {
         region: 'cn-south-2',
         endpoint: `http://127.0.0.1:${port}`,
     };
