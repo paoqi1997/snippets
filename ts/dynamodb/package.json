@@ -4,7 +4,8 @@
   "description": "Use DynamoDB",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts"
+    "start": "ts-node index.ts",
+    "test-index": "ts-node test_index.ts"
   },
   "keywords": [],
   "author": "paoqi",

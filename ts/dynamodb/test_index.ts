@@ -44,6 +44,7 @@ async function main(port: number) {
         ProvisionedThroughput: {
             ReadCapacityUnits: 5, WriteCapacityUnits: 5,
         },
+        BillingMode: 'PAY_PER_REQUEST',
     };
 
     try {
