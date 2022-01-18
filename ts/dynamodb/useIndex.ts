@@ -10,6 +10,7 @@ async function main(port: number) {
     const dynamodb = new DynamoDB(options);
 
     const TableName = 'Player';
+    const IndexName = 'playerIDIndex';
 
     const serverID = v4();
     const playerID = '002918';
@@ -28,7 +29,7 @@ async function main(port: number) {
             AttributeName: 'playerID', AttributeType: 'S',
         }],
         GlobalSecondaryIndexes: [{
-            IndexName: 'playerIDIndex',
+            IndexName,
             KeySchema: [{
                 AttributeName: 'playerID',
                 KeyType: 'HASH',
@@ -62,7 +63,7 @@ async function main(port: number) {
             Player: [{
                 PutRequest: { Item: { serverID, playerID, createTime } },
             }, {
-                PutRequest: { Item: { serverID, playerID: '003574', createTime } },
+                PutRequest: { Item: { serverID, playerID: '003574', createTime: Date.now() } },
             }]
         },
         ReturnConsumedCapacity: 'TOTAL',
@@ -77,8 +78,7 @@ async function main(port: number) {
     }
 
     const queryParams: AWS.DynamoDB.DocumentClient.QueryInput = {
-        TableName,
-        IndexName: 'playerIDIndex',
+        TableName, IndexName,
         ProjectionExpression: 'serverID, playerID, createTime',
         KeyConditionExpression: '#id = :id',
         ExpressionAttributeNames: {
@@ -94,6 +94,26 @@ async function main(port: number) {
         console.log(`[INFO] query: ${JSON.stringify(queryResult)}`);
     } catch (err: any) {
         console.log(`[ERROR] query: ${err.message}`);
+        return;
+    }
+
+    const scanParams: AWS.DynamoDB.DocumentClient.ScanInput = {
+        TableName, IndexName,
+        ProjectionExpression: 'serverID, playerID, createTime',
+        FilterExpression: '#id = :id',
+        ExpressionAttributeNames: {
+            '#id': 'playerID',
+        },
+        ExpressionAttributeValues: {
+            ':id': playerID,
+        },
+    };
+
+    try {
+        const scanResult = await docClient.scan(scanParams).promise();
+        console.log(`[INFO] scan: ${JSON.stringify(scanResult)}`);
+    } catch (err: any) {
+        console.log(`[ERROR] scan: ${err.message}`);
         return;
     }
 }
