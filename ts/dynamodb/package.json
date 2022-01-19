@@ -1,7 +1,7 @@
 {
   "name": "dynamodb",
   "version": "0.1.0",
-  "description": "Use DynamoDB",
+  "description": "Learn DynamoDB",
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
