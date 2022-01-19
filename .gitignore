@@ -46,5 +46,5 @@ rust/**/target
 # Node.js modules
 node_modules
 
-# Angular application
-!ts/angular/karma.conf.js
+# Angular applications
+!ts/**/karma.conf.js
