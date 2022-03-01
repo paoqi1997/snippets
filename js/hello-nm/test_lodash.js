@@ -7,7 +7,7 @@ function test_compact() {
 
     const li = [1, undefined, 2, null, 3];
     console.log(li);
-    console.log(_.compact(li));
+    console.log(_.compact(li)); // [ 1, 2, 3 ]
 }
 
 function test_omit() {
@@ -15,14 +15,15 @@ function test_omit() {
 
     const d = { bp: 1, pq: 2 };
     console.log(d);
-    console.log(_.omit(d, 'bp'));
+    console.log(_.omit(d, 'bp')); // { pq: 2 }
 }
 
 function test_random() {
     console.log('TEST$_.random');
 
+    // [min, max]
     const val = _.random(10 ** 3, 10 ** 4 - 1, false);
-    console.log(val);
+    console.log(val); // xxxx
 }
 
 function test_uniqWith() {
@@ -30,11 +31,11 @@ function test_uniqWith() {
 
     const l = [1, 1, 2, 2, 3];
     console.log(l);
-    console.log(_.uniqWith(l, _.isEqual));
+    console.log(_.uniqWith(l, _.isEqual));  // [ 1, 2, 3 ]
 
     const li = [{ x: 1, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 3 }];
     console.log(li);
-    console.log(_.uniqWith(li, _.isEqual));
+    console.log(_.uniqWith(li, _.isEqual)); // [ { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 2, y: 3 } ]
 }
 
 function test_concat() {
@@ -44,7 +45,7 @@ function test_concat() {
     const l2 = [4, 5, 6, { b: 'bb' }];
 
     const l1_2 = _.concat(l1, l2);
-    console.log(l1_2);
+    console.log(l1_2); // [ 1, 2, 3, { a: 'aa' }, 4, 5, 6, { b: 'bb' } ]
 }
 
 function test_remove() {
@@ -56,7 +57,19 @@ function test_remove() {
     const removedList = _.remove(l, (x) => {
         return x % 2 === 0;
     });
-    console.log(l, removedList);
+    console.log(l, removedList); // [ 1, 3, 5, 7, 9 ] [ 0, 2, 4, 6, 8 ]
+}
+
+function test_filter() {
+    console.log('TEST$_.filter');
+
+    const l = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    console.log(l);
+
+    const filteredList = _.filter(l, (x) => {
+        return x % 2 === 0;
+    });
+    console.log(filteredList); // [ 0, 2, 4, 6, 8 ]
 }
 
 function tests() {
@@ -66,6 +79,7 @@ function tests() {
     test_uniqWith();
     test_concat();
     test_remove();
+    test_filter();
 }
 
 tests();
