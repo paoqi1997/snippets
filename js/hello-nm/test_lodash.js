@@ -72,6 +72,21 @@ function test_filter() {
     console.log(filteredList); // [ 0, 2, 4, 6, 8 ]
 }
 
+function test_keyBy() {
+    console.log('TEST$_.keyBy');
+
+    const l = [1, 2, 3];
+    console.log(l);
+
+    const li = l.reduce((result, x) => {
+        return [...result, { id: x }];
+    }, []);
+    console.log(li);   // [ { id: 1 }, { id: 2 }, { id: 3 } ]
+
+    const list = _.keyBy(li, 'id');
+    console.log(list); // { '1': { id: 1 }, '2': { id: 2 }, '3': { id: 3 } }
+}
+
 function tests() {
     test_compact();
     test_omit();
@@ -80,6 +95,7 @@ function tests() {
     test_concat();
     test_remove();
     test_filter();
+    test_keyBy();
 }
 
 tests();
