@@ -10,12 +10,17 @@ function test_compact() {
     console.log(_.compact(li)); // [ 1, 2, 3 ]
 }
 
-function test_omit() {
-    console.log('TEST$_.omit');
+function test_assign_omit_pick() {
+    console.log('TEST$_.assign_omit_pick');
 
-    const d = { bp: 1, pq: 2 };
-    console.log(d);
-    console.log(_.omit(d, 'bp')); // { pq: 2 }
+    const d = {};
+    const d2 = _.assign(d, { bp: 1, pq: 2 });
+
+    console.log(d);  // { bp: 1, pq: 2 }
+    console.log(d2); // { bp: 1, pq: 2 }
+
+    console.log(_.omit(d, 'pq')); // { bp: 1 }
+    console.log(_.pick(d, 'pq')); // { pq: 2 }
 }
 
 function test_random() {
@@ -89,7 +94,7 @@ function test_keyBy() {
 
 function tests() {
     test_compact();
-    test_omit();
+    test_assign_omit_pick();
     test_random();
     test_uniqWith();
     test_concat();
