@@ -28,7 +28,7 @@ exports.test_list = function() {
 exports.test_array = function() {
     printUnit('array');
 
-    const arrobj = new Array;
+    const arrobj = Array();
     arrobj.push(1, 2, 3);
 
     for (const pair of arrobj.entries()) {
