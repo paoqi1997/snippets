@@ -15,7 +15,7 @@ export async function main(port: number) {
     const TableName = 'Role';
 
     // 创建表
-    const params: AWS.DynamoDB.CreateTableInput = {
+    const createTableParams: AWS.DynamoDB.CreateTableInput = {
         TableName,
         KeySchema: [{
             AttributeName: 'playerID', KeyType: 'HASH',
@@ -33,7 +33,7 @@ export async function main(port: number) {
     };
 
     try {
-        const createTableResult = await dynamodb.createTable(params).promise();
+        const createTableResult = await dynamodb.createTable(createTableParams).promise();
         console.log(`[INFO] createTable: ${JSON.stringify(createTableResult)}`);
     } catch (e: any) {
         const err: AWSError = e;

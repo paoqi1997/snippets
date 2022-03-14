@@ -5,6 +5,7 @@
 import { argv } from 'process';
 
 import * as _ from 'lodash';
+import AWS from 'aws-sdk';
 import { AWSError, DynamoDB } from 'aws-sdk';
 import { v4 } from 'uuid';
 
@@ -14,12 +15,14 @@ async function main(port: number) {
         endpoint: `http://127.0.0.1:${port}`,
     };
 
-    const dynamodb = new DynamoDB(options);
+    AWS.config.update(options);
+
+    const dynamodb = new DynamoDB();
 
     const TableName = 'Timer';
 
     // 创建表
-    const params: AWS.DynamoDB.CreateTableInput = {
+    const createTableParams: AWS.DynamoDB.CreateTableInput = {
         TableName,
         KeySchema: [{
             AttributeName: 'timerID', KeyType: 'HASH',
@@ -33,7 +36,7 @@ async function main(port: number) {
     };
 
     try {
-        const createTableResult = await dynamodb.createTable(params).promise();
+        const createTableResult = await dynamodb.createTable(createTableParams).promise();
         console.log(`[INFO] createTable: ${JSON.stringify(createTableResult)}`);
     } catch (e: any) {
         const err: AWSError = e;
@@ -71,7 +74,7 @@ async function main(port: number) {
         }
     }
 
-    const docClient = new DynamoDB.DocumentClient(options);
+    const docClient = new DynamoDB.DocumentClient();
 
     // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/time-to-live-ttl-how-to.html
     const now = Math.floor(Date.now() / 1000);

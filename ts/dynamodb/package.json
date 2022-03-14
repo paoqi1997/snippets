@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
-    "test-index": "ts-node test_index.ts"
+    "test-index": "ts-node test_index.ts",
+    "test-ttl": "ts-node test_ttl.ts"
   },
   "keywords": [],
   "author": "paoqi",
