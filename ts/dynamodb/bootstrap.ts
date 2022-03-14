@@ -1,4 +1,4 @@
-import { DynamoDB } from 'aws-sdk';
+import { AWSError, DynamoDB } from 'aws-sdk';
 import { v4 } from 'uuid';
 
 /**
@@ -14,11 +14,7 @@ export async function main(port: number) {
 
     const TableName = 'Role';
 
-    const playerID = v4();
-    const roleID = '002918';
-    const roleName = 'paoqi';
-    const roleLevel = 24;
-
+    // 创建表
     const params: AWS.DynamoDB.CreateTableInput = {
         TableName,
         KeySchema: [{
@@ -39,15 +35,26 @@ export async function main(port: number) {
     try {
         const createTableResult = await dynamodb.createTable(params).promise();
         console.log(`[INFO] createTable: ${JSON.stringify(createTableResult)}`);
-    } catch (err: any) {
-        if (err && err.code && err.code !== 'ResourceInUseException') {
-            console.log(`[ERROR] createTable: ${err.message}`);
-            return;
+    } catch (e: any) {
+        const err: AWSError = e;
+        if (err && err.code) {
+            if (err.code === 'ResourceInUseException') {
+                console.log(`[WARN] createTable: ${err.message}`);
+            } else {
+                console.log(`[ERROR] createTable: ${err.message}`);
+                return;
+            }
         }
     }
 
     const docClient = new DynamoDB.DocumentClient(options);
 
+    const playerID = v4();
+    const roleID = '002918';
+    const roleName = 'paoqi';
+    const roleLevel = 24;
+
+    // 增
     const putParams: AWS.DynamoDB.DocumentClient.PutItemInput = {
         TableName, Item: { playerID, roleID, roleName },
     };
@@ -60,25 +67,21 @@ export async function main(port: number) {
         return;
     }
 
-    const queryParams: AWS.DynamoDB.DocumentClient.QueryInput = {
-        TableName,
-        KeyConditionExpression: '#id = :id',
-        ExpressionAttributeNames: {
-            '#id': 'playerID',
-        },
-        ExpressionAttributeValues: {
-            ':id': playerID,
-        },
+    // 取
+    const getParams: AWS.DynamoDB.DocumentClient.GetItemInput = {
+        TableName, Key: { playerID, roleID },
     };
 
     try {
-        const queryResult = await docClient.query(queryParams).promise();
-        console.log(`[INFO] query: ${JSON.stringify(queryResult)}`);
-    } catch (err: any) {
-        console.log(`[ERROR] query: ${err.message}`);
+        const getResult = await docClient.get(getParams).promise();
+        console.log(`[INFO] get: ${JSON.stringify(getResult)}`);
+    } catch (e: any) {
+        const err: AWSError = e;
+        console.log(`[ERROR] get: ${err.message}`);
         return;
     }
 
+    // 改
     const updateParams: AWS.DynamoDB.DocumentClient.UpdateItemInput = {
         TableName,
         Key: { playerID, roleID },
@@ -98,20 +101,58 @@ export async function main(port: number) {
     try {
         const updateResult = await docClient.update(updateParams).promise();
         console.log(`[INFO] update: ${JSON.stringify(updateResult)}`);
-    } catch (err: any) {
+    } catch (e: any) {
+        const err: AWSError = e;
         console.log(`[ERROR] update: ${err.message}`);
         return;
     }
 
-    const getParams: AWS.DynamoDB.DocumentClient.GetItemInput = {
-        TableName, Key: { playerID, roleID },
+    // 查
+    const queryParams: AWS.DynamoDB.DocumentClient.QueryInput = {
+        TableName,
+        KeyConditionExpression: '#id = :id',
+        ExpressionAttributeNames: {
+            '#id': 'playerID',
+        },
+        ExpressionAttributeValues: {
+            ':id': playerID,
+        },
     };
 
     try {
-        const getResult = await docClient.get(getParams).promise();
-        console.log(`[INFO] get: ${JSON.stringify(getResult)}`);
-    } catch (err: any) {
-        console.log(`[ERROR] get: ${err.message}`);
+        const queryResult = await docClient.query(queryParams).promise();
+        console.log(`[INFO] query: ${JSON.stringify(queryResult)}`);
+    } catch (e: any) {
+        const err: AWSError = e;
+        console.log(`[ERROR] query: ${err.message}`);
+        return;
+    }
+
+    // 删
+    const deleteParams: AWS.DynamoDB.DocumentClient.DeleteItemInput = {
+        TableName,
+        Key: { playerID, roleID },
+        ReturnValues: 'ALL_OLD',
+    };
+
+    try {
+        const deleteResult = await docClient.delete(deleteParams).promise();
+        console.log(`[INFO] delete: ${JSON.stringify(deleteResult)}`);
+    } catch (e: any) {
+        const err: AWSError = e;
+        console.log(`[ERROR] delete: ${err.message}`);
+        return;
+    }
+
+    // 删除表
+    const deleteTableParams: AWS.DynamoDB.DeleteTableInput = { TableName };
+
+    try {
+        const deleteTableResult = await dynamodb.deleteTable(deleteTableParams).promise();
+        console.log(`[INFO] deleteTable: ${JSON.stringify(deleteTableResult)}`);
+    } catch (e: any) {
+        const err: AWSError = e;
+        console.log(`[ERROR] deleteTable: ${err.message}`);
         return;
     }
 }

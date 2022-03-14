@@ -1,4 +1,11 @@
-import { DynamoDB } from 'aws-sdk';
+/**
+ * 使用索引
+ */
+
+import { argv } from 'process';
+
+import * as _ from 'lodash';
+import { AWSError, DynamoDB } from 'aws-sdk';
 import { v4 } from 'uuid';
 
 async function main(port: number) {
@@ -12,10 +19,7 @@ async function main(port: number) {
     const TableName = 'Player';
     const IndexName = 'playerIDIndex';
 
-    const serverID = v4();
-    const playerID = '002918';
-    const createTime = Date.now();
-
+    // 创建表
     const params: AWS.DynamoDB.CreateTableInput = {
         TableName,
         KeySchema: [{
@@ -35,7 +39,7 @@ async function main(port: number) {
                 KeyType: 'HASH',
             }],
             Projection: {
-                ProjectionType: 'KEYS_ONLY',
+                ProjectionType: 'ALL',
             },
             ProvisionedThroughput: {
                 ReadCapacityUnits: 5, WriteCapacityUnits: 5,
@@ -50,15 +54,25 @@ async function main(port: number) {
     try {
         const createTableResult = await dynamodb.createTable(params).promise();
         console.log(`[INFO] createTable: ${JSON.stringify(createTableResult)}`);
-    } catch (err: any) {
-        if (err && err.code && err.code !== 'ResourceInUseException') {
-            console.log(`[ERROR] createTable: ${err.message}`);
-            return;
+    } catch (e: any) {
+        const err: AWSError = e;
+        if (err && err.code) {
+            if (err.code === 'ResourceInUseException') {
+                console.log(`[WARN] createTable: ${err.message}`);
+            } else {
+                console.log(`[ERROR] createTable: ${err.message}`);
+                return;
+            }
         }
     }
 
     const docClient = new DynamoDB.DocumentClient(options);
 
+    const serverID = v4();
+    const playerID = '002918';
+    const createTime = Date.now();
+
+    // 批量写入
     const batchWriteParams: AWS.DynamoDB.DocumentClient.BatchWriteItemInput = {
         RequestItems: {
             Player: [{
@@ -73,11 +87,13 @@ async function main(port: number) {
     try {
         const batchWriteResult = await docClient.batchWrite(batchWriteParams).promise();
         console.log(`[INFO] batchWrite: ${JSON.stringify(batchWriteResult)}`);
-    } catch (err: any) {
+    } catch (e: any) {
+        const err: AWSError = e;
         console.log(`[ERROR] batchWrite: ${err.message}`);
         return;
     }
 
+    // 查
     const queryParams: AWS.DynamoDB.DocumentClient.QueryInput = {
         TableName, IndexName,
         ProjectionExpression: 'serverID, playerID, createTime',
@@ -93,11 +109,12 @@ async function main(port: number) {
     try {
         const queryResult = await docClient.query(queryParams).promise();
         console.log(`[INFO] query: ${JSON.stringify(queryResult)}`);
-    } catch (err: any) {
-        console.log(`[ERROR] query: ${err.message}`);
-        return;
+    } catch (e: any) {
+        const err: AWSError = e;
+        console.log(`[ERROR] query: ${JSON.stringify(err)} ${err.message}`);
     }
 
+    // 扫描
     const scanParams: AWS.DynamoDB.DocumentClient.ScanInput = {
         TableName, IndexName,
         ProjectionExpression: 'serverID, playerID, createTime',
@@ -113,10 +130,25 @@ async function main(port: number) {
     try {
         const scanResult = await docClient.scan(scanParams).promise();
         console.log(`[INFO] scan: ${JSON.stringify(scanResult)}`);
-    } catch (err: any) {
+    } catch (e: any) {
+        const err: AWSError = e;
         console.log(`[ERROR] scan: ${err.message}`);
+    }
+
+    // 删除表
+    const deleteTableParams: AWS.DynamoDB.DeleteTableInput = { TableName };
+
+    try {
+        const deleteTableResult = await dynamodb.deleteTable(deleteTableParams).promise();
+        console.log(`[INFO] deleteTable: ${JSON.stringify(deleteTableResult)}`);
+    } catch (e: any) {
+        const err: AWSError = e;
+        console.log(`[ERROR] deleteTable: ${err.message}`);
         return;
     }
 }
 
-main(8000);
+const args = _.drop(argv, 2);
+const port = args.length === 0 ? 8000 : Number(args[0]);
+
+main(port);
