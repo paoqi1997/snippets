@@ -35,28 +35,33 @@ async function main(port: number) {
         }, {
             AttributeName: 'createTime', AttributeType: 'N',
         }],
+        // gsi
         GlobalSecondaryIndexes: [{
             IndexName: gsiName,
             KeySchema: [{
+                // 索引投影到 playerID 中，与其他 playerID 对应的索引区分开来
                 AttributeName: 'playerID', KeyType: 'HASH',
             }],
             Projection: {
+                // 索引会与条目的所有属性建立关联
                 ProjectionType: 'ALL',
             },
             ProvisionedThroughput: {
                 ReadCapacityUnits: 5, WriteCapacityUnits: 5,
             },
         }],
+        // lsi
         LocalSecondaryIndexes: [{
             IndexName: lsiName,
             KeySchema: [{
+                // lsi 的 HASH 键必须与表的分区键保持一致
                 AttributeName: 'serverID', KeyType: 'HASH',
             }, {
                 AttributeName: 'createTime', KeyType: 'RANGE',
             }],
             Projection: {
                 ProjectionType: 'ALL',
-            }
+            },
         }],
         ProvisionedThroughput: {
             ReadCapacityUnits: 5, WriteCapacityUnits: 5,
@@ -94,7 +99,7 @@ async function main(port: number) {
                 PutRequest: { Item: { serverID, playerID, createTime } },
             }, {
                 PutRequest: { Item: { serverID, playerID: '003574', createTime: now + 1 } },
-            }]
+            }],
         },
         ReturnConsumedCapacity: 'TOTAL',
     };
