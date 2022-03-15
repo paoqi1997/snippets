@@ -17,7 +17,8 @@ async function main(port: number) {
     const dynamodb = new DynamoDB(options);
 
     const TableName = 'Player';
-    const IndexName = 'playerIDIndex';
+    const gsiName = 'playerIDIndex';
+    const lsiName = 'createTimeIndex';
 
     // 创建表
     const createTableParams: AWS.DynamoDB.CreateTableInput = {
@@ -31,12 +32,13 @@ async function main(port: number) {
             AttributeName: 'serverID', AttributeType: 'S',
         }, {
             AttributeName: 'playerID', AttributeType: 'S',
+        }, {
+            AttributeName: 'createTime', AttributeType: 'N',
         }],
         GlobalSecondaryIndexes: [{
-            IndexName,
+            IndexName: gsiName,
             KeySchema: [{
-                AttributeName: 'playerID',
-                KeyType: 'HASH',
+                AttributeName: 'playerID', KeyType: 'HASH',
             }],
             Projection: {
                 ProjectionType: 'ALL',
@@ -44,6 +46,17 @@ async function main(port: number) {
             ProvisionedThroughput: {
                 ReadCapacityUnits: 5, WriteCapacityUnits: 5,
             },
+        }],
+        LocalSecondaryIndexes: [{
+            IndexName: lsiName,
+            KeySchema: [{
+                AttributeName: 'serverID', KeyType: 'HASH',
+            }, {
+                AttributeName: 'createTime', KeyType: 'RANGE',
+            }],
+            Projection: {
+                ProjectionType: 'ALL',
+            }
         }],
         ProvisionedThroughput: {
             ReadCapacityUnits: 5, WriteCapacityUnits: 5,
@@ -68,9 +81,11 @@ async function main(port: number) {
 
     const docClient = new DynamoDB.DocumentClient(options);
 
+    const now = Math.floor(Date.now() / 1000);
+
     const serverID = v4();
     const playerID = '002918';
-    const createTime = Date.now();
+    const createTime = now;
 
     // 批量写入
     const batchWriteParams: AWS.DynamoDB.DocumentClient.BatchWriteItemInput = {
@@ -78,7 +93,7 @@ async function main(port: number) {
             Player: [{
                 PutRequest: { Item: { serverID, playerID, createTime } },
             }, {
-                PutRequest: { Item: { serverID, playerID: '003574', createTime: Date.now() } },
+                PutRequest: { Item: { serverID, playerID: '003574', createTime: now + 1 } },
             }]
         },
         ReturnConsumedCapacity: 'TOTAL',
@@ -95,7 +110,7 @@ async function main(port: number) {
 
     // 查
     const queryParams: AWS.DynamoDB.DocumentClient.QueryInput = {
-        TableName, IndexName,
+        TableName, IndexName: gsiName,
         ProjectionExpression: 'serverID, playerID, createTime',
         KeyConditionExpression: '#id = :id',
         ExpressionAttributeNames: {
@@ -116,14 +131,14 @@ async function main(port: number) {
 
     // 扫描
     const scanParams: AWS.DynamoDB.DocumentClient.ScanInput = {
-        TableName, IndexName,
+        TableName, IndexName: lsiName,
         ProjectionExpression: 'serverID, playerID, createTime',
-        FilterExpression: '#id = :id',
+        FilterExpression: '#ct = :ct',
         ExpressionAttributeNames: {
-            '#id': 'playerID',
+            '#ct': 'createTime',
         },
         ExpressionAttributeValues: {
-            ':id': playerID,
+            ':ct': createTime,
         },
     };
 
