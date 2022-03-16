@@ -145,6 +145,7 @@ async function main(port: number) {
         ExpressionAttributeValues: {
             ':ct': createTime,
         },
+        Select: 'SPECIFIC_ATTRIBUTES',
     };
 
     try {
