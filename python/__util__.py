@@ -19,6 +19,8 @@ class Student:
         return f'{stu.m_Name}_{stu.m_ID}'
 
 def test_xxxals():
+    print('[py/(filter and others)]')
+
     lstn = list(range(10))
     lstnewn = list(filter(lambda x: x % 2 != 0, lstn))
     print(lstnewn)
@@ -27,6 +29,8 @@ def test_xxxals():
     print(f'globals: {globals()}')
 
 def test_copy_dict():
+    print('[py/copy]')
+
     dInfo = {
         'name': 'mysql',
         'version': '8.0.19'
@@ -42,6 +46,8 @@ def test_copy_dict():
     print(dInfo)
 
 def test_deepcopy_dict():
+    print('[py/deepcopy]')
+
     dLang = {
         'name': 'C++',
         'os': [ 'windows', 'linux', 'macos' ],
@@ -65,7 +71,7 @@ def open_r(filepath: str):
     print(sLine)
 
     try:
-        oFile = open(filepath, 'r')
+        oFile = open(filepath, 'r', encoding='utf-8')
         yield oFile
     except FileNotFoundError:
         print(f'{filepath} not found.')
