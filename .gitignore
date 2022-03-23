@@ -39,6 +39,7 @@ __pycache__
 *.tags
 ts/**/*.js
 rust/**/target
+python/part1/output.ini
 
 # Go files
 !go.mod
