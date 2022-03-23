@@ -8,6 +8,8 @@ def sTime():
     return time.strftime('%Y-%m-%d %H:%M:%S', oTimeStruct)
 
 def test_scheduler():
+    print('[test.scheduler]')
+
     def call1():
         print('%s new1Second'%sTime())
 
