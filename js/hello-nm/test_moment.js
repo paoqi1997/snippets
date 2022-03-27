@@ -28,6 +28,63 @@ function StrToInt13(s) {
 }
 
 /**
+ * 获取给定时间的当天零点时间
+ * @param {number} timestamp 毫秒级时间戳
+ * @returns {m.Moment} Moment 对象
+ */
+function getMomentOfZeroTime(timestamp) {
+    const mobj = timestamp ? m(timestamp) : m();
+    const YMD = mobj.format(FMT_YMD);
+    return m(`${YMD} 00:00:00`);
+}
+
+/**
+ * 获取本周一的时间
+ * @param {number} timestamp 毫秒级时间戳
+ * @returns {m.Moment} Moment 对象
+ */
+function getMomentOfMonday(timestamp) {
+    const mobj = timestamp ? m(timestamp) : m();
+    const ts = mobj.valueOf();
+
+    const weekday = mobj.days();
+    if (weekday === 0) {
+        return m(ts - 6 * SECS_1_DAY * 1000);
+    } else {
+        return m(ts - (weekday - 1) * SECS_1_DAY * 1000);
+    }
+}
+
+/**
+ * 获取本周指定星期的时间
+ * @param {string} day 星期几
+ * @param {number} timestamp 毫秒级时间戳
+ * @returns {m.Moment} Moment 对象
+ */
+function getMomentOfThisWeek(day, timestamp) {
+    const mobj = getMomentOfMonday(timestamp);
+
+    switch (day) {
+    case 'Mon':
+        return mobj;
+    case 'Tue':
+        return m(mobj.valueOf() + SECS_1_DAY * 1000);
+    case 'Wed':
+        return m(mobj.valueOf() + 2 * SECS_1_DAY * 1000);
+    case 'Thu':
+        return m(mobj.valueOf() + 3 * SECS_1_DAY * 1000);
+    case 'Fri':
+        return m(mobj.valueOf() + 4 * SECS_1_DAY * 1000);
+    case 'Sat':
+        return m(mobj.valueOf() + 5 * SECS_1_DAY * 1000);
+    case 'Sun':
+        return m(mobj.valueOf() + 6 * SECS_1_DAY * 1000);
+    default:
+        throw new Error('Invalid day');
+    }
+}
+
+/**
  * 给定时间是否不早于当天指定时分秒的时间
  * @param {number} timestamp 毫秒级时间戳
  * @param {string} Hms 时分秒
@@ -156,6 +213,45 @@ function TEST_Days() {
     console.log(`Next Sunday: ${m().days(7 + 7).format(FMT_YMD_Hms)}`);
 }
 
+function TEST_DaysV2() {
+    console.log('[TEST_DaysV2]');
+
+    console.log('getMomentOfZeroTime:');
+
+    console.log(getMomentOfZeroTime().format(FMT_YMD_Hms));
+
+    console.log('getTimeTextOfMonday:');
+
+    const getTimeTextOfMonday = (timeText) => {
+        const timestamp = m(timeText).valueOf();
+        return getMomentOfMonday(timestamp).format(FMT_YMD_Hms);
+    }
+
+    console.log(getTimeTextOfMonday('2022-03-25 00:00:00'));
+    console.log(getTimeTextOfMonday('2022-03-26 00:00:00'));
+    console.log(getTimeTextOfMonday('2022-03-27 00:00:00'));
+    console.log(getTimeTextOfMonday('2022-03-28 00:00:00'));
+    console.log(getTimeTextOfMonday('2022-03-29 00:00:00'));
+    console.log(getTimeTextOfMonday('2022-03-30 00:00:00'));
+    console.log(getTimeTextOfMonday('2022-03-31 00:00:00'));
+
+    console.log('getTimeTextOfDay:');
+
+    const timestamp = m().valueOf();
+
+    const getTimeTextOfDay = (day, timestamp) => {
+        return getMomentOfThisWeek(day, timestamp).format(FMT_YMD_Hms);
+    }
+
+    console.log(getTimeTextOfDay('Mon', timestamp));
+    console.log(getTimeTextOfDay('Tue', timestamp));
+    console.log(getTimeTextOfDay('Wed', timestamp));
+    console.log(getTimeTextOfDay('Thu', timestamp));
+    console.log(getTimeTextOfDay('Fri', timestamp));
+    console.log(getTimeTextOfDay('Sat', timestamp));
+    console.log(getTimeTextOfDay('Sun', timestamp));
+}
+
 function TEST_ThisDay() {
     console.log('[TEST_ThisDay]');
 
@@ -169,6 +265,7 @@ function TESTS() {
     TEST_Transform();
     TEST_DayN();
     TEST_Days();
+    TEST_DaysV2();
     TEST_ThisDay();
 }
 
