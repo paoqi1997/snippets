@@ -12,7 +12,7 @@ exports.getUnit = getUnit;
 exports.printUnit = printUnit;
 
 exports.test_list = function() {
-    printUnit('list');
+    printUnit('list/push+pop');
 
     const li = [];
     li.push(1, 2, 3);
@@ -23,6 +23,23 @@ exports.test_list = function() {
 
     li.pop();
     console.log(li);
+
+    printUnit('list/sort+map');
+
+    const l1 = [{ seq: 1, c: 'a' }, { seq: 3, c: 'c' }, { seq: 2, c: 'b' }];
+    const l2 = l1.sort((x, y) => x.seq - y.seq);
+
+    console.log(l1);
+    console.log(l2);
+
+    const cc = l1.map((x) => x.c);
+    console.log(cc);
+
+    printUnit('list/filter');
+
+    const filteredCC = cc.filter((c) => c !== 'c');
+    console.log(filteredCC);
+    console.log(cc);
 }
 
 exports.test_array = function() {
