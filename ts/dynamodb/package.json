@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node index.ts",
     "test-index": "ts-node test_index.ts",
-    "test-ttl": "ts-node test_ttl.ts"
+    "test-ttl": "ts-node test_ttl.ts",
+    "test-partiql": "ts-node test_partiql.ts"
   },
   "keywords": [],
   "author": "paoqi",
