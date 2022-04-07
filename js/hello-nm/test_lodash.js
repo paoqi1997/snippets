@@ -26,9 +26,19 @@ function test_assign_omit_pick() {
 function test_random() {
     console.log('TEST$_.random');
 
-    // [min, max]
-    const val = _.random(10 ** 3, 10 ** 4 - 1, false);
-    console.log(val); // xxxx
+    let val;
+
+    // [0, 1]
+    val = _.random();
+    console.log(val);
+
+    // [0, 999]
+    val = _.random(10 ** 3 - 1);
+    console.log(val);
+
+    // [1000, 9999]
+    val = _.random(10 ** 3, 10 ** 4 - 1);
+    console.log(val);
 }
 
 function test_uniqWith() {
