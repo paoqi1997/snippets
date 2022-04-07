@@ -162,6 +162,7 @@ function tests() {
     test_isType();
 
     util.test_exception();
+    util.test_hashCode();
 }
 
 tests();

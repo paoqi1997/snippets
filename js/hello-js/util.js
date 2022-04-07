@@ -317,6 +317,7 @@ class NotFoundException extends Exception {
 
 exports.test_exception = () => {
     printUnit('exception');
+
     try {
         throw new NotFoundException();
     } catch (e) {
@@ -324,4 +325,26 @@ exports.test_exception = () => {
             console.error(e.code, e.message);
         }
     }
+}
+
+String.prototype.hashCode = function() {
+    let hash = 0;
+
+    for (let i = 0; i < this.length; ++i) {
+        const ord = this.charCodeAt(i);
+        hash = ((hash << 5) - hash) + ord;
+        hash |= 0; // Convert to 32bit integer
+    }
+
+    return Math.abs(hash);
+}
+
+exports.test_hashCode = () => {
+    printUnit('hashCode');
+
+    const s = 'a8a43e0d-7e29-4fff-88bc-16d2cf8bfba6';
+    const hc = s.hashCode();
+
+    console.log(hc);
+    console.log(hc % 10);
 }
