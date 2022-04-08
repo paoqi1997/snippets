@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * https://www.lodashjs.com
+ */
 const _ = require('lodash');
 
 function test_compact() {

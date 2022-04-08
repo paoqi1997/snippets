@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * http://nodejs.cn
+ */
 const mod = require('./mod');
 
 async function main() {

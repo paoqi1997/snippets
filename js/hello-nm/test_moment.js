@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * http://momentjs.cn
+ */
 const m = require('moment');
 
 const FMT_YMD_Hms = 'YYYY-MM-DD HH:mm:ss';
