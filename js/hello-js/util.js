@@ -348,3 +348,17 @@ exports.test_hashCode = () => {
     console.log(hc);
     console.log(hc % 10);
 }
+
+exports.test_matchRoute = () => {
+    printUnit('matchRoute');
+
+    const route = '/gm';
+    const regex = RegExp(`^${route}($|[?]{1})`);
+
+    console.log(regex);
+    console.log(regex.test('/g'));       // false
+    console.log(regex.test('/gm'));      // true
+    console.log(regex.test('/gm?'));     // true
+    console.log(regex.test('/gm?cmd=')); // true
+    console.log(regex.test('/gmcheat')); // false
+}

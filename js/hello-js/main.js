@@ -163,6 +163,7 @@ function tests() {
 
     util.test_exception();
     util.test_hashCode();
+    util.test_matchRoute();
 }
 
 tests();
