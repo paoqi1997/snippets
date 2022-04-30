@@ -1,22 +1,18 @@
-import { promisify } from 'util';
+import { promises as fs } from 'fs';
 
-import fs from 'fs';
 import path from 'path';
 
 import Redis from 'ioredis';
 import m from 'moment';
 
-const readFile = promisify(fs.readFile);
-const fsPromises = fs.promises;
-
 async function main() {
     const scriptPath = path.join(__dirname, 'script.lua');
-    const script = await readFile(scriptPath);
+    const script = await fs.readFile(scriptPath);
+
+    const redis = new Redis();
 
     const key = 'queue';
     const data = m().format('YYYY-MM-DD HH:mm:ss');
-
-    const redis = new Redis();
 
     const evalResult = await redis.eval(script, 1, key, 10, data);
     console.log(evalResult);
