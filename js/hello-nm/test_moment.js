@@ -38,7 +38,7 @@ function StrToInt13(s) {
 function getMomentOfZeroTime(timestamp) {
     const mobj = timestamp ? m(timestamp) : m();
     const YMD = mobj.format(FMT_YMD);
-    return m(`${YMD} 00:00:00`);
+    return m(YMD);
 }
 
 /**
@@ -230,13 +230,13 @@ function TEST_DaysV2() {
         return getMomentOfMonday(timestamp).format(FMT_YMD_Hms);
     }
 
-    console.log(getTimeTextOfMonday('2022-03-25 00:00:00'));
-    console.log(getTimeTextOfMonday('2022-03-26 00:00:00'));
-    console.log(getTimeTextOfMonday('2022-03-27 00:00:00'));
-    console.log(getTimeTextOfMonday('2022-03-28 00:00:00'));
-    console.log(getTimeTextOfMonday('2022-03-29 00:00:00'));
-    console.log(getTimeTextOfMonday('2022-03-30 00:00:00'));
-    console.log(getTimeTextOfMonday('2022-03-31 00:00:00'));
+    console.log(getTimeTextOfMonday('2022-03-25'));
+    console.log(getTimeTextOfMonday('2022-03-26'));
+    console.log(getTimeTextOfMonday('2022-03-27'));
+    console.log(getTimeTextOfMonday('2022-03-28'));
+    console.log(getTimeTextOfMonday('2022-03-29'));
+    console.log(getTimeTextOfMonday('2022-03-30'));
+    console.log(getTimeTextOfMonday('2022-03-31'));
 
     console.log('getTimeTextOfDay:');
 
@@ -264,12 +264,24 @@ function TEST_ThisDay() {
     console.log(getStartAndEndOfThisDay(now, '22:00:00'));
 }
 
+function TEST_Birthdate() {
+    console.log('[TEST_Birthdate]');
+
+    console.log(m('1999-12-31 23:59:59').diff(m('1999-01-01 00:00:00'), 'years'));
+    console.log(m('2000-01-01 00:00:00').diff(m('1999-01-01 00:00:01'), 'years'));
+    console.log(m('2000-01-01 00:00:01').diff(m('1999-01-01 00:00:01'), 'years'));
+
+    console.log(m().diff(m('1949-10-01'), 'years'));
+    console.log(m().diff(m('1945-08-15'), 'years'));
+}
+
 function TESTS() {
     TEST_Transform();
     TEST_DayN();
     TEST_Days();
     TEST_DaysV2();
     TEST_ThisDay();
+    TEST_Birthdate();
 }
 
 TESTS();
