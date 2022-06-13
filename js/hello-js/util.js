@@ -362,3 +362,10 @@ exports.test_matchRoute = () => {
     console.log(regex.test('/gm?cmd=')); // true
     console.log(regex.test('/gmcheat')); // false
 }
+
+exports.test_removeSpaces = () => {
+    printUnit('removeSpaces');
+
+    const s = 'abc, xyz, 123';
+    console.log(s.replace(/\s/g, '').split(','));
+}
