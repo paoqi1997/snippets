@@ -105,6 +105,34 @@ function test_keyBy() {
     console.log(list); // { '1': { id: 1 }, '2': { id: 2 }, '3': { id: 3 } }
 }
 
+function test_findIndex() {
+    console.log('TEST$_.findIndex');
+
+    const l1 = [
+        { name: 'cabbage', count: 10 },
+        { name: 'cucumber', count: 20 }
+    ];
+    const l2 = [
+        { name: 'cabbage', count: 20 },
+        { name: 'cucumber', count: 10 },
+        { name: 'tomato', count: 30 }
+    ];
+
+    for (const element of l2) {
+        const idx = _.findIndex(l1, (x) => {
+            return x.name === element.name;
+        });
+
+        if (idx === -1) {
+            l1.push(element);
+        } else {
+            l1[idx].count += element.count;
+        }
+    }
+
+    console.log(l1);
+}
+
 function tests() {
     test_compact();
     test_assign_omit_pick();
@@ -114,6 +142,7 @@ function tests() {
     test_remove();
     test_filter();
     test_keyBy();
+    test_findIndex();
 }
 
 tests();
