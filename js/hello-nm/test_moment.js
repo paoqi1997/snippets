@@ -5,9 +5,10 @@
  */
 const m = require('moment');
 
-const FMT_YMD_Hms = 'YYYY-MM-DD HH:mm:ss';
-const FMT_YMD     = 'YYYY-MM-DD';
-const FMT_Hms     = 'HH:mm:ss';
+const FMT_YMD_Hms_ZZ = 'YYYY-MM-DD HH:mm:ss ZZ';
+const FMT_YMD_Hms    = 'YYYY-MM-DD HH:mm:ss';
+const FMT_YMD        = 'YYYY-MM-DD';
+const FMT_Hms        = 'HH:mm:ss';
 
 const SECS_1_MINUTE = 60;
 const SECS_1_HOUR   = 3600;
@@ -28,6 +29,10 @@ function Int13ToStr(timestamp) {
 
 function StrToInt13(s) {
     return m(s).valueOf();
+}
+
+function Hms2Secs(Hms) {
+    return m(`1970-01-01 ${Hms}`).diff(m('1970-01-01'), 'seconds');
 }
 
 /**
@@ -170,6 +175,36 @@ function getStartAndEndOfThisDay(timestamp, Hms) {
     };
 }
 
+/**
+ * 以指定时分秒为分界线，获取给定时间这一天的开始及结束时间
+ * @param {number} timestamp 秒级时间戳
+ * @param {string} Hms 时分秒
+ * @param {number} zone 时区
+ * @returns 开始和结束时间
+ */
+function getStartAndEndOfThisDayV2(timestamp, Hms, zone = 9) {
+    const m1 = m(timestamp * 1000).utcOffset(zone);
+
+    const duration = Hms2Secs(Hms);
+
+    const m2 = m1.startOf('day').add(duration, 'seconds');
+
+    console.debug(`[DEBUG] ${m2.format(FMT_YMD_Hms_ZZ)}`);
+
+    const ts = m2.unix();
+    const earlier = timestamp < ts;
+
+    const startTimestamp = earlier ? ts - SECS_1_DAY : ts;
+    const endTimestamp = earlier ? ts : ts + SECS_1_DAY;
+
+    return {
+        startTimestamp,
+        startTimeText: m(startTimestamp * 1000).format(FMT_YMD_Hms_ZZ),
+        endTimestamp,
+        endTimeText: m(endTimestamp * 1000).format(FMT_YMD_Hms_ZZ),
+    };
+}
+
 function TEST_Transform() {
     console.log('[TEST_Transform]');
 
@@ -262,6 +297,9 @@ function TEST_ThisDay() {
 
     console.log(getStartAndEndOfThisDay(now, '06:00:00'));
     console.log(getStartAndEndOfThisDay(now, '22:00:00'));
+
+    console.log(getStartAndEndOfThisDayV2(now, '06:00:00'));
+    console.log(getStartAndEndOfThisDayV2(now, '22:00:00'));
 }
 
 function TEST_Birthdate() {
