@@ -2,10 +2,11 @@
 
 from collections import OrderedDict
 from functools import partial
-from platform import system
 
+import atexit
 import copy
 import os
+import platform
 import sys
 
 import __util__ as ut
@@ -42,7 +43,7 @@ def test_partial():
 def test_contextmanager():
     print('[py/contextmanager]')
 
-    if system() == 'Windows':
+    if platform.system() == 'Windows':
         sFilePath = 'C:\\Windows\\System32\\drivers\\etc\\hosts'
     else:
         sFilePath = os.path.join(sys.path[0], __file__)
@@ -84,6 +85,11 @@ def test_merge_delWith():
     print(f'd2: {d2}')
     ut.delWith(d2, { 'd': { 'k1': '?' } })
     print(f'd2: {d2}')
+
+@atexit.register
+def test_atexit():
+    print('[py/atexit]')
+    print('You are now leaving the Python sector.')
 
 if __name__ == '__main__':
     ut.test_xxxals()
