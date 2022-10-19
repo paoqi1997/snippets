@@ -24,6 +24,17 @@ function test_assign_omit_pick() {
 
     console.log(_.omit(d, 'pq')); // { bp: 1 }
     console.log(_.pick(d, 'pq')); // { pq: 2 }
+
+    const u0 = {};
+    const u1 = { a: 1, b: 3 };
+    const u2 = { b: 2 };
+    const u = _.assign(u0, u1, u2);
+    console.log(u0); // { a: 1, b: 2 }
+    console.log(u);  // { a: 1, b: 2 }
+
+    u0.c = 3;
+    console.log(u0); // { a: 1, b: 2, c: 3 }
+    console.log(u);  // { a: 1, b: 2, c: 3 }
 }
 
 function test_random() {
