@@ -16,25 +16,19 @@ function test_compact() {
 function test_assign_omit_pick() {
     console.log('TEST$_.assign_omit_pick');
 
-    const d = {};
-    const d2 = _.assign(d, { bp: 1, pq: 2 });
-
+    const d0 = {};
+    const d1 = { bp: 1, pq: 1 };
+    const d2 = { pq: 2 };
+    const d = _.assign(d0, d1, d2);
+    console.log(d0); // { bp: 1, pq: 2 }
     console.log(d);  // { bp: 1, pq: 2 }
-    console.log(d2); // { bp: 1, pq: 2 }
 
     console.log(_.omit(d, 'pq')); // { bp: 1 }
     console.log(_.pick(d, 'pq')); // { pq: 2 }
 
-    const u0 = {};
-    const u1 = { a: 1, b: 3 };
-    const u2 = { b: 2 };
-    const u = _.assign(u0, u1, u2);
-    console.log(u0); // { a: 1, b: 2 }
-    console.log(u);  // { a: 1, b: 2 }
-
-    u0.c = 3;
-    console.log(u0); // { a: 1, b: 2, c: 3 }
-    console.log(u);  // { a: 1, b: 2, c: 3 }
+    d0.pb = 3;
+    console.log(d0); // { bp: 1, pq: 2, pb: 3 }
+    console.log(d);  // { bp: 1, pq: 2, pb: 3 }
 }
 
 function test_random() {
