@@ -13,6 +13,18 @@ function test_compact() {
     console.log(_.compact(li)); // [ 1, 2, 3 ]
 }
 
+function test_get_set() {
+    console.log('TEST$_.get_set');
+
+    const d = {};
+    console.log(d, _.get(d, 'id'));
+
+    _.set(d, 'id', 'you');
+    console.log(d, _.get(d, 'id'));
+
+    console.log(_.get(undefined, 'id'));
+}
+
 function test_assign_omit_pick() {
     console.log('TEST$_.assign_omit_pick');
 
@@ -138,8 +150,17 @@ function test_findIndex() {
     console.log(l1);
 }
 
+function test_sortBy() {
+    console.log('TEST$_.sortBy');
+
+    const li = [{ x: 1 }, { x: 3 }, { x: 2 }];
+    const ll = _.sortBy(li, (x) => { return x.x; });
+    console.log(li, ll);
+}
+
 function tests() {
     test_compact();
+    test_get_set();
     test_assign_omit_pick();
     test_random();
     test_uniqWith();
@@ -148,6 +169,7 @@ function tests() {
     test_filter();
     test_keyBy();
     test_findIndex();
+    test_sortBy();
 }
 
 tests();
