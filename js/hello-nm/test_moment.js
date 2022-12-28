@@ -8,6 +8,7 @@ const m = require('moment');
 const FMT_YMD_Hms_ZZ = 'YYYY-MM-DD HH:mm:ss ZZ';
 const FMT_YMD_Hms    = 'YYYY-MM-DD HH:mm:ss';
 const FMT_YMD        = 'YYYY-MM-DD';
+const FMT_YM         = 'YYYY-MM';
 const FMT_Hms        = 'HH:mm:ss';
 
 const SECS_1_MINUTE = 60;
@@ -313,6 +314,17 @@ function TEST_Birthdate() {
     console.log(m().diff(m('1945-08-15'), 'years'));
 }
 
+function TEST_NextMonth() {
+    console.log('[TEST_NextMonth]');
+
+    const YMD = m().format(`${FMT_YM}-01`);
+    const this1st = m(YMD);
+    const next1st = m(YMD).add(m.duration(1, 'month'));
+
+    console.log(this1st.format(FMT_YMD_Hms));
+    console.log(next1st.format(FMT_YMD_Hms));
+}
+
 function TESTS() {
     TEST_Transform();
     TEST_DayN();
@@ -320,6 +332,7 @@ function TESTS() {
     TEST_DaysV2();
     TEST_ThisDay();
     TEST_Birthdate();
+    TEST_NextMonth();
 }
 
 TESTS();
