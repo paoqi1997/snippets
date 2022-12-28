@@ -6,6 +6,7 @@ import (
     "io/ioutil"
     "log/syslog"
     "net/http"
+    "time"
 
     "ss/protocol"
 )
@@ -84,7 +85,16 @@ func (ss *SysLogServer) Log(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    ss.SendLog(fmt.Sprintf("[%s] %s", req.EventName, req.Data))
+    cstSh, err := time.LoadLocation("Asia/Shanghai")
+    if err != nil {
+        fmt.Println(err)
+        cstSh = time.FixedZone("CST", 8 * 3600)
+    }
+
+    cstTime := time.Now().In(cstSh)
+    cstString := cstTime.Format("2006-01-02 15:04:05 -0700")
+
+    ss.SendLog(fmt.Sprintf("[%s][%s] %s", cstString, req.EventName, req.Data))
 
     resp := protocol.LogResponse{
         Status: 0,
