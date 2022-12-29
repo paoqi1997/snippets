@@ -87,23 +87,25 @@ function test_remove() {
     console.log('TEST$_.remove');
 
     const l = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-    console.log(l);
 
     const removedList = _.remove(l, (x) => {
         return x % 2 === 0;
     });
-    console.log(l, removedList); // [ 1, 3, 5, 7, 9 ] [ 0, 2, 4, 6, 8 ]
+
+    console.log(l);           // [ 1, 3, 5, 7, 9 ]
+    console.log(removedList); // [ 0, 2, 4, 6, 8 ]
 }
 
 function test_filter() {
     console.log('TEST$_.filter');
 
     const l = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-    console.log(l);
 
     const filteredList = _.filter(l, (x) => {
         return x % 2 === 0;
     });
+
+    console.log(l);
     console.log(filteredList); // [ 0, 2, 4, 6, 8 ]
 }
 
