@@ -1,10 +1,10 @@
-package protocol
+package main
 
-type LogRequest struct {
+type SyslogRequest struct {
     EventName string `json:"eventName"`
     Data      string `json:"data"`
 }
 
-type LogResponse struct {
+type SyslogResponse struct {
     Status int `json:"status"`
 }

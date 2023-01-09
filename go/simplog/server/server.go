@@ -1,4 +1,4 @@
-package server
+package main
 
 import (
     "encoding/json"
@@ -7,8 +7,6 @@ import (
     "log/syslog"
     "net/http"
     "time"
-
-    "ss/protocol"
 )
 
 type SysLogServer struct {
@@ -20,7 +18,7 @@ func NewSysLogServer(port int32) *SysLogServer {
     ss := SysLogServer{}
 
     router := http.NewServeMux()
-    router.HandleFunc("/log", ss.Log)
+    router.HandleFunc("/syslog", ss.Syslog)
 
     ss.svr = &http.Server{
         Addr: fmt.Sprintf(":%d", port),
@@ -67,7 +65,7 @@ func (ss *SysLogServer) SendLog(msg string) {
 }
 
 // curl 127.0.0.1:12488/log -d '{"eventName":"hi","data":"{\"msg\":\"Hello syslog!\"}"}'
-func (ss *SysLogServer) Log(w http.ResponseWriter, r *http.Request) {
+func (ss *SysLogServer) Syslog(w http.ResponseWriter, r *http.Request) {
     body, err := ioutil.ReadAll(r.Body)
     if err != nil {
         fmt.Println(err)
@@ -76,7 +74,7 @@ func (ss *SysLogServer) Log(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    var req protocol.LogRequest
+    var req SyslogRequest
 
     if err := json.Unmarshal(body, &req); err != nil {
         fmt.Println(err)
@@ -96,7 +94,7 @@ func (ss *SysLogServer) Log(w http.ResponseWriter, r *http.Request) {
 
     ss.SendLog(fmt.Sprintf("[%s][%s] %s", cstString, req.EventName, req.Data))
 
-    resp := protocol.LogResponse{
+    resp := SyslogResponse{
         Status: 0,
     }
 
