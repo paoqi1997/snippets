@@ -7,7 +7,7 @@ import (
 func main() {
     c := NewHttpClient("http://127.0.0.1:12488")
 
-    resp := c.Syslog(SyslogRequest{
+    resp := c.ForwardLog(ForwardLogRequest{
         EventName: "hi",
         Data: "Hello syslog!",
     })

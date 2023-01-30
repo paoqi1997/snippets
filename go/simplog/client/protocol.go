@@ -1,10 +1,10 @@
 package main
 
-type SyslogRequest struct {
+type ForwardLogRequest struct {
     EventName string `json:"eventName"`
     Data      string `json:"data"`
 }
 
-type SyslogResponse struct {
-    Status int `json:"status"`
+type ForwardLogResponse struct {
+    Result int `json:"result"`
 }

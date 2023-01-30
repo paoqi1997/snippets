@@ -18,6 +18,7 @@ func NewSysLogServer(port int32) *SysLogServer {
     ss := SysLogServer{}
 
     router := http.NewServeMux()
+    router.HandleFunc("/forwardLog", ss.ForwardLog)
     router.HandleFunc("/syslog", ss.Syslog)
 
     ss.svr = &http.Server{
@@ -64,22 +65,44 @@ func (ss *SysLogServer) SendLog(msg string) {
     }
 }
 
-// curl 127.0.0.1:12488/log -d '{"eventName":"hi","data":"{\"msg\":\"Hello syslog!\"}"}'
-func (ss *SysLogServer) Syslog(w http.ResponseWriter, r *http.Request) {
-    body, err := ioutil.ReadAll(r.Body)
+func (ss *SysLogServer) parseReq(i interface{}, w http.ResponseWriter, r *http.Request) bool {
+    reqBytes, err := ioutil.ReadAll(r.Body)
     if err != nil {
         fmt.Println(err)
         w.WriteHeader(411)
         w.Write([]byte(`{"status":1}`))
-        return
+        return false
     }
 
-    var req SyslogRequest
-
-    if err := json.Unmarshal(body, &req); err != nil {
+    if err := json.Unmarshal(reqBytes, i); err != nil {
         fmt.Println(err)
         w.WriteHeader(412)
         w.Write([]byte(`{"status":2}`))
+        return false
+    }
+
+    return true
+}
+
+func (ss *SysLogServer) sendResp(i interface{}, w http.ResponseWriter) {
+    respBytes, err := json.Marshal(i)
+    if err != nil {
+        fmt.Println(err)
+        w.WriteHeader(413)
+        w.Write([]byte(`{"status":3}`))
+    }
+
+    w.WriteHeader(200)
+    w.Write(respBytes)
+}
+
+// curl 127.0.0.1:12488/forwardLog -d '{"eventName":"hi","data":"{\"msg\":\"Hello syslog!\"}"}'
+func (ss *SysLogServer) ForwardLog(w http.ResponseWriter, r *http.Request) {
+    fmt.Printf("%s %s\n", r.Method, r.URL)
+
+    var req ForwardLogRequest
+
+    if ok := ss.parseReq(&req, w, r); !ok {
         return
     }
 
@@ -92,20 +115,36 @@ func (ss *SysLogServer) Syslog(w http.ResponseWriter, r *http.Request) {
     cstTime := time.Now().In(cstSh)
     cstString := cstTime.Format("2006-01-02 15:04:05 -0700")
 
-    ss.SendLog(fmt.Sprintf("[%s][%s] %s", cstString, req.EventName, req.Data))
+    msg := fmt.Sprintf("[%s][%s] %s", cstString, req.EventName, req.Data)
+
+    fmt.Println(msg)
+    ss.SendLog(msg)
+
+    resp := ForwardLogResponse{
+        Result: 0,
+    }
+
+    ss.sendResp(resp, w)
+}
+
+// curl 127.0.0.1:12488/syslog -d '{"msg":"[2023-01-16 17:42:00 +0800][hi] {\"msg\":\"Hello syslog!\"}"}'
+func (ss *SysLogServer) Syslog(w http.ResponseWriter, r *http.Request) {
+    fmt.Printf("%s %s\n", r.Method, r.URL)
+
+    var req SyslogRequest
+
+    if ok := ss.parseReq(&req, w, r); !ok {
+        return
+    }
+
+    msg := req.Msg
+
+    fmt.Println(msg)
+    ss.SendLog(msg)
 
     resp := SyslogResponse{
         Status: 0,
     }
 
-    jsonResp, err := json.Marshal(resp)
-    if err != nil {
-        fmt.Println(err)
-        w.WriteHeader(413)
-        w.Write([]byte(`{"status":3}`))
-        return
-    }
-
-    w.WriteHeader(200)
-    w.Write(jsonResp)
+    ss.sendResp(resp, w)
 }
