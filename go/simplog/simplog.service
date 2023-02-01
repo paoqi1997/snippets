@@ -1,0 +1,15 @@
+# cp simplog.service /lib/systemd/system
+# systemctl enable simplog
+# systemctl start simplog
+
+[Unit]
+Description=http logs to rsyslog
+After=network.target
+
+[Service]
+ExecStart=/home/paoqi/simplog/server/ss
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -12,5 +12,5 @@ func main() {
         Data: "Hello syslog!",
     })
 
-    fmt.Println(resp)
+    fmt.Println(resp.Status)
 }

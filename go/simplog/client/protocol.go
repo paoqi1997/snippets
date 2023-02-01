@@ -6,5 +6,6 @@ type ForwardLogRequest struct {
 }
 
 type ForwardLogResponse struct {
+    Status int `json:"status"`
     Result int `json:"result"`
 }

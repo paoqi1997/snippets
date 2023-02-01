@@ -19,11 +19,11 @@ func NewHttpClient(endpoint string) *HttpClient {
     hc := &http.Client{
         Transport: &http.Transport{
             Dial: func(network, addr string) (net.Conn, error) {
-                return net.DialTimeout(network, addr, time.Second * 10)
+                return net.DialTimeout(network, addr, time.Second * 8)
             },
             ResponseHeaderTimeout: time.Second * 5,
         },
-        Timeout: time.Second * 8,
+        Timeout: time.Second * 10,
     }
 
     return &HttpClient{

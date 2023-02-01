@@ -31,7 +31,7 @@ func NewSysLogServer(port int32) *SysLogServer {
 
 func (ss *SysLogServer) StartSysLog() {
     // https://golang.hotexamples.com/zh/examples/log.syslog/-/Dial/golang-dial-function-examples.html
-    cli, err := syslog.Dial("", "", syslog.LOG_INFO, "ss")
+    cli, err := syslog.Dial("", "", syslog.LOG_INFO, "simplog")
     if err != nil {
         fmt.Println(err)
     } else {
@@ -90,6 +90,7 @@ func (ss *SysLogServer) sendResp(i interface{}, w http.ResponseWriter) {
         fmt.Println(err)
         w.WriteHeader(413)
         w.Write([]byte(`{"status":3}`))
+        return
     }
 
     w.WriteHeader(200)
@@ -121,6 +122,7 @@ func (ss *SysLogServer) ForwardLog(w http.ResponseWriter, r *http.Request) {
     ss.SendLog(msg)
 
     resp := ForwardLogResponse{
+        Status: 0,
         Result: 0,
     }
 
