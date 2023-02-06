@@ -16,6 +16,6 @@
   },
   "dependencies": {
     "ioredis": "^5.0.4",
-    "moment": "^2.29.3"
+    "moment": "^2.29.4"
   }
 }
