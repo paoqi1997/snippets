@@ -6,7 +6,13 @@ import (
     "strconv"
 )
 
+var (
+    L *Logger
+)
+
 func main() {
+    L = NewLogger()
+
     var port int32
     if len(os.Args) <= 1 {
         port = 12488
@@ -20,6 +26,6 @@ func main() {
         port = int32(iport)
     }
 
-    ss := NewSysLogServer(port)
+    ss := NewSyslogServer(port)
     ss.Run()
 }

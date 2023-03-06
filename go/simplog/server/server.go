@@ -9,13 +9,13 @@ import (
     "time"
 )
 
-type SysLogServer struct {
+type SyslogServer struct {
     svr *http.Server
     cli *syslog.Writer
 }
 
-func NewSysLogServer(port int32) *SysLogServer {
-    ss := SysLogServer{}
+func NewSyslogServer(port int32) *SyslogServer {
+    ss := SyslogServer{}
 
     router := http.NewServeMux()
     router.HandleFunc("/forwardLog", ss.ForwardLog)
@@ -29,53 +29,53 @@ func NewSysLogServer(port int32) *SysLogServer {
     return &ss
 }
 
-func (ss *SysLogServer) StartSysLog() {
+func (ss *SyslogServer) StartSyslog() {
     // https://golang.hotexamples.com/zh/examples/log.syslog/-/Dial/golang-dial-function-examples.html
     cli, err := syslog.Dial("", "", syslog.LOG_INFO, "simplog")
     if err != nil {
-        fmt.Println(err)
+        L.Error("%v", err)
     } else {
         ss.cli = cli
     }
 }
 
-func (ss *SysLogServer) CloseSysLog() {
+func (ss *SyslogServer) CloseSyslog() {
     if ss.cli != nil {
         err := ss.cli.Close()
         if err != nil {
-            fmt.Println(err)
+            L.Error("%v", err)
         }
     }
 }
 
-func (ss *SysLogServer) Run() {
-    go ss.StartSysLog()
-    defer ss.CloseSysLog()
+func (ss *SyslogServer) Run() {
+    go ss.StartSyslog()
+    defer ss.CloseSyslog()
 
     if err := ss.svr.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-        fmt.Println(err)
+        L.Error("%v", err)
     }
 }
 
 // cat /var/log/syslog
-func (ss *SysLogServer) SendLog(msg string) {
+func (ss *SyslogServer) SendLog(msg string) {
     err := ss.cli.Info(msg)
     if err != nil {
-        fmt.Println(err)
+        L.Error("%v", err)
     }
 }
 
-func (ss *SysLogServer) parseReq(i interface{}, w http.ResponseWriter, r *http.Request) bool {
+func (ss *SyslogServer) parseReq(i interface{}, w http.ResponseWriter, r *http.Request) bool {
     reqBytes, err := ioutil.ReadAll(r.Body)
     if err != nil {
-        fmt.Println(err)
+        L.Error("%v", err)
         w.WriteHeader(411)
         w.Write([]byte(`{"status":1}`))
         return false
     }
 
     if err := json.Unmarshal(reqBytes, i); err != nil {
-        fmt.Println(err)
+        L.Error("%v", err)
         w.WriteHeader(412)
         w.Write([]byte(`{"status":2}`))
         return false
@@ -84,10 +84,10 @@ func (ss *SysLogServer) parseReq(i interface{}, w http.ResponseWriter, r *http.R
     return true
 }
 
-func (ss *SysLogServer) sendResp(i interface{}, w http.ResponseWriter) {
+func (ss *SyslogServer) sendResp(i interface{}, w http.ResponseWriter) {
     respBytes, err := json.Marshal(i)
     if err != nil {
-        fmt.Println(err)
+        L.Error("%v", err)
         w.WriteHeader(413)
         w.Write([]byte(`{"status":3}`))
         return
@@ -98,8 +98,8 @@ func (ss *SysLogServer) sendResp(i interface{}, w http.ResponseWriter) {
 }
 
 // curl 127.0.0.1:12488/forwardLog -d '{"eventName":"hi","data":"{\"msg\":\"Hello syslog!\"}"}'
-func (ss *SysLogServer) ForwardLog(w http.ResponseWriter, r *http.Request) {
-    fmt.Printf("%s %s\n", r.Method, r.URL)
+func (ss *SyslogServer) ForwardLog(w http.ResponseWriter, r *http.Request) {
+    L.Info("%s %s", r.Method, r.URL)
 
     var req ForwardLogRequest
 
@@ -109,7 +109,7 @@ func (ss *SysLogServer) ForwardLog(w http.ResponseWriter, r *http.Request) {
 
     cstSh, err := time.LoadLocation("Asia/Shanghai")
     if err != nil {
-        fmt.Println(err)
+        L.Error("%v", err)
         cstSh = time.FixedZone("CST", 8 * 3600)
     }
 
@@ -118,7 +118,7 @@ func (ss *SysLogServer) ForwardLog(w http.ResponseWriter, r *http.Request) {
 
     msg := fmt.Sprintf("[%s][%s] %s", cstString, req.EventName, req.Data)
 
-    fmt.Println(msg)
+    L.Info(msg)
     ss.SendLog(msg)
 
     resp := ForwardLogResponse{
@@ -130,8 +130,8 @@ func (ss *SysLogServer) ForwardLog(w http.ResponseWriter, r *http.Request) {
 }
 
 // curl 127.0.0.1:12488/syslog -d '{"msg":"[2023-01-16 17:42:00 +0800][hi] {\"msg\":\"Hello syslog!\"}"}'
-func (ss *SysLogServer) Syslog(w http.ResponseWriter, r *http.Request) {
-    fmt.Printf("%s %s\n", r.Method, r.URL)
+func (ss *SyslogServer) Syslog(w http.ResponseWriter, r *http.Request) {
+    L.Info("%s %s", r.Method, r.URL)
 
     var req SyslogRequest
 
@@ -140,8 +140,14 @@ func (ss *SysLogServer) Syslog(w http.ResponseWriter, r *http.Request) {
     }
 
     msg := req.Msg
+    if msg == "" {
+        L.Warn("msg is empty")
+        w.WriteHeader(414)
+        w.Write([]byte(`{"status":4}`))
+        return
+    }
 
-    fmt.Println(msg)
+    L.Info(msg)
     ss.SendLog(msg)
 
     resp := SyslogResponse{
