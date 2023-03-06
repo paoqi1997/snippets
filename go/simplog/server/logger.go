@@ -22,7 +22,7 @@ type Logger struct {
 
 func NewLogger() *Logger {
     var logFile *os.File
-    logFile, err := os.OpenFile("simplog.log", os.O_CREATE | os.O_WRONLY | os.O_APPEND, 0644)
+    logFile, err := os.OpenFile("/var/log/simplog.log", os.O_CREATE | os.O_WRONLY | os.O_APPEND, 0644)
     if err != nil {
         fmt.Println(err)
         logFile = os.Stdout
