@@ -168,11 +168,9 @@ function test_reduce() {
         '6': 0, '7': 1, '8': 0, '9': 1, '10': 0
     };
 
-    const ww = calNewWights(v1weights, v2weights, pool);
-    const weights = _.values(ww);
-
-    const rolledWeight = rollWeight(weights);
-    console.log(rolledWeight);
+    const { id2count, wm } = calNewWights(v1weights, v2weights, pool);
+    const index = rollIndex(v1weights, id2count, wm);
+    console.log(index);
 }
 
 function test_findIndex() {
@@ -279,7 +277,61 @@ function calNewWights(v1weights, v2weights, pool) {
         console.log(`idx2weight<[${idx}]{${weight}}>: ${JSON.stringify(idx2weight)}`);
     }
 
-    return idx2weight;
+    const wm = {};
+
+    for (const idx in idx2weight) {
+        const weight = idx2weight[idx];
+        if (weight <= 0) {
+            continue;
+        }
+
+        const id = idx2id[idx];
+        if (!(id in wm)) {
+            wm[id] = {};
+        }
+
+        wm[id][idx] = weight;
+    }
+
+    console.log(`wm: ${JSON.stringify(wm)}`);
+
+    return { id2count, ww: idx2weight, wm };
+}
+
+function rollIndex(v1weights, id2count, wm) {
+    const weight2id = {};
+    const wa = [];
+
+    for (const v1weight of v1weights) {
+        const { id, weight } = v1weight;
+        weight2id[weight] = id;
+        if (id2count[id] > 0) {
+            wa.push(weight);
+        }
+    }
+
+    console.log(`wa: ${JSON.stringify(wa)}`);
+
+    const w1 = rollWeight(wa);
+
+    const id_ = weight2id[w1.weight];
+    const wb = _.values(wm[id_]);
+
+    console.log(`id_: ${id_}, wb: ${JSON.stringify(wb)}`);
+
+    const w2 = rollWeight(wb);
+
+    let idx_ = -1;
+    for (const idx in wm[id_]) {
+        if (wm[id_][idx] === w2.weight) {
+            idx_ = idx;
+            break;
+        }
+    }
+
+    console.log(`idx_: ${idx_}`);
+
+    return { id: id_, idx: idx_ };
 }
 
 function rollWeight(weights) {
