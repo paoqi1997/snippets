@@ -168,8 +168,16 @@ function test_reduce() {
         '6': 0, '7': 1, '8': 0, '9': 1, '10': 0
     };
 
+    {
+        const { id2count, wm } = calNewWights(v1weights, v2weights, pool);
+        const index = rollIndex(v1weights, v2weights, 10, id2count, wm);
+        console.log(index);
+    }
+
+    pool['1'] = 1;
+
     const { id2count, wm } = calNewWights(v1weights, v2weights, pool);
-    const index = rollIndex(v1weights, id2count, wm);
+    const index = rollIndex(v1weights, v2weights, 10, id2count, wm);
     console.log(index);
 }
 
@@ -298,7 +306,7 @@ function calNewWights(v1weights, v2weights, pool) {
     return { id2count, ww: idx2weight, wm };
 }
 
-function rollIndex(v1weights, id2count, wm) {
+function rollIndex(v1weights, v2weights, currDrawIndex, id2count, wm) {
     const weight2id = {};
     const wa = [];
 
@@ -312,14 +320,31 @@ function rollIndex(v1weights, id2count, wm) {
 
     console.log(`wa: ${JSON.stringify(wa)}`);
 
-    const w1 = rollWeight(wa);
+    const oldId2Count = {};
+
+    for (const v2weight of v2weights) {
+        const id = v2weight.id;
+        oldId2Count[id] = id in oldId2Count ? oldId2Count[id] + 1 : 1;
+    }
+
+    const targetId = '1';
+    let w1;
+
+    if (currDrawIndex >= 10 && id2count[targetId] >= oldId2Count[targetId]) {
+        const v1weight = v1weights.find((v1w) => { return v1w.id == targetId; });
+        w1 = { weight: v1weight.weight };
+    } else {
+        w1 = rollWeights(wa);
+    }
+
+    console.log(`w1: ${JSON.stringify(w1)}`);
 
     const id_ = weight2id[w1.weight];
     const wb = _.values(wm[id_]);
 
     console.log(`id_: ${id_}, wb: ${JSON.stringify(wb)}`);
 
-    const w2 = rollWeight(wb);
+    const w2 = rollWeights(wb);
 
     let idx_ = -1;
     for (const idx in wm[id_]) {
@@ -334,7 +359,7 @@ function rollIndex(v1weights, id2count, wm) {
     return { id: id_, idx: idx_ };
 }
 
-function rollWeight(weights) {
+function rollWeights(weights) {
     const totalWeight = weights.reduce((accum, curr) => accum + curr);
     let target = Math.floor(Math.random() * totalWeight) + 1;
 
