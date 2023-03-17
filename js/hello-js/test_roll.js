@@ -3,10 +3,11 @@
 const LEVELS = {
     TRACE: 1,
     DEBUG: 2,
-    INFO:  3
+    INFO:  3,
+    WARN:  4
 };
 
-const CURR_LEVEL = LEVELS.DEBUG;
+let CURR_LEVEL = LEVELS.DEBUG;
 
 function TRACE(msg) {
     if (CURR_LEVEL <= LEVELS.TRACE) {
@@ -22,52 +23,88 @@ function DEBUG(msg) {
 
 function INFO(msg) {
     if (CURR_LEVEL <= LEVELS.INFO) {
-        console.info(`[INFO]  ${msg}`);
+        console.info(`[INFO ] ${msg}`);
+    }
+}
+
+function WARN(msg) {
+    if (CURR_LEVEL <= LEVELS.WARN) {
+        console.warn(`[WARN ] ${msg}`);
     }
 }
 
 function tests() {
     const v1weights = [
         { id: 1, weight: 100 },
-        { id: 2, weight: 300 },
-        { id: 3, weight: 600 }
+        { id: 2, weight: 500 },
+        { id: 3, weight: 2400 }
     ];
 
     const v2weights = [
         { idx: 1, id: 1, weight: 10 },
-        { idx: 2, id: 1, weight: 20 },
-        { idx: 3, id: 1, weight: 30 },
-        { idx: 4, id: 1, weight: 50 },
-        { idx: 5, id: 2, weight: 100 },
+        { idx: 2, id: 1, weight: 10 },
+        { idx: 3, id: 1, weight: 15 },
+        { idx: 4, id: 1, weight: 15 },
+        { idx: 5, id: 2, weight: 300 },
         { idx: 6, id: 2, weight: 300 },
-        { idx: 7, id: 2, weight: 600 },
-        { idx: 8, id: 2, weight: 800 },
-        { idx: 9, id: 3, weight: 1200 },
-        { idx: 10, id: 3, weight: 3000 }
+        { idx: 7, id: 3, weight: 450 },
+        { idx: 8, id: 3, weight: 450 },
+        { idx: 9, id: 3, weight: 400 },
+        { idx: 10, id: 3, weight: 1500 },
+        { idx: 11, id: 3, weight: 1400 },
+        { idx: 12, id: 2, weight: 150 }
     ];
 
     const pool = {
-        '1': 0, '2': 1, '3': 1, '4': 1, '5': 1,
-        '6': 0, '7': 1, '8': 0, '9': 1, '10': 0
+        '1': 1, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1,
+        '7': 5, '8': 10, '9': 5, '10': 10, '11': 5, '12': 1
     };
 
     test_draw1st(v1weights, v2weights, pool);
     test_draw10th(v1weights, v2weights, pool);
+    test_draw10times(v1weights, v2weights, pool);
 }
 
 tests();
 
 function test_draw1st(v1weights, v2weights, pool) {
+    console.log('TEST.draw1st');
     const { id2count, wm } = calNewWights(v1weights, v2weights, pool);
     const index = rollIndex(v1weights, v2weights, 1, id2count, wm);
     INFO(`${JSON.stringify(index)}`);
 }
 
 function test_draw10th(v1weights, v2weights, pool) {
-    pool['1'] = 1;
+    console.log('TEST.draw10th');
     const { id2count, wm } = calNewWights(v1weights, v2weights, pool);
     const index = rollIndex(v1weights, v2weights, 10, id2count, wm);
     INFO(`${JSON.stringify(index)}`);
+}
+
+function test_draw10times(v1weights, v2weights, pool) {
+    console.log('TEST.draw10times');
+
+    CURR_LEVEL = LEVELS.INFO;
+
+    for (let i = 0; i < 40; i += 1) {
+        const tmpool = clone(pool);
+
+        for (let j = 0; j < 20; j += 1) {
+            const { id2count, wm } = calNewWights(v1weights, v2weights, tmpool);
+            const index = rollIndex(v1weights, v2weights, j + 1, id2count, wm);
+            tmpool[index.idx] -= 1;
+        }
+
+        INFO(`${JSON.stringify(tmpool)}`);
+    }
+}
+
+function clone(o) {
+    const ojb = {};
+    for (const k in o) {
+        ojb[k] = o[k];
+    }
+    return ojb;
 }
 
 function calNewWights(v1weights, v2weights, pool) {
@@ -215,17 +252,29 @@ function rollIndex(v1weights, v2weights, currDrawIndex, id2count, wm) {
 
 function rollWeights(weights) {
     const totalWeight = weights.reduce((accum, curr) => accum + curr);
-    let target = Math.floor(Math.random() * totalWeight) + 1;
+    const origin = Math.floor(Math.random() * totalWeight) + 1;
+    DEBUG(`totalWeight: ${totalWeight}, origin: ${origin}`);
 
-    DEBUG(`totalWeight: ${totalWeight}, target: ${target}`);
+    if (origin > totalWeight) {
+        WARN(`${origin} > ${totalWeight}, weights: ${JSON.stringify(weights)}`);
+    }
+
+    let target = origin;
+    const result = { index: 0, weight: -1 };
 
     for (let i = 0; i < weights.length; i += 1) {
       if (weights[i] > 0 && target <= weights[i]) {
-        return { index: i, weight: weights[i] };
+        result.index = i;
+        result.weight = weights[i];
+        break;
       }
 
       target -= weights[i];
     }
 
-    return { index: 0, weight: -1 };
+    if (result.weight === -1) {
+        WARN(`Unexpected ${origin} ${target} ${totalWeight}, weights: ${JSON.stringify(weights)}`);
+    }
+
+    return result;
 }
