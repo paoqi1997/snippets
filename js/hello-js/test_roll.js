@@ -86,6 +86,8 @@ function test_draw10times(v1weights, v2weights, pool) {
 
     CURR_LEVEL = LEVELS.INFO;
 
+    INFO(`${JSON.stringify(pool)}`);
+
     for (let i = 0; i < 40; i += 1) {
         const tmpool = clone(pool);
 
@@ -169,7 +171,7 @@ function calNewWights(v1weights, v2weights, pool) {
                 continue;
             }
 
-            idx2weight[index] += dividedV2Weights[idx2id[index]];
+            idx2weight[index] += Math.floor(dividedV2Weights[idx2id[index]]);
         }
 
         TRACE(`idx2weight<[${idx}]{${weight}}>: ${JSON.stringify(idx2weight)}`);
