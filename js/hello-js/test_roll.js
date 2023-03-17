@@ -103,9 +103,7 @@ function test_draw10times(v1weights, v2weights, pool) {
 
 function clone(o) {
     const ojb = {};
-    for (const k in o) {
-        ojb[k] = o[k];
-    }
+    for (const k in o) { ojb[k] = o[k]; }
     return ojb;
 }
 
@@ -229,25 +227,26 @@ function rollIndex(v1weights, v2weights, currDrawIndex, id2count, wm) {
         w1 = rollWeights(wa);
     }
 
-    DEBUG(`w1: ${JSON.stringify(w1)}`);
-
     const id_ = weight2id[w1.weight];
     const mp = new Map(Object.entries(wm[id_]));
     const wb = [...mp.values()];
 
-    DEBUG(`id_: ${id_}, wb: ${JSON.stringify(wb)}`);
+    DEBUG(`id_: ${id_}, w1: ${JSON.stringify(w1)}`);
+    DEBUG(`wb: ${JSON.stringify(wb)}`);
 
     const w2 = rollWeights(wb);
 
+    let seq = 0;
     let idx_ = -1;
+
     for (const idx in wm[id_]) {
-        if (wm[id_][idx] === w2.weight) {
+        if (seq++ === w2.index) {
             idx_ = idx;
             break;
         }
     }
 
-    DEBUG(`idx_: ${idx_}`);
+    DEBUG(`idx_: ${idx_}, w2: ${JSON.stringify(w2)}`);
 
     return { id: id_, idx: idx_ };
 }
