@@ -1,9 +1,19 @@
-import { Student } from './util';
+import * as util from './util';
 
-const stu = new Student('paoqi');
+function tests() {
+  test_class();
+}
 
-stu.name = '';
-stu.setGrade('medicine', 'A');
+tests();
 
-console.log(stu.getGrade('medicine'));
-console.log(stu.getGrade('chemistry'));
+function test_class() {
+  console.log('TEST$_.class');
+
+  const stu = new util.Student('paoqi');
+
+  stu.name = '';
+  stu.setGrade('medicine', 'A');
+
+  console.log(stu.getGrade('medicine'));
+  console.log(stu.getGrade('chemistry'));
+}

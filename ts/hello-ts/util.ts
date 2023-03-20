@@ -1,40 +1,40 @@
 class Person {
-    private name_: string;
+  private name_: string;
 
-    constructor(name: string) {
-        this.name_ = name;
-    }
+  constructor(name: string) {
+    this.name_ = name;
+  }
 
-    get name(): string {
-        return this.name_;
-    }
+  get name(): string {
+    return this.name_;
+  }
 
-    set name(newName: string) {
-        if (newName.length === 0) {
-            console.log('The new name can not be empty!');
-        } else {
-            this.name_ = newName;
-        }
+  set name(newName: string) {
+    if (newName.length === 0) {
+      console.log('The new name can not be empty!');
+    } else {
+      this.name_ = newName;
     }
+  }
 }
 
 export class Student extends Person {
-    private grades: { [subject: string]: string };
+  private grades: { [subject: string]: string };
 
-    constructor(name: string) {
-        super(name);
-        this.grades = {};
-    }
+  constructor(name: string) {
+    super(name);
+    this.grades = {};
+  }
 
-    getGrade(subject: string): string {
-        if (subject in this.grades) {
-            return this.grades[subject];
-        } else {
-            return 'None';
-        }
+  getGrade(subject: string): string {
+    if (subject in this.grades) {
+      return this.grades[subject];
+    } else {
+      return 'None';
     }
+  }
 
-    setGrade(subject: string, grade: string) {
-        this.grades[subject] = grade;
-    }
+  setGrade(subject: string, grade: string) {
+    this.grades[subject] = grade;
+  }
 }
