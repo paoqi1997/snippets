@@ -193,7 +193,7 @@ function calNewWights(v1weights, v2weights, pool) {
 
     DEBUG(`wm: ${JSON.stringify(wm)}`);
 
-    return { id2count, ww: idx2weight, wm };
+    return { id2count, idx2weight, wm };
 }
 
 function rollIndex(v1weights, v2weights, currDrawIndex, id2count, wm) {

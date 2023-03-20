@@ -72,6 +72,16 @@ exports.test_dict = function() {
         console.log(`dInfo[${sKey}]=${dInfo[sKey]}`);
     }
     console.log(`size: ${iSize}`);
+
+    const o = { a: 1 };
+
+    try {
+        o.a = 1;
+        Object.freeze(o);
+        o.a = 1;
+    } catch (e) {
+        console.error(`${e}`);
+    }
 }
 
 exports.test_map = function() {

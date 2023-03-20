@@ -2,6 +2,38 @@
 
 const util = require('./util');
 
+function tests() {
+    util.test_list();
+    util.test_array();
+
+    util.test_dict();
+    util.test_map();
+
+    test_sortMap();
+    test_sortedMap();
+
+    test_eval();
+    test_Date();
+
+    test_Promise();
+    test_AsyncAndAwait();
+    test_functionSTAR();
+
+    test_closure();
+    test_currying();
+
+    test_merge_delWith_deepcopy();
+    test_isType();
+    test_map_method();
+
+    util.test_exception();
+    util.test_hashCode();
+    util.test_matchRoute();
+    util.test_removeSpaces();
+}
+
+tests();
+
 function test_sortMap() {
     util.printUnit('sortMap');
 
@@ -138,33 +170,33 @@ function test_isType() {
     console.log(util.is_type({}, 'object'));
 }
 
-function tests() {
-    util.test_list();
-    util.test_array();
+function test_map_method() {
+    util.printUnit('map_method');
 
-    util.test_dict();
-    util.test_map();
+    {
+        const l1 = [{ weight: 100 }, { weight: 300 }, { weight: 600 }];
+        const l2 = l1.map(x => x);
+        console.log(l1, l2);
 
-    test_sortMap();
-    test_sortedMap();
+        l2[0].weight = 101;
+        console.log(l1, l2);
+    }
 
-    test_eval();
-    test_Date();
+    {
+        const l1 = [{ weight: 100 }, { weight: 300 }, { weight: 600 }];
+        const l2 = l1.map(x => { x.weight += 1; return x; });
+        console.log(l1, l2);
 
-    test_Promise();
-    test_AsyncAndAwait();
-    test_functionSTAR();
+        l2[0].weight = 102;
+        console.log(l1, l2);
+    }
 
-    test_closure();
-    test_currying();
+    {
+        const l1 = [{ weight: 100 }, { weight: 300 }, { weight: 600 }];
+        const l2 = l1.map(x => Object.assign({}, x));
+        console.log(l1, l2);
 
-    test_merge_delWith_deepcopy();
-    test_isType();
-
-    util.test_exception();
-    util.test_hashCode();
-    util.test_matchRoute();
-    util.test_removeSpaces();
+        l2[0].weight = 101;
+        console.log(l1, l2);
+    }
 }
-
-tests();
