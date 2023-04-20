@@ -17,6 +17,7 @@ function tests() {
     test_reduce_keyBy();
     test_findIndex();
     test_sortBy();
+    test_sample();
 }
 
 tests();
@@ -174,4 +175,17 @@ function test_sortBy() {
     const li = [{ x: 1 }, { x: 3 }, { x: 2 }];
     const ll = _.sortBy(li, (x) => { return x.x; });
     console.log(li, ll);
+}
+
+function test_sample() {
+    console.log('TEST$_.sample');
+
+    const L = [1, 2, 3, 4];
+    const l = [];
+
+    for (let i = 0; i < 10; i += 1) {
+        l.push(_.sample(L)); // Gets a random element from collection.
+    }
+
+    console.log(l);
 }
