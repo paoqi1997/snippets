@@ -1,5 +1,7 @@
 'use strict';
 
+const util = require('./util');
+
 const LEVELS = {
     TRACE: 1,
     DEBUG: 2,
@@ -8,6 +10,9 @@ const LEVELS = {
 };
 
 let CURR_LEVEL = LEVELS.DEBUG;
+
+const GUARANTEE_WHEN_DRAWS = 10;
+const OUTFIT = '1';
 
 function TRACE(msg) {
     if (CURR_LEVEL <= LEVELS.TRACE) {
@@ -41,23 +46,33 @@ function tests() {
     ];
 
     const v2weights = [
-        { idx: 1, id: 1, weight: 10 },
-        { idx: 2, id: 1, weight: 10 },
-        { idx: 3, id: 1, weight: 15 },
-        { idx: 4, id: 1, weight: 15 },
-        { idx: 5, id: 2, weight: 300 },
-        { idx: 6, id: 2, weight: 300 },
-        { idx: 7, id: 3, weight: 450 },
-        { idx: 8, id: 3, weight: 450 },
-        { idx: 9, id: 3, weight: 400 },
-        { idx: 10, id: 3, weight: 1500 },
-        { idx: 11, id: 3, weight: 1400 },
-        { idx: 12, id: 2, weight: 150 }
+        { idx: 1,  id: 1, weight: 10 },
+        { idx: 2,  id: 2, weight: 150 },
+        { idx: 3,  id: 2, weight: 300 },
+        { idx: 4,  id: 1, weight: 10 },
+        { idx: 5,  id: 3, weight: 1500 },
+        { idx: 6,  id: 2, weight: 300 },
+        { idx: 7,  id: 1, weight: 50 },
+        { idx: 8,  id: 3, weight: 1400 },
+        { idx: 9,  id: 3, weight: 400 },
+        { idx: 10, id: 1, weight: 100 },
+        { idx: 11, id: 3, weight: 450 },
+        { idx: 12, id: 3, weight: 450 },
     ];
 
     const pool = {
-        '1': 1, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1,
-        '7': 5, '8': 10, '9': 5, '10': 10, '11': 5, '12': 1
+        '1':  1,
+        '2':  1,
+        '3':  1,
+        '4':  1,
+        '5':  10,
+        '6':  1,
+        '7':  1,
+        '8':  10,
+        '9':  10,
+        '10': 1,
+        '11': 15,
+        '12': 5,
     };
 
     test_draw1st(v1weights, v2weights, pool);
@@ -70,14 +85,16 @@ tests();
 function test_draw1st(v1weights, v2weights, pool) {
     console.log('TEST.draw1st');
     const { id2count, wm } = calNewWights(v1weights, v2weights, pool);
-    const index = rollIndex(v1weights, v2weights, 1, id2count, wm);
+    const ctx = { currDrawIndex: 1 };
+    const index = rollIndex(v1weights, v2weights, ctx, id2count, wm);
     INFO(`${JSON.stringify(index)}`);
 }
 
 function test_draw10th(v1weights, v2weights, pool) {
     console.log('TEST.draw10th');
     const { id2count, wm } = calNewWights(v1weights, v2weights, pool);
-    const index = rollIndex(v1weights, v2weights, 10, id2count, wm);
+    const ctx = { currDrawIndex: 10 };
+    const index = rollIndex(v1weights, v2weights, ctx, id2count, wm);
     INFO(`${JSON.stringify(index)}`);
 }
 
@@ -88,23 +105,28 @@ function test_draw10times(v1weights, v2weights, pool) {
 
     INFO(`${JSON.stringify(pool)}`);
 
-    for (let i = 0; i < 40; i += 1) {
-        const tmpool = clone(pool);
+    for (let i = 0; i < 1; i += 1) {
+        const tmpool = util.deepcopy(pool);
+        const tmpv1weights = util.deepcopy(v1weights);
 
-        for (let j = 0; j < 20; j += 1) {
-            const { id2count, wm } = calNewWights(v1weights, v2weights, tmpool);
-            const index = rollIndex(v1weights, v2weights, j + 1, id2count, wm);
+        for (let j = 0; j < 30; j += 1) {
+            const { id2count, wm } = calNewWights(tmpv1weights, v2weights, tmpool);
+            const ctx = { currDrawIndex: j + 1 };
+            const index = rollIndex(tmpv1weights, v2weights, ctx, id2count, wm);
             tmpool[index.idx] -= 1;
+
+            const v1weight = tmpv1weights.find((v1w) => { return v1w.id == OUTFIT; });
+            if (String(index.id) !== OUTFIT && ctx.currDrawIndex > GUARANTEE_WHEN_DRAWS) {
+                v1weight.weight += 15;
+            } else {
+                v1weight.weight = 100;
+            }
+
+            INFO(`tmpv1weights: ${JSON.stringify(tmpv1weights)}`);
         }
 
         INFO(`${JSON.stringify(tmpool)}`);
     }
-}
-
-function clone(o) {
-    const ojb = {};
-    for (const k in o) { ojb[k] = o[k]; }
-    return ojb;
 }
 
 function calNewWights(v1weights, v2weights, pool) {
@@ -196,15 +218,18 @@ function calNewWights(v1weights, v2weights, pool) {
     return { id2count, idx2weight, wm };
 }
 
-function rollIndex(v1weights, v2weights, currDrawIndex, id2count, wm) {
+function rollIndex(v1weights, v2weights, context, id2count, wm) {
+    const { currDrawIndex } = context;
     const weight2id = {};
     const wa = [];
+    const wi = [];
 
     for (const v1weight of v1weights) {
         const { id, weight } = v1weight;
         weight2id[weight] = id;
         if (id2count[id] > 0) {
             wa.push(weight);
+            wi.push(id);
         }
     }
 
@@ -217,17 +242,18 @@ function rollIndex(v1weights, v2weights, currDrawIndex, id2count, wm) {
         oldId2Count[id] = id in oldId2Count ? oldId2Count[id] + 1 : 1;
     }
 
-    const targetId = '1';
-    let w1;
+    const targetId = OUTFIT;
+    let w1, id_;
 
-    if (currDrawIndex >= 10 && id2count[targetId] >= oldId2Count[targetId]) {
+    if (currDrawIndex >= GUARANTEE_WHEN_DRAWS && id2count[targetId] >= oldId2Count[targetId]) {
         const v1weight = v1weights.find((v1w) => { return v1w.id == targetId; });
         w1 = { weight: v1weight.weight };
+        id_ = targetId;
     } else {
         w1 = rollWeights(wa);
+        id_ = wi[w1.index];
     }
 
-    const id_ = weight2id[w1.weight];
     const mp = new Map(Object.entries(wm[id_]));
     const wb = [...mp.values()];
 
