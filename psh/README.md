@@ -16,6 +16,13 @@ PS C:\Users\paoqi> Get-ExecutionPolicy
 PS C:\Users\paoqi> $PSEdition
 # 查看版本信息
 PS C:\Users\paoqi> $PSVersionTable
+
+# 输入多行命令
+PS C:\Users\paoqi> py -3 -c `
+>> 'import math; print(math.pi)'
+
+# 发起 GET 请求
+PS C:\Users\paoqi> Invoke-RestMethod -Method GET -Uri "ipinfo.io" | ConvertTo-Json -Depth 64
 ```
 
 ## [环境变量](https://www.pstips.net/powershell-environment-variables.html)
