@@ -25,6 +25,7 @@ function tests() {
     test_merge_delWith_deepcopy();
     test_isType();
     test_map_method();
+    test_reduce_method();
 
     util.test_exception();
     util.test_hashCode();
@@ -198,5 +199,54 @@ function test_map_method() {
 
         l2[0].weight = 101;
         console.log(l1, l2);
+    }
+}
+
+function test_reduce_method() {
+    util.printUnit('reduce_method');
+
+    const L = [
+        { id: 'aaa' }, { id: 'bbb' },
+        { id: 'aaa' }, { id: 'ccc' },
+    ];
+
+    {
+        const r = L.reduce((o, x) => {
+            const { m, d, k } = o;
+
+            if (d[x[k]]) {
+                o.update = true;
+            } else {
+                m.push(x);
+                d[x[k]] = true;
+            }
+
+            return o;
+        }, { m: [], d: {}, k: 'id', update: false });
+
+        const { m, update } = r;
+
+        console.log(update, m);
+    }
+
+    {
+        const filterFn = (li, k) => {
+            return li.reduce((o, x) => {
+                const { m, d, k } = o;
+
+                if (d[x[k]]) {
+                    o.update = true;
+                } else {
+                    m.push(x);
+                    d[x[k]] = true;
+                }
+
+                return o;
+            }, { m: [], d: {}, k, update: false });
+        }
+
+        const { m, update } = filterFn(L, 'id');
+
+        console.log(update, m);
     }
 }
