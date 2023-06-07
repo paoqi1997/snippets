@@ -32,10 +32,30 @@ PS C:\Users\paoqi> Invoke-RestMethod -Method GET -Uri "ipinfo.io" | ConvertTo-Js
 ```ps1
 # 列出所有环境变量
 PS C:\Users\paoqi> ls env:
+# 列出 Path
+PS C:\Users\paoqi> ls env:Path
+PS C:\Users\paoqi> ls env: | findstr Path
 # 查看 Path
 PS C:\Users\paoqi> $env:Path
 # 创建 MyEnv
 PS C:\Users\paoqi> $env:MyEnv="abc"
 # 追加新值到 MyEnv
 PS C:\Users\paoqi> $env:MyEnv+=";xyz"
+```
+
+## 文件
+
+相关命令如下所示：
+
+```ps1
+# 查看所在目录的文件包含 paoqi 的行
+PS C:\Users\paoqi> ls | Select-String paoqi
+
+# 查看给定目录下符合过滤条件的文件和文件夹
+PS C:\Users\paoqi> Get-ChildItem -Path C:\Users\paoqi\AppData\Local\Temp -Filter gopls-diff-stats* -File
+PS C:\Users\paoqi> Get-ChildItem -Path C:\Users\paoqi\AppData\Local\Temp -Filter go-build* -Directory
+
+# 删除给定目录下符合过滤条件的文件和文件夹
+PS C:\Users\paoqi> Get-ChildItem -Path C:\Users\paoqi\AppData\Local\Temp -Filter gopls-diff-stats* -File | Remove-Item -Force
+PS C:\Users\paoqi> Get-ChildItem -Path C:\Users\paoqi\AppData\Local\Temp -Filter go-build* -Directory | Remove-Item -Recurse -Force
 ```
