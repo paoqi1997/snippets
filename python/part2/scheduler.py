@@ -29,6 +29,8 @@ def test_scheduler():
     oScheduler.addCall(Scheduler.T_10_SECOND, call10, 'call10')
     oScheduler.newClock()
 
+    return oScheduler
+
 class Scheduler:
     T_1_SECOND  = 1
     T_2_SECOND  = 2

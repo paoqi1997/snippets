@@ -1,10 +1,18 @@
 #!/usr/bin/python3
 
+from pympler import (
+    muppy,
+    summary
+)
+
 import os
 import platform
 import subprocess
+import sys
 
 import scheduler
+
+import objgraph
 
 def test_os_system(sType: str):
     print('[os.system]')
@@ -37,10 +45,28 @@ def test_popen(sType: str):
 
     print(f'stdout: {byOut}, stderr: {byErr}')
 
+def test_objgraph(obj):
+    print('[test.objgraph]')
+
+    # dot -Tpng objgraph.dot -o objgraph.png
+    sDotFilePath = os.path.join(sys.path[0], 'objgraph.dot')
+    with open(sDotFilePath, 'w') as oDotFile:
+        objgraph.show_refs(obj, output=oDotFile)
+
+def test_pympler():
+    print('[test.pympler]')
+
+    allObjs = muppy.get_objects()
+    sumObjs = summary.summarize(allObjs)
+    summary.print_(sumObjs)
+
 if __name__ == '__main__':
     sType = platform.system()
 
     test_os_system(sType)
     test_popen(sType)
 
-    scheduler.test_scheduler()
+    oScheduler = scheduler.test_scheduler()
+
+    test_objgraph(oScheduler)
+    test_pympler()
