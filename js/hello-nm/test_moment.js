@@ -65,6 +65,38 @@ function getMomentOfMonday(timestamp) {
 }
 
 /**
+ * 是否已过下周一
+ * @param {number} sec 秒级时间戳
+ * @param {number} nowSec 指代当前时间的秒级时间戳
+ * @param {string} Hms 时分秒
+ * @param {number} zone 时区
+ */
+function isNextMonday(sec, nowSec, Hms = '05:00:00', zone = 9) {
+    const mobj = m(sec * 1000);
+    const msec = mobj.valueOf();
+
+    let nextMon;
+    const weekday = mobj.days();
+
+    if (weekday === 0) {
+        nextMon = m(msec + SECS_1_DAY * 1000);
+    } else {
+        nextMon = m(msec + (8 - weekday) * SECS_1_DAY * 1000);
+    }
+
+    const YMD = nextMon.format(FMT_YMD);
+    const nextMonWithHms = m(`${YMD} ${Hms}+0${zone}:00`);
+
+    const yes = nowSec >= nextMonWithHms.unix();
+    const objText = mobj.format(FMT_YMD_Hms_ZZ);
+    const monText = nextMonWithHms.format(FMT_YMD_Hms_ZZ);
+    const monTextZ9 = nextMonWithHms.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
+    const nowText = m(nowSec * 1000).format(FMT_YMD_Hms_ZZ);
+
+    return { yes, obj: objText, mon: monText, monZ9: monTextZ9, now: nowText };
+}
+
+/**
  * 获取本周指定星期的时间
  * @param {string} day 星期几
  * @param {number} timestamp 毫秒级时间戳
@@ -325,6 +357,15 @@ function TEST_NextMonth() {
     console.log(next1st.format(FMT_YMD_Hms));
 }
 
+function TEST_IsNextMonday() {
+    console.log('[TEST_IsNextMonday]');
+
+    const now = m('2023-07-24 22:12:00').unix();
+
+    console.log(isNextMonday(m('2023-07-21 22:00:00').unix(), now));
+    console.log(isNextMonday(m('2023-07-24 20:00:00').unix(), now));
+}
+
 function TESTS() {
     TEST_Transform();
     TEST_DayN();
@@ -333,6 +374,7 @@ function TESTS() {
     TEST_ThisDay();
     TEST_Birthdate();
     TEST_NextMonth();
+    TEST_IsNextMonday();
 }
 
 TESTS();
