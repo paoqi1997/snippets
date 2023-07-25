@@ -191,7 +191,7 @@ function days_left(targetTime) {
  * @param {string} Hms 时分秒
  * @returns 开始和结束时间
  */
-function getStartAndEndOfThisDay(timestamp, Hms) {
+function getStartAndEndOfThisDay(timestamp, Hms = '05:00:00') {
     const YMD = m(timestamp * 1000).format(FMT_YMD);
     const ts = m(`${YMD} ${Hms}`).unix();
 
@@ -215,7 +215,7 @@ function getStartAndEndOfThisDay(timestamp, Hms) {
  * @param {number} zone 时区
  * @returns 开始和结束时间
  */
-function getStartAndEndOfThisDayV2(timestamp, Hms, zone = 9) {
+function getStartAndEndOfThisDayV2(timestamp, Hms = '05:00:00', zone = 9) {
     const m1 = m(timestamp * 1000).utcOffset(zone);
 
     const duration = Hms2Secs(Hms);
@@ -328,11 +328,11 @@ function TEST_ThisDay() {
 
     const now = m().unix();
 
-    console.log(getStartAndEndOfThisDay(now, '06:00:00'));
-    console.log(getStartAndEndOfThisDay(now, '22:00:00'));
+    console.log(getStartAndEndOfThisDay(now));
+    console.log(getStartAndEndOfThisDay(now, '18:00:00'));
 
-    console.log(getStartAndEndOfThisDayV2(now, '06:00:00'));
-    console.log(getStartAndEndOfThisDayV2(now, '22:00:00'));
+    console.log(getStartAndEndOfThisDayV2(now));
+    console.log(getStartAndEndOfThisDayV2(now, '18:00:00'));
 }
 
 function TEST_Birthdate() {
