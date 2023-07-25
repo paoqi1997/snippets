@@ -85,15 +85,33 @@ function isNextMonday(sec, nowSec, Hms = '05:00:00', zone = 9) {
     }
 
     const YMD = nextMon.format(FMT_YMD);
-    const nextMonWithHms = m(`${YMD} ${Hms}+0${zone}:00`);
+
+    let zz = '';
+    zz += zone >= 0 ? '+' : '-';
+
+    const zv = Math.abs(zone);
+    zz += zv >= 10 ? zv : `0${zv}`;
+    zz += ':00';
+
+    const nextMonWithHms = m(`${YMD}T${Hms}${zz}`);
 
     const yes = nowSec >= nextMonWithHms.unix();
-    const objText = mobj.format(FMT_YMD_Hms_ZZ);
-    const monText = nextMonWithHms.format(FMT_YMD_Hms_ZZ);
-    const monTextZ9 = nextMonWithHms.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
     const nowText = m(nowSec * 1000).format(FMT_YMD_Hms_ZZ);
 
-    return { yes, obj: objText, mon: monText, monZ9: monTextZ9, now: nowText };
+    const objText = mobj.format(FMT_YMD_Hms_ZZ);
+    const objZText = mobj.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
+
+    const monText = nextMonWithHms.format(FMT_YMD_Hms_ZZ);
+    const monZText = nextMonWithHms.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
+
+    return {
+        yes,
+        now: nowText,
+        obj: objText,
+        mon: monText,
+        objZ: objZText,
+        monZ: monZText,
+    };
 }
 
 /**
