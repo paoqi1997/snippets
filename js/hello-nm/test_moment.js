@@ -74,9 +74,9 @@ function getMomentOfMonday(timestamp) {
 function isNextMonday(sec, nowSec, Hms = '05:00:00', zone = 9) {
     const mobj = m(sec * 1000);
     const msec = mobj.valueOf();
+    const weekday = mobj.days();
 
     let nextMon;
-    const weekday = mobj.days();
 
     if (weekday === 0) {
         nextMon = m(msec + SECS_1_DAY * 1000);
@@ -256,6 +256,60 @@ function getStartAndEndOfThisDayV2(timestamp, Hms = '05:00:00', zone = 9) {
     };
 }
 
+/**
+ * 以指定时分秒为分界线，获取给定时间这一周的开始及结束时间
+ * @param {number} timestamp 秒级时间戳
+ * @param {string} Hms 时分秒
+ * @param {number} zone 时区
+ */
+function getStartAndEndOfThisWeek(timestamp, Hms = '05:00:00', zone = 9) {
+    const mobj = m(timestamp * 1000);
+    const msec = mobj.valueOf();
+    const weekday = mobj.days();
+
+    let thisMon, nextMon;
+
+    if (weekday === 0) {
+        thisMon = m(msec - 6 * SECS_1_DAY * 1000);
+        nextMon = m(msec + SECS_1_DAY * 1000);
+    } else {
+        thisMon = m(msec - (weekday - 1) * SECS_1_DAY * 1000);
+        nextMon = m(msec + (8 - weekday) * SECS_1_DAY * 1000);
+    }
+
+    const thisYMD = thisMon.format(FMT_YMD);
+    const nextYMD = nextMon.format(FMT_YMD);
+
+    let zz = '';
+    zz += zone >= 0 ? '+' : '-';
+
+    const zv = Math.abs(zone);
+    zz += zv >= 10 ? zv : `0${zv}`;
+    zz += ':00';
+
+    const thisMonWithHms = m(`${thisYMD}T${Hms}${zz}`);
+    const nextMonWithHms = m(`${nextYMD}T${Hms}${zz}`);
+
+    const nowText = mobj.format(FMT_YMD_Hms_ZZ);
+
+    const thisMonText = thisMonWithHms.format(FMT_YMD_Hms_ZZ);
+    const thisMonZText = thisMonWithHms.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
+    const tmZText = thisMonWithHms.utcOffset(zone).format('YYMMDD');
+
+    const nextMonText = nextMonWithHms.format(FMT_YMD_Hms_ZZ);
+    const nextMonZText = nextMonWithHms.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
+    const nmZText = nextMonWithHms.utcOffset(zone).format('YYMMDD');
+
+    return {
+        now: nowText,
+        thisMon: thisMonText,
+        thisMonZ: thisMonZText,
+        nextMon: nextMonText,
+        nextMonZ: nextMonZText,
+        weeklyKey: `${tmZText}_${nmZText}`,
+    };
+}
+
 function TEST_Transform() {
     console.log('[TEST_Transform]');
 
@@ -353,6 +407,15 @@ function TEST_ThisDay() {
     console.log(getStartAndEndOfThisDayV2(now, '18:00:00'));
 }
 
+function TEST_ThisWeek() {
+    console.log('[TEST_ThisWeek]');
+
+    const now = m().unix();
+
+    console.log(getStartAndEndOfThisWeek(now));
+    console.log(getStartAndEndOfThisWeek(now, '18:00:00'));
+}
+
 function TEST_Birthdate() {
     console.log('[TEST_Birthdate]');
 
@@ -390,6 +453,7 @@ function TESTS() {
     TEST_Days();
     TEST_DaysV2();
     TEST_ThisDay();
+    TEST_ThisWeek();
     TEST_Birthdate();
     TEST_NextMonth();
     TEST_IsNextMonday();
