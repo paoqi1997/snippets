@@ -1,7 +1,8 @@
 'use strict';
 
 /**
- * http://momentjs.cn
+ * old: http://momentjs.cn
+ * new: https://moment.nodejs.cn
  */
 const m = require('moment');
 
@@ -260,25 +261,36 @@ function getStartAndEndOfThisDayV2(timestamp, Hms = '05:00:00', zone = 9) {
  * 以指定时分秒为分界线，获取给定时间这一周的开始及结束时间
  * @param {number} timestamp 秒级时间戳
  * @param {string} Hms 时分秒
+ * @param {number} weekday 星期几
  * @param {number} zone 时区
  */
-function getStartAndEndOfThisWeek(timestamp, Hms = '05:00:00', zone = 9) {
+function getStartAndEndOfThisWeek(timestamp, Hms = '05:00:00', weekday = 1, zone = 9) {
     const mobj = m(timestamp * 1000);
     const msec = mobj.valueOf();
-    const weekday = mobj.days();
+    const selfWeekday = mobj.days();
 
     let thisMon, nextMon;
+    let thisDay, nextDay;
 
-    if (weekday === 0) {
+    if (selfWeekday === 0) {
         thisMon = m(msec - 6 * SECS_1_DAY * 1000);
         nextMon = m(msec + SECS_1_DAY * 1000);
     } else {
-        thisMon = m(msec - (weekday - 1) * SECS_1_DAY * 1000);
-        nextMon = m(msec + (8 - weekday) * SECS_1_DAY * 1000);
+        thisMon = m(msec - (selfWeekday - 1) * SECS_1_DAY * 1000);
+        nextMon = m(msec + (8 - selfWeekday) * SECS_1_DAY * 1000);
     }
 
-    const thisYMD = thisMon.format(FMT_YMD);
-    const nextYMD = nextMon.format(FMT_YMD);
+    // 周日
+    if (weekday === 0) {
+        thisDay = m(thisMon.valueOf() + 6 * SECS_1_DAY * 1000);
+        nextDay = m(nextMon.valueOf() + 6 * SECS_1_DAY * 1000);
+    } else {
+        thisDay = m(thisMon.valueOf() + (weekday - 1) * SECS_1_DAY * 1000);
+        nextDay = m(nextMon.valueOf() + (weekday - 1) * SECS_1_DAY * 1000);
+    }
+
+    const thisYMD = thisDay.format(FMT_YMD);
+    const nextYMD = nextDay.format(FMT_YMD);
 
     let zz = '';
     zz += zone >= 0 ? '+' : '-';
@@ -287,25 +299,25 @@ function getStartAndEndOfThisWeek(timestamp, Hms = '05:00:00', zone = 9) {
     zz += zv >= 10 ? zv : `0${zv}`;
     zz += ':00';
 
-    const thisMonWithHms = m(`${thisYMD}T${Hms}${zz}`);
-    const nextMonWithHms = m(`${nextYMD}T${Hms}${zz}`);
+    const thisDayWithHms = m(`${thisYMD}T${Hms}${zz}`);
+    const nextDayWithHms = m(`${nextYMD}T${Hms}${zz}`);
 
     const nowText = mobj.format(FMT_YMD_Hms_ZZ);
 
-    const thisMonText = thisMonWithHms.format(FMT_YMD_Hms_ZZ);
-    const thisMonZText = thisMonWithHms.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
-    const tmZText = thisMonWithHms.utcOffset(zone).format('YYMMDD');
+    const thisDayText = thisDayWithHms.format(FMT_YMD_Hms_ZZ);
+    const thisDayZText = thisDayWithHms.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
+    const tmZText = thisDayWithHms.utcOffset(zone).format('YYMMDD');
 
-    const nextMonText = nextMonWithHms.format(FMT_YMD_Hms_ZZ);
-    const nextMonZText = nextMonWithHms.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
-    const nmZText = nextMonWithHms.utcOffset(zone).format('YYMMDD');
+    const nextDayText = nextDayWithHms.format(FMT_YMD_Hms_ZZ);
+    const nextDayZText = nextDayWithHms.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
+    const nmZText = nextDayWithHms.utcOffset(zone).format('YYMMDD');
 
     return {
         now: nowText,
-        thisMon: thisMonText,
-        thisMonZ: thisMonZText,
-        nextMon: nextMonText,
-        nextMonZ: nextMonZText,
+        thisDay: thisDayText,
+        thisDayZ: thisDayZText,
+        nextDay: nextDayText,
+        nextDayZ: nextDayZText,
         weeklyKey: `${tmZText}_${nmZText}`,
     };
 }
@@ -413,7 +425,8 @@ function TEST_ThisWeek() {
     const now = m().unix();
 
     console.log(getStartAndEndOfThisWeek(now));
-    console.log(getStartAndEndOfThisWeek(now, '18:00:00'));
+    console.log(getStartAndEndOfThisWeek(now, '18:00:00', 3));
+    console.log(getStartAndEndOfThisWeek(now, '18:00:00', 0));
 }
 
 function TEST_Birthdate() {
