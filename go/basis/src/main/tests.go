@@ -6,13 +6,12 @@ import (
     "util"
 )
 
-func UNIT(unitName string) {
+func TEST_UNIT(unitName string, fn func()) {
     fmt.Println(fmt.Sprintf(">>> TEST$%s", unitName))
+    fn()
 }
 
 func TEST_Platform() {
-    UNIT("Platform")
-
     os, arch := util.Platform()
     switch {
     case arch == "amd64":
@@ -25,16 +24,12 @@ func TEST_Platform() {
 }
 
 func TEST_Random() {
-    UNIT("Random")
-
     util.SetSeed()
     var res int = util.Random(100)
     defer fmt.Printf("Your number: %d\n", res)
 }
 
 func TEST_slice() {
-    UNIT("slice")
-
     m := [6]int{1, 2, 3, 4, 5, 6}
     slice1, slice2 := m[:3], m[3:]
     fmt.Println(len(slice1), cap(slice1), slice1)
@@ -55,8 +50,6 @@ func TEST_slice() {
 }
 
 func TEST_map() {
-    UNIT("map")
-
     pollers := map[string]string {
         "windows": "iocp", "linux": "epoll",
     }
@@ -69,8 +62,6 @@ func TEST_map() {
 }
 
 func TEST_struct_Engine() {
-    UNIT("struct_Engine")
-
     engine := util.Engine{"Unity"}
     fmt.Printf("%s\n", engine.GetName())
     engine.SetName("Unreal")
@@ -90,8 +81,6 @@ func TEST_struct_Engine() {
 }
 
 func TEST_Timer() {
-    UNIT("Timer")
-
     done := false
     ch := make(chan interface{})
 
