@@ -379,3 +379,65 @@ exports.test_removeSpaces = () => {
     const s = 'abc, xyz, 123';
     console.log(s.replace(/\s/g, '').split(','));
 }
+
+/**
+ * 解析区间
+ * @param {string} section 区间
+ * @returns 最高和最低排名要求
+ */
+function analySection(section) {
+    const result = { highestRank: 0, lowestRank: 0 };
+
+    try {
+        const rankLevel = Number(section);
+        result.highestRank = rankLevel;
+    } catch (e) {}
+
+    if (result.highestRank !== 0 && !Number.isNaN(result.highestRank)) {
+        return result;
+    }
+
+    try {
+        const rankLevel = section.replace(/\s+/g, '');
+
+        const leftParenthesis = rankLevel[0] === '(';
+        const rightParenthesis = rankLevel[rankLevel.length - 1] === ')';
+        const leftSquareBracket = rankLevel[0] === '[';
+        const rightSquareBracket = rankLevel[rankLevel.length - 1] === ']';
+
+        const idx = rankLevel.indexOf(',');
+
+        // 左方/圆括号的另一边
+        // (xxx | [xxx,
+        const leftAnotherSide = idx === -1 ? rankLevel.length : idx;
+
+        // 右方/圆括号的另一边
+        // xxx) | ,xxx]
+        const rightAnotherSide = idx === -1 ? 0 : idx + 1;
+
+        if (leftSquareBracket) {
+            result.highestRank = Number(rankLevel.slice(1, leftAnotherSide));
+        }
+        if (rightSquareBracket) {
+            result.lowestRank = Number(rankLevel.slice(rightAnotherSide, rankLevel.length - 1));
+        }
+        if (leftParenthesis) {
+            result.highestRank = Number(rankLevel.slice(1, leftAnotherSide)) + 1;
+        }
+        if (rightParenthesis) {
+            result.lowestRank = Number(rankLevel.slice(rightAnotherSide, rankLevel.length - 1)) - 1;
+        }
+    } catch (e) {}
+
+    return result;
+}
+
+exports.test_matchSection = () => {
+    printUnit('matchSection');
+
+    console.log(analySection('1'));
+    console.log(analySection('(3,100]'));
+    console.log(analySection('[4,100]'));
+    console.log(analySection('[4,101)'));
+    console.log(analySection('(100'));
+}
