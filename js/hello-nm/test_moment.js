@@ -5,6 +5,7 @@
  * new: https://moment.nodejs.cn
  */
 const m = require('moment');
+const mt = require('moment-timezone');
 
 const FMT_YMD_Hms_ZZ = 'YYYY-MM-DD HH:mm:ss ZZ';
 const FMT_YMD_Hms    = 'YYYY-MM-DD HH:mm:ss';
@@ -507,6 +508,24 @@ function TEST_ThisWeek() {
     console.log(getStartAndEndOfThisWeek(now, '18:00:00', 7));
 }
 
+function TEST_ThisWeek_ZeroTimezone() {
+    console.log('[TEST_ThisWeek_ZeroTimezone]');
+
+    // https://www.timezoneconverter.com/cgi-bin/zoneinfo.tzc?s=default&tz=Etc/UTC
+    // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+    mt.tz.setDefault('Etc/UTC');
+    console.log(m().format(FMT_YMD_Hms_ZZ));
+
+    const now = m().unix();
+
+    console.log(getStartAndEndOfThisWeek(now));
+    console.log(getStartAndEndOfThisWeek(now, '18:00:00', 3));
+    console.log(getStartAndEndOfThisWeek(now, '18:00:00', 7));
+
+    mt.tz.setDefault();
+    console.log(m().format(FMT_YMD_Hms_ZZ));
+}
+
 function TEST_Birthdate() {
     console.log('[TEST_Birthdate]');
 
@@ -546,6 +565,7 @@ function TESTS() {
     TEST_ThisDay();
     TEST_LastWeek();
     TEST_ThisWeek();
+    TEST_ThisWeek_ZeroTimezone();
     TEST_Birthdate();
     TEST_NextMonth();
     TEST_IsNextMonday();
