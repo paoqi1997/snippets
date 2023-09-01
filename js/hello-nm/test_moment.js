@@ -74,7 +74,7 @@ function getMomentOfMonday(timestamp) {
  * @param {number} zone 时区
  */
 function isNextMonday(sec, nowSec, Hms = '05:00:00', zone = 9) {
-    const mobj = m(sec * 1000);
+    const mobj = m(sec * 1000).utcOffset(zone);
     const msec = mobj.valueOf();
     const weekday = mobj.days();
 
@@ -86,7 +86,7 @@ function isNextMonday(sec, nowSec, Hms = '05:00:00', zone = 9) {
         nextMon = m(msec + (8 - weekday) * SECS_1_DAY * 1000);
     }
 
-    const YMD = nextMon.format(FMT_YMD);
+    const YMD = nextMon.utcOffset(zone).format(FMT_YMD);
 
     let zz = '';
     zz += zone >= 0 ? '+' : '-';
@@ -265,7 +265,7 @@ function getStartAndEndOfThisDayV2(timestamp, Hms = '05:00:00', zone = 9) {
  * @param {number} zone 时区
  */
 function getStartAndEndOfLastWeek(timestamp, Hms = '05:00:00', weekday = 1, zone = 9) {
-    const mobj = m(timestamp * 1000);
+    const mobj = m(timestamp * 1000).utcOffset(zone);
     const msec = mobj.valueOf();
     const selfWeekday = mobj.days();
 
@@ -288,8 +288,8 @@ function getStartAndEndOfLastWeek(timestamp, Hms = '05:00:00', weekday = 1, zone
         offset = (weekday - 1) * SECS_1_DAY * 1000;
     }
 
-    const lastDay = m(lastMon.valueOf() + offset);
-    const thisDay = m(thisMon.valueOf() + offset);
+    const lastDay = m(lastMon.valueOf() + offset).utcOffset(zone);
+    const thisDay = m(thisMon.valueOf() + offset).utcOffset(zone);
 
     const lastYMD = lastDay.format(FMT_YMD);
     const thisYMD = thisDay.format(FMT_YMD);
@@ -332,7 +332,7 @@ function getStartAndEndOfLastWeek(timestamp, Hms = '05:00:00', weekday = 1, zone
  * @param {number} zone 时区
  */
 function getStartAndEndOfThisWeek(timestamp, Hms = '05:00:00', weekday = 1, zone = 9) {
-    const mobj = m(timestamp * 1000);
+    const mobj = m(timestamp * 1000).utcOffset(zone);
     const msec = mobj.valueOf();
     const selfWeekday = mobj.days();
 
@@ -355,8 +355,8 @@ function getStartAndEndOfThisWeek(timestamp, Hms = '05:00:00', weekday = 1, zone
         offset = (weekday - 1) * SECS_1_DAY * 1000;
     }
 
-    const thisDay = m(thisMon.valueOf() + offset);
-    const nextDay = m(nextMon.valueOf() + offset);
+    const thisDay = m(thisMon.valueOf() + offset).utcOffset(zone);
+    const nextDay = m(nextMon.valueOf() + offset).utcOffset(zone);
 
     const thisYMD = thisDay.format(FMT_YMD);
     const nextYMD = nextDay.format(FMT_YMD);
