@@ -279,6 +279,18 @@ function getStartAndEndOfLastWeek(timestamp, Hms = '05:00:00', weekday = 1, zone
         thisMon = m(msec - (selfWeekday - 1) * SECS_1_DAY * 1000);
     }
 
+    const duration = Hms2Secs(Hms);
+    const targetMo = m(timestamp * 1000).utcOffset(zone).startOf('days').add(duration, 'seconds');
+
+    const realWeekday = weekday === 7 ? 0 : weekday;
+    const sameDay = selfWeekday === realWeekday;
+
+    // 当前时间和分隔日在同一天时检查是否需要绕回一周
+    if (sameDay && mobj.unix() < targetMo.unix()) {
+        lastMon = m(lastMon.valueOf() - SECS_1_WEEK * 1000);
+        thisMon = m(thisMon.valueOf() - SECS_1_WEEK * 1000);
+    }
+
     let offset;
 
     // 周日
@@ -344,6 +356,18 @@ function getStartAndEndOfThisWeek(timestamp, Hms = '05:00:00', weekday = 1, zone
     } else {
         thisMon = m(msec - (selfWeekday - 1) * SECS_1_DAY * 1000);
         nextMon = m(msec + (8 - selfWeekday) * SECS_1_DAY * 1000);
+    }
+
+    const duration = Hms2Secs(Hms);
+    const targetMo = m(timestamp * 1000).utcOffset(zone).startOf('days').add(duration, 'seconds');
+
+    const realWeekday = weekday === 7 ? 0 : weekday;
+    const sameDay = selfWeekday === realWeekday;
+
+    // 当前时间和分隔日在同一天时检查是否需要绕回一周
+    if (sameDay && mobj.unix() < targetMo.unix()) {
+        thisMon = m(thisMon.valueOf() - SECS_1_WEEK * 1000);
+        nextMon = m(nextMon.valueOf() - SECS_1_WEEK * 1000);
     }
 
     let offset;
