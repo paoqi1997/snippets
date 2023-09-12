@@ -170,14 +170,12 @@ exports.getTimeString = dateobj => {
 
 exports.getPromise = () => {
     const p = new Promise((resolve, reject) => {
-        setTimeout(() => {
-            const n = Math.ceil(Math.random() * 10);
-            if (n % 2 == 0) {
-                resolve(n);
-            } else {
-                reject(`${n} is not even.`);
-            }
-        }, 1000);
+        const n = Math.ceil(Math.random() * 10);
+        if (n % 2 == 0) {
+            resolve(n);
+        } else {
+            reject(`${n} is not even.`);
+        }
     });
     return p;
 }
