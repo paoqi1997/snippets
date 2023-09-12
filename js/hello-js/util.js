@@ -393,8 +393,15 @@ function analySection(section) {
         result.highestRank = rankLevel;
     } catch (e) {}
 
-    if (result.highestRank !== 0 && !Number.isNaN(result.highestRank)) {
+    const IsNaN = Number.isNaN(result.highestRank);
+
+    if (result.highestRank !== 0 && !IsNaN) {
+        result.lowestRank = result.highestRank;
         return result;
+    }
+
+    if (IsNaN) {
+        result.highestRank = 0;
     }
 
     try {
@@ -429,6 +436,13 @@ function analySection(section) {
         }
     } catch (e) {}
 
+    if (result.highestRank === 0) {
+        result.highestRank = 1;
+    }
+    if (result.lowestRank === 0) {
+        result.lowestRank = 100000;
+    }
+
     return result;
 }
 
@@ -440,4 +454,5 @@ exports.test_matchSection = () => {
     console.log(analySection('[4,100]'));
     console.log(analySection('[4,101)'));
     console.log(analySection('(100'));
+    console.log(analySection('200)'));
 }
