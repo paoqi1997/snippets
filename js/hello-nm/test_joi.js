@@ -5,9 +5,18 @@
  */
 const joi = require('joi');
 
-const schema = joi.object({
-    skipReducing: joi.number().optional(),
-});
+function tests() {
+    test();
+}
 
-console.log(schema.validate({}));
-console.log(schema.validate({ skipReducing: 1 }));
+tests();
+
+function test() {
+    const schema = joi.object({
+        skipReducing: joi.number().optional(),
+    });
+
+    console.log(schema.validate({}));
+    console.log(schema.validate({ skipReducing: 1 }));
+    console.log(schema.validate({ name: 'paoqi' }));
+}
