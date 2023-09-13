@@ -86,6 +86,16 @@ function isNextMonday(sec, nowSec, Hms = '05:00:00', zone = 9) {
         nextMon = m(msec + (8 - weekday) * SECS_1_DAY * 1000);
     }
 
+    const duration = Hms2Secs(Hms);
+    const targetMo = m(sec * 1000).utcOffset(zone).startOf('days').add(duration, 'seconds');
+
+    const sameDay = weekday === 1;
+
+    // 当前时间和分隔日在同一天时检查是否需要绕回一周
+    if (sameDay && mobj.unix() < targetMo.unix()) {
+        nextMon = m(nextMon.valueOf() - SECS_1_WEEK * 1000);
+    }
+
     const YMD = nextMon.utcOffset(zone).format(FMT_YMD);
 
     let zz = '';
@@ -100,8 +110,8 @@ function isNextMonday(sec, nowSec, Hms = '05:00:00', zone = 9) {
     const yes = nowSec >= nextMonWithHms.unix();
     const nowText = m(nowSec * 1000).format(FMT_YMD_Hms_ZZ);
 
-    const objText = mobj.format(FMT_YMD_Hms_ZZ);
-    const objZText = mobj.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
+    const objText = m(sec * 1000).format(FMT_YMD_Hms_ZZ);
+    const objZText = m(sec * 1000).utcOffset(zone).format(FMT_YMD_Hms_ZZ);
 
     const monText = nextMonWithHms.format(FMT_YMD_Hms_ZZ);
     const monZText = nextMonWithHms.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
@@ -110,8 +120,8 @@ function isNextMonday(sec, nowSec, Hms = '05:00:00', zone = 9) {
         yes,
         now: nowText,
         obj: objText,
-        mon: monText,
         objZ: objZText,
+        mon: monText,
         monZ: monZText,
     };
 }
@@ -578,6 +588,7 @@ function TEST_IsNextMonday() {
     const now = m('2023-07-24 22:12:00').unix();
 
     console.log(isNextMonday(m('2023-07-21 22:00:00').unix(), now));
+    console.log(isNextMonday(m('2023-07-24 03:56:00').unix(), now));
     console.log(isNextMonday(m('2023-07-24 20:00:00').unix(), now));
 }
 
