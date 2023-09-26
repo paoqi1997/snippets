@@ -268,6 +268,34 @@ function getStartAndEndOfThisDayV2(timestamp, Hms = '05:00:00', zone = 9) {
 }
 
 /**
+ * 获取 YYMMDD 格式的时间文本对应的时间戳
+ * @param {string} YMD YYMMDD 格式的时间文本
+ * @param {string} Hms 时分秒
+ * @param {number} zone 时区
+ */
+function getTimeWithYMD(YMD, Hms = '05:00:00', zone = 9) {
+    let zz = '';
+    zz += zone >= 0 ? '+' : '-';
+
+    const zv = Math.abs(zone);
+    zz += zv >= 10 ? zv : `0${zv}`;
+    zz += ':00';
+
+    const m1 = m(YMD, 'YYMMDD');
+    const longYMD = m1.format(FMT_YMD);
+    const m2 = m(`${longYMD}T${Hms || '05:00:00'}${zz}`);
+
+    return {
+        src: m1.unix(),
+        srcText: m1.format(FMT_YMD_Hms_ZZ),
+        srcZText: m1.utcOffset(zone).format(FMT_YMD_Hms_ZZ),
+        dst: m2.unix(),
+        dstText: m2.format(FMT_YMD_Hms_ZZ),
+        dstZText: m2.utcOffset(zone).format(FMT_YMD_Hms_ZZ),
+    };
+}
+
+/**
  * 以指定时分秒为分界线，获取给定时间上一周的开始及结束时间
  * @param {number} timestamp 秒级时间戳
  * @param {string} Hms 时分秒
@@ -368,7 +396,7 @@ function getStartAndEndOfThisWeek(timestamp, Hms = '05:00:00', weekday = 1, zone
         nextMon = m(msec + (8 - selfWeekday) * SECS_1_DAY * 1000);
     }
 
-    const duration = Hms2Secs(Hms);
+    const duration = Hms2Secs(Hms || '05:00:00');
     const targetMo = m(timestamp * 1000).utcOffset(zone).startOf('days').add(duration, 'seconds');
 
     const realWeekday = weekday === 7 ? 0 : weekday;
@@ -522,6 +550,13 @@ function TEST_ThisDay() {
     console.log(getStartAndEndOfThisDayV2(now, '18:00:00'));
 }
 
+function TEST_GetTimeWithYMD() {
+    console.log('[TEST_GetTimeWithYMD]');
+
+    console.log(getTimeWithYMD('231002'));
+    console.log(getTimeWithYMD('231002', undefined, -2));
+}
+
 function TEST_LastWeek() {
     console.log('[TEST_LastWeek]');
 
@@ -540,6 +575,7 @@ function TEST_ThisWeek() {
     console.log(getStartAndEndOfThisWeek(now));
     console.log(getStartAndEndOfThisWeek(now, '18:00:00', 3));
     console.log(getStartAndEndOfThisWeek(now, '18:00:00', 7));
+    console.log(getStartAndEndOfThisWeek(now, undefined, 1, -2));
 }
 
 function TEST_ThisWeek_ZeroTimezone() {
@@ -598,6 +634,7 @@ function TESTS() {
     TEST_Days();
     TEST_DaysV2();
     TEST_ThisDay();
+    TEST_GetTimeWithYMD();
     TEST_LastWeek();
     TEST_ThisWeek();
     TEST_ThisWeek_ZeroTimezone();
