@@ -247,11 +247,14 @@ function getStartAndEndOfThisDay(timestamp, Hms = '05:00:00') {
 function getStartAndEndOfThisDayV2(timestamp, Hms = '05:00:00', zone = 9) {
     const m1 = m(timestamp * 1000).utcOffset(zone);
 
-    const duration = Hms2Secs(Hms);
+    const duration = Hms2Secs(Hms || '05:00:00');
 
     const m2 = m1.startOf('day').add(duration, 'seconds');
 
-    console.debug(`[DEBUG] ${m2.format(FMT_YMD_Hms_ZZ)}`);
+    const tt1 = m(timestamp * 1000).format(FMT_YMD_Hms_ZZ);
+    const tt2 = m(timestamp * 1000).utcOffset(zone).format(FMT_YMD_Hms_ZZ);
+
+    console.debug(`[DEBUG] ${tt1} -> ${tt2}`);
 
     const ts = m2.unix();
     const earlier = timestamp < ts;
@@ -261,9 +264,9 @@ function getStartAndEndOfThisDayV2(timestamp, Hms = '05:00:00', zone = 9) {
 
     return {
         startTimestamp,
-        startTimeText: m(startTimestamp * 1000).format(FMT_YMD_Hms_ZZ),
+        startTimeText: m(startTimestamp * 1000).utcOffset(zone).format(FMT_YMD_Hms_ZZ),
         endTimestamp,
-        endTimeText: m(endTimestamp * 1000).format(FMT_YMD_Hms_ZZ),
+        endTimeText: m(endTimestamp * 1000).utcOffset(zone).format(FMT_YMD_Hms_ZZ),
     };
 }
 
@@ -548,6 +551,9 @@ function TEST_ThisDay() {
 
     console.log(getStartAndEndOfThisDayV2(now));
     console.log(getStartAndEndOfThisDayV2(now, '18:00:00'));
+
+    const t = m('230926', 'YYMMDD').unix();
+    console.log(getStartAndEndOfThisDayV2(t, undefined, -2));
 }
 
 function TEST_GetTimeWithYMD() {
