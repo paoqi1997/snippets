@@ -10,6 +10,7 @@ const mt = require('moment-timezone');
 const FMT_YMD_Hms_ZZ = 'YYYY-MM-DD HH:mm:ss ZZ';
 const FMT_YMD_Hms    = 'YYYY-MM-DD HH:mm:ss';
 const FMT_YMD        = 'YYYY-MM-DD';
+const FMT_SHORT_YMD  = 'YYMMDD';
 const FMT_YM         = 'YYYY-MM';
 const FMT_Hms        = 'HH:mm:ss';
 
@@ -284,7 +285,7 @@ function getTimeWithYMD(YMD, Hms = '05:00:00', zone = 9) {
     zz += zv >= 10 ? zv : `0${zv}`;
     zz += ':00';
 
-    const m1 = m(YMD, 'YYMMDD');
+    const m1 = m(YMD, FMT_SHORT_YMD);
     const longYMD = m1.format(FMT_YMD);
     const m2 = m(`${longYMD}T${Hms || '05:00:00'}${zz}`);
 
@@ -361,11 +362,11 @@ function getStartAndEndOfLastWeek(timestamp, Hms = '05:00:00', weekday = 1, zone
 
     const lastDayText = lastDayWithHms.format(FMT_YMD_Hms_ZZ);
     const lastDayZText = lastDayWithHms.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
-    const ldZText = lastDayWithHms.utcOffset(zone).format('YYMMDD');
+    const ldZText = lastDayWithHms.utcOffset(zone).format(FMT_SHORT_YMD);
 
     const thisDayText = thisDayWithHms.format(FMT_YMD_Hms_ZZ);
     const thisDayZText = thisDayWithHms.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
-    const tdZText = thisDayWithHms.utcOffset(zone).format('YYMMDD');
+    const tdZText = thisDayWithHms.utcOffset(zone).format(FMT_SHORT_YMD);
 
     return {
         now: nowText,
@@ -440,11 +441,11 @@ function getStartAndEndOfThisWeek(timestamp, Hms = '05:00:00', weekday = 1, zone
 
     const thisDayText = thisDayWithHms.format(FMT_YMD_Hms_ZZ);
     const thisDayZText = thisDayWithHms.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
-    const tdZText = thisDayWithHms.utcOffset(zone).format('YYMMDD');
+    const tdZText = thisDayWithHms.utcOffset(zone).format(FMT_SHORT_YMD);
 
     const nextDayText = nextDayWithHms.format(FMT_YMD_Hms_ZZ);
     const nextDayZText = nextDayWithHms.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
-    const ndZText = nextDayWithHms.utcOffset(zone).format('YYMMDD');
+    const ndZText = nextDayWithHms.utcOffset(zone).format(FMT_SHORT_YMD);
 
     return {
         now: nowText,
@@ -552,7 +553,7 @@ function TEST_ThisDay() {
     console.log(getStartAndEndOfThisDayV2(now));
     console.log(getStartAndEndOfThisDayV2(now, '18:00:00'));
 
-    const t = m('230926', 'YYMMDD').unix();
+    const t = m('230926', FMT_SHORT_YMD).unix();
     console.log(getStartAndEndOfThisDayV2(t, undefined, -2));
 }
 
