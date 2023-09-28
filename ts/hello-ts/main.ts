@@ -3,6 +3,7 @@ import * as util from './util';
 function tests() {
   test_class();
   test_enum();
+  test_function();
 }
 
 tests();
@@ -46,4 +47,14 @@ function test_enum() {
   if ([LOG_LEVEL.INFO, LOG_LEVEL.WARN].includes(level)) {
     console.log('YES!');
   }
+}
+
+function test_function() {
+  console.log('TEST$_.function');
+
+  let fn: any = (x: any, y: any) => {
+    console.log(x, y);
+  };
+
+  fn(1, 2, 3);
 }
