@@ -23,6 +23,11 @@ PS C:\Users\paoqi> py -3 -c `
 
 # 发起 GET 请求
 PS C:\Users\paoqi> Invoke-RestMethod -Method GET -Uri "ipinfo.io" | ConvertTo-Json -Depth 64
+
+# 查看已安装的字体
+PS C:\Users\paoqi> Add-Type -AssemblyName System.Drawing
+PS C:\Users\paoqi> $installedFonts = New-Object 'System.Drawing.Text.InstalledFontCollection'
+PS C:\Users\paoqi> $installedFonts.Families
 ```
 
 ## [环境变量](https://www.pstips.net/powershell-environment-variables.html)
