@@ -24,10 +24,30 @@ PS C:\Users\paoqi> py -3 -c `
 # 发起 GET 请求
 PS C:\Users\paoqi> Invoke-RestMethod -Method GET -Uri "ipinfo.io" | ConvertTo-Json -Depth 64
 
+# https://www.pstips.net/retrieve-system-fonts.html
 # 查看已安装的字体
 PS C:\Users\paoqi> Add-Type -AssemblyName System.Drawing
 PS C:\Users\paoqi> $installedFonts = New-Object 'System.Drawing.Text.InstalledFontCollection'
 PS C:\Users\paoqi> $installedFonts.Families
+
+# 查看卷
+PS C:\Users\paoqi> Get-Volume
+# 查看磁盘
+PS C:\Users\paoqi> Get-Disk
+# 查看物理磁盘
+PS C:\Users\paoqi> Get-PhysicalDisk
+```
+
+查看磁盘对应的硬盘类型。
+
+```ps1
+# https://stackoverflow.com/questions/59554196/drive-letters-drive-physical-types-powershell
+Get-PhysicalDisk | ForEach-Object {
+    $physicalDisk = $_
+    $physicalDisk | Get-Disk | Get-Partition |
+        Where-Object DriveLetter |
+        Select-Object DriveLetter, @{n='MediaType';e={ $physicalDisk.MediaType }}
+}
 ```
 
 ## [环境变量](https://www.pstips.net/powershell-environment-variables.html)
