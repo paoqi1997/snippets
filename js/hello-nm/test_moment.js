@@ -58,12 +58,41 @@ function getMomentOfZeroTime(timestamp) {
 function getMomentOfMonday(timestamp) {
     const mobj = timestamp ? m(timestamp) : m();
     const ts = mobj.valueOf();
-
     const weekday = mobj.days();
+
     if (weekday === 0) {
         return m(ts - 6 * SECS_1_DAY * 1000);
     } else {
         return m(ts - (weekday - 1) * SECS_1_DAY * 1000);
+    }
+}
+
+/**
+ * 获取本周指定星期的时间
+ * @param {string} day 星期几
+ * @param {number} timestamp 毫秒级时间戳
+ * @returns {m.Moment} Moment 对象
+ */
+function getMomentOfThisWeek(day, timestamp) {
+    const mobj = getMomentOfMonday(timestamp);
+
+    switch (day) {
+    case 'Mon':
+        return mobj;
+    case 'Tue':
+        return m(mobj.valueOf() + SECS_1_DAY * 1000);
+    case 'Wed':
+        return m(mobj.valueOf() + 2 * SECS_1_DAY * 1000);
+    case 'Thu':
+        return m(mobj.valueOf() + 3 * SECS_1_DAY * 1000);
+    case 'Fri':
+        return m(mobj.valueOf() + 4 * SECS_1_DAY * 1000);
+    case 'Sat':
+        return m(mobj.valueOf() + 5 * SECS_1_DAY * 1000);
+    case 'Sun':
+        return m(mobj.valueOf() + 6 * SECS_1_DAY * 1000);
+    default:
+        throw new Error('Invalid day');
     }
 }
 
@@ -125,35 +154,6 @@ function isNextMonday(sec, nowSec, Hms = '05:00:00', zone = 9) {
         mon: monText,
         monZ: monZText,
     };
-}
-
-/**
- * 获取本周指定星期的时间
- * @param {string} day 星期几
- * @param {number} timestamp 毫秒级时间戳
- * @returns {m.Moment} Moment 对象
- */
-function getMomentOfThisWeek(day, timestamp) {
-    const mobj = getMomentOfMonday(timestamp);
-
-    switch (day) {
-    case 'Mon':
-        return mobj;
-    case 'Tue':
-        return m(mobj.valueOf() + SECS_1_DAY * 1000);
-    case 'Wed':
-        return m(mobj.valueOf() + 2 * SECS_1_DAY * 1000);
-    case 'Thu':
-        return m(mobj.valueOf() + 3 * SECS_1_DAY * 1000);
-    case 'Fri':
-        return m(mobj.valueOf() + 4 * SECS_1_DAY * 1000);
-    case 'Sat':
-        return m(mobj.valueOf() + 5 * SECS_1_DAY * 1000);
-    case 'Sun':
-        return m(mobj.valueOf() + 6 * SECS_1_DAY * 1000);
-    default:
-        throw new Error('Invalid day');
-    }
 }
 
 /**
@@ -268,34 +268,6 @@ function getStartAndEndOfThisDayV2(timestamp, Hms = '05:00:00', zone = 9) {
         startTimeText: m(startTimestamp * 1000).utcOffset(zone).format(FMT_YMD_Hms_ZZ),
         endTimestamp,
         endTimeText: m(endTimestamp * 1000).utcOffset(zone).format(FMT_YMD_Hms_ZZ),
-    };
-}
-
-/**
- * 获取 YYMMDD 格式的时间文本对应的时间戳
- * @param {string} YMD YYMMDD 格式的时间文本
- * @param {string} Hms 时分秒
- * @param {number} zone 时区
- */
-function getTimeWithYMD(YMD, Hms = '05:00:00', zone = 9) {
-    let zz = '';
-    zz += zone >= 0 ? '+' : '-';
-
-    const zv = Math.abs(zone);
-    zz += zv >= 10 ? zv : `0${zv}`;
-    zz += ':00';
-
-    const m1 = m(YMD, FMT_SHORT_YMD);
-    const longYMD = m1.format(FMT_YMD);
-    const m2 = m(`${longYMD}T${Hms || '05:00:00'}${zz}`);
-
-    return {
-        src: m1.unix(),
-        srcText: m1.format(FMT_YMD_Hms_ZZ),
-        srcZText: m1.utcOffset(zone).format(FMT_YMD_Hms_ZZ),
-        dst: m2.unix(),
-        dstText: m2.format(FMT_YMD_Hms_ZZ),
-        dstZText: m2.utcOffset(zone).format(FMT_YMD_Hms_ZZ),
     };
 }
 
@@ -457,6 +429,74 @@ function getStartAndEndOfThisWeek(timestamp, Hms = '05:00:00', weekday = 1, zone
     };
 }
 
+/**
+ * 获取 YYMMDD 格式的时间文本对应的时间戳
+ * @param {string} YMD YYMMDD 格式的时间文本
+ * @param {string} Hms 时分秒
+ * @param {number} zone 时区
+ */
+function getTimeWithYMD(YMD, Hms = '05:00:00', zone = 9) {
+    let zz = '';
+    zz += zone >= 0 ? '+' : '-';
+
+    const zv = Math.abs(zone);
+    zz += zv >= 10 ? zv : `0${zv}`;
+    zz += ':00';
+
+    const m1 = m(YMD, FMT_SHORT_YMD);
+    const longYMD = m1.format(FMT_YMD);
+    const m2 = m(`${longYMD}T${Hms || '05:00:00'}${zz}`);
+
+    return {
+        src: m1.unix(),
+        srcText: m1.format(FMT_YMD_Hms_ZZ),
+        srcZText: m1.utcOffset(zone).format(FMT_YMD_Hms_ZZ),
+        dst: m2.unix(),
+        dstText: m2.format(FMT_YMD_Hms_ZZ),
+        dstZText: m2.utcOffset(zone).format(FMT_YMD_Hms_ZZ),
+    };
+}
+
+/**
+ * 给定时间戳在指定时区是否在时刻范围内
+ * @param {number} timestamp 秒级时间戳
+ * @param {number} zone 时区
+ * @param {string} LHms 开始时分秒
+ * @param {string} RHms 结束时分秒
+ */
+function isInRequiredClock(timestamp, zone = 9, LHms = '06:00:00', RHms = '22:00:00') {
+    const mobj = m(timestamp * 1000).utcOffset(zone);
+    const YMD = mobj.format(FMT_YMD);
+
+    let zz = '';
+    zz += zone >= 0 ? '+' : '-';
+
+    const zv = Math.abs(zone);
+    zz += zv >= 10 ? zv : `0${zv}`;
+    zz += ':00';
+
+    const lm = m(`${YMD}T${LHms}${zz}`);
+    const rm = m(`${YMD}T${RHms}${zz}`);
+
+    const lmSec = lm.unix();
+    const rmSec = rm.unix();
+
+    const yes = lmSec <= timestamp && timestamp < rmSec;
+
+    const lmText = lm.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
+    const rmText = rm.utcOffset(zone).format(FMT_YMD_Hms_ZZ);
+
+    return {
+        yes,
+        timestamp,
+        text: mobj.format(FMT_YMD_Hms_ZZ),
+        lmSec,
+        lmText,
+        rmSec,
+        rmText,
+    };
+}
+
 function TEST_Transform() {
     console.log('[TEST_Transform]');
 
@@ -557,13 +597,6 @@ function TEST_ThisDay() {
     console.log(getStartAndEndOfThisDayV2(t, undefined, -2));
 }
 
-function TEST_GetTimeWithYMD() {
-    console.log('[TEST_GetTimeWithYMD]');
-
-    console.log(getTimeWithYMD('231002'));
-    console.log(getTimeWithYMD('231002', undefined, -2));
-}
-
 function TEST_LastWeek() {
     console.log('[TEST_LastWeek]');
 
@@ -601,6 +634,26 @@ function TEST_ThisWeek_ZeroTimezone() {
 
     mt.tz.setDefault();
     console.log(m().format(FMT_YMD_Hms_ZZ));
+}
+
+/**
+ * 给定时间文本在不同时区下的时间戳
+ */
+function TEST_GetTimeWithYMD() {
+    console.log('[TEST_GetTimeWithYMD]');
+
+    console.log(getTimeWithYMD('231002'));
+    console.log(getTimeWithYMD('231002', undefined, -2));
+}
+
+/**
+ * 给定时间戳在不同时区下的时间文本
+ */
+function TEST_IsInRequiredClock() {
+    console.log('[TEST_IsInRequiredClock]');
+
+    console.log(isInRequiredClock(m().unix()));
+    console.log(isInRequiredClock(1700000000, 9, '10:00:00', '18:00:00'));
 }
 
 function TEST_Birthdate() {
@@ -641,10 +694,11 @@ function TESTS() {
     TEST_Days();
     TEST_DaysV2();
     TEST_ThisDay();
-    TEST_GetTimeWithYMD();
     TEST_LastWeek();
     TEST_ThisWeek();
     TEST_ThisWeek_ZeroTimezone();
+    TEST_GetTimeWithYMD();
+    TEST_IsInRequiredClock();
     TEST_Birthdate();
     TEST_NextMonth();
     TEST_IsNextMonday();
