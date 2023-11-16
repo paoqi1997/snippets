@@ -39,6 +39,17 @@ function Hms2Secs(Hms) {
     return m(`1970-01-01 ${Hms}`).diff(m('1970-01-01'), 'seconds');
 }
 
+function zone2zz(zone) {
+    let zz = '';
+    zz += zone >= 0 ? '+' : '-';
+
+    const zv = Math.abs(zone);
+    zz += zv >= 10 ? zv : `0${zv}`;
+    zz += ':00';
+
+    return zz;
+}
+
 /**
  * 获取给定时间的当天零点时间
  * @param {number} timestamp 毫秒级时间戳
@@ -127,13 +138,7 @@ function isNextMonday(sec, nowSec, Hms = '05:00:00', zone = 9) {
     }
 
     const YMD = nextMon.utcOffset(zone).format(FMT_YMD);
-
-    let zz = '';
-    zz += zone >= 0 ? '+' : '-';
-
-    const zv = Math.abs(zone);
-    zz += zv >= 10 ? zv : `0${zv}`;
-    zz += ':00';
+    const zz = zone2zz(zone);
 
     const nextMonWithHms = m(`${YMD}T${Hms}${zz}`);
 
@@ -320,12 +325,7 @@ function getStartAndEndOfLastWeek(timestamp, Hms = '05:00:00', weekday = 1, zone
     const lastYMD = lastDay.format(FMT_YMD);
     const thisYMD = thisDay.format(FMT_YMD);
 
-    let zz = '';
-    zz += zone >= 0 ? '+' : '-';
-
-    const zv = Math.abs(zone);
-    zz += zv >= 10 ? zv : `0${zv}`;
-    zz += ':00';
+    const zz = zone2zz(zone);
 
     const lastDayWithHms = m(`${lastYMD}T${Hms}${zz}`);
     const thisDayWithHms = m(`${thisYMD}T${Hms}${zz}`);
@@ -399,12 +399,7 @@ function getStartAndEndOfThisWeek(timestamp, Hms = '05:00:00', weekday = 1, zone
     const thisYMD = thisDay.format(FMT_YMD);
     const nextYMD = nextDay.format(FMT_YMD);
 
-    let zz = '';
-    zz += zone >= 0 ? '+' : '-';
-
-    const zv = Math.abs(zone);
-    zz += zv >= 10 ? zv : `0${zv}`;
-    zz += ':00';
+    const zz = zone2zz(zone);
 
     const thisDayWithHms = m(`${thisYMD}T${Hms}${zz}`);
     const nextDayWithHms = m(`${nextYMD}T${Hms}${zz}`);
@@ -436,12 +431,7 @@ function getStartAndEndOfThisWeek(timestamp, Hms = '05:00:00', weekday = 1, zone
  * @param {number} zone 时区
  */
 function getTimeWithYMD(YMD, Hms = '05:00:00', zone = 9) {
-    let zz = '';
-    zz += zone >= 0 ? '+' : '-';
-
-    const zv = Math.abs(zone);
-    zz += zv >= 10 ? zv : `0${zv}`;
-    zz += ':00';
+    const zz = zone2zz(zone);
 
     const m1 = m(YMD, FMT_SHORT_YMD);
     const longYMD = m1.format(FMT_YMD);
@@ -467,13 +457,7 @@ function getTimeWithYMD(YMD, Hms = '05:00:00', zone = 9) {
 function isInRequiredClock(timestamp, zone = 9, LHms = '06:00:00', RHms = '22:00:00') {
     const mobj = m(timestamp * 1000).utcOffset(zone);
     const YMD = mobj.format(FMT_YMD);
-
-    let zz = '';
-    zz += zone >= 0 ? '+' : '-';
-
-    const zv = Math.abs(zone);
-    zz += zv >= 10 ? zv : `0${zv}`;
-    zz += ':00';
+    const zz = zone2zz(zone);
 
     const lm = m(`${YMD}T${LHms}${zz}`);
     const rm = m(`${YMD}T${RHms}${zz}`);
