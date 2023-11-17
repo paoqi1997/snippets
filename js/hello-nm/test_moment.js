@@ -35,8 +35,19 @@ function StrToInt13(s) {
     return m(s).valueOf();
 }
 
-function Hms2Secs(Hms) {
-    return m(`1970-01-01 ${Hms}`).diff(m('1970-01-01'), 'seconds');
+function Hms2Secs(Hms, v = 'v2') {
+    if (v === 'v1') {
+        return m(`1970-01-01 ${Hms}`).diff(m('1970-01-01'), 'seconds');
+    }
+
+    const vals = Hms.split(':');
+    const hour = Number(vals[0]);
+    const min = Number(vals[1]);
+    const sec = Number(vals[2]);
+    const secs = hour * SECS_1_HOUR + min * SECS_1_MINUTE + sec;
+    const realSecs = secs <= SECS_1_DAY ? secs : NaN;
+
+    return realSecs;
 }
 
 function zone2zz(zone) {
@@ -48,6 +59,19 @@ function zone2zz(zone) {
     zz += ':00';
 
     return zz;
+}
+
+function timeConsuming(func, times) {
+    const startTime = Date.now();
+
+    for (let i = 0; i < times; i += 1) {
+        func();
+    }
+
+    const endTime = Date.now();
+    const ms = endTime - startTime;
+
+    return ms;
 }
 
 /**
@@ -497,6 +521,35 @@ function TEST_Transform() {
     console.log(v);
 }
 
+function TEST_Hms2Secs() {
+    console.log('[TEST_Hms2Secs]');
+
+    const V1 = (Hms) => { return Hms2Secs(Hms, 'v1'); };
+    const V2 = (Hms) => { return Hms2Secs(Hms); };
+
+    let Hms = '00:00:00';
+    console.log(V1(Hms), V2(Hms));
+
+    Hms = '24:00:01';
+    console.log(V1(Hms), V2(Hms));
+
+    Hms = '24:00:00';
+    console.log(V1(Hms), V2(Hms));
+
+    Hms = '23:59:59';
+    console.log(V1(Hms), V2(Hms));
+
+    const T1 = () => { V1(Hms); };
+    const T2 = () => { V2(Hms); };
+
+    const times = 10000;
+
+    const ms1 = timeConsuming(T1, times);
+    const ms2 = timeConsuming(T2, times);
+
+    console.log(ms1, ms2);
+}
+
 function TEST_DayN() {
     console.log('[TEST_DayN]');
 
@@ -674,6 +727,7 @@ function TEST_IsNextMonday() {
 
 function TESTS() {
     TEST_Transform();
+    TEST_Hms2Secs();
     TEST_DayN();
     TEST_Days();
     TEST_DaysV2();
