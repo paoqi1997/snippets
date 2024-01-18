@@ -21,8 +21,10 @@ PS C:\Users\paoqi> $PSVersionTable
 PS C:\Users\paoqi> py -3 -c `
 >> 'import math; print(math.pi)'
 
+# https://www.pdq.com/powershell/
 # 发起 GET 请求
-PS C:\Users\paoqi> Invoke-RestMethod -Method GET -Uri "ipinfo.io" | ConvertTo-Json -Depth 64
+PS C:\Users\paoqi> Invoke-RestMethod -Method GET -Uri ipinfo.io | ConvertTo-Json -Depth 64
+PS C:\Users\paoqi> Invoke-WebRequest -Uri https://dynamodb.ap-northeast-1.amazonaws.com/ping
 
 # https://www.pstips.net/retrieve-system-fonts.html
 # 查看已安装的字体
