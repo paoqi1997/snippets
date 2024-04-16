@@ -220,13 +220,12 @@ function calNewWights(v1weights, v2weights, pool) {
 
 function rollIndex(v1weights, v2weights, context, id2count, wm) {
     const { currDrawIndex } = context;
-    const weight2id = {};
+
     const wa = [];
     const wi = [];
 
     for (const v1weight of v1weights) {
         const { id, weight } = v1weight;
-        weight2id[weight] = id;
         if (id2count[id] > 0) {
             wa.push(weight);
             wi.push(id);
