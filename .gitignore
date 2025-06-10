@@ -33,6 +33,7 @@
 
 # Output directories
 build
+xbuild
 
 # By-products
 __pycache__

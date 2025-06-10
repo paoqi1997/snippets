@@ -1,0 +1,36 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "app: xmake build",
+            "command": "xmake f -m debug -o ${workspaceFolder}/cpp/cstring-or-vector/xbuild && xmake",
+            "options": {
+                "cwd": "${workspaceFolder}/cpp/cstring-or-vector"
+            }
+        },
+        {
+            "type": "shell",
+            "label": "app: xmake clean",
+            "command": "xmake c -a",
+            "options": {
+                "cwd": "${workspaceFolder}/cpp/cstring-or-vector"
+            }
+        }
+    ],
+    "version": "2.0.0",
+    // https://code.visualstudio.com/docs/cpp/config-msvc#_run-vs-code-outside-the-developer-command-prompt
+    "windows": {
+        "options": {
+            "shell": {
+                "executable": "cmd.exe",
+                "args": [
+                    "/C",
+                    // The path to VsDevCmd.bat depends on the version of Visual Studio you have installed.
+                    // C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/Tools/VsDevCmd.bat
+                    "\"D:/Microsoft Visual Studio/2022/Community/Common7/Tools/VsDevCmd.bat\"",
+                    "&&"
+                ]
+            }
+        }
+    }
+}
