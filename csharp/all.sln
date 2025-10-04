@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "playground", "playground\playground.csproj", "{750C6833-74C9-4B4E-B5A5-34D20B44D0C0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "learn-orleans", "learn-orleans", "{B07621A2-51FA-292D-4D8F-50A0F6180B59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrainInterfaces", "learn-orleans\GrainInterfaces\GrainInterfaces.csproj", "{AB82112F-9F00-459E-A00D-440746100C3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +31,23 @@ Global
 		{750C6833-74C9-4B4E-B5A5-34D20B44D0C0}.Release|x64.Build.0 = Release|Any CPU
 		{750C6833-74C9-4B4E-B5A5-34D20B44D0C0}.Release|x86.ActiveCfg = Release|Any CPU
 		{750C6833-74C9-4B4E-B5A5-34D20B44D0C0}.Release|x86.Build.0 = Release|Any CPU
+		{AB82112F-9F00-459E-A00D-440746100C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB82112F-9F00-459E-A00D-440746100C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB82112F-9F00-459E-A00D-440746100C3C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AB82112F-9F00-459E-A00D-440746100C3C}.Debug|x64.Build.0 = Debug|Any CPU
+		{AB82112F-9F00-459E-A00D-440746100C3C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AB82112F-9F00-459E-A00D-440746100C3C}.Debug|x86.Build.0 = Debug|Any CPU
+		{AB82112F-9F00-459E-A00D-440746100C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB82112F-9F00-459E-A00D-440746100C3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB82112F-9F00-459E-A00D-440746100C3C}.Release|x64.ActiveCfg = Release|Any CPU
+		{AB82112F-9F00-459E-A00D-440746100C3C}.Release|x64.Build.0 = Release|Any CPU
+		{AB82112F-9F00-459E-A00D-440746100C3C}.Release|x86.ActiveCfg = Release|Any CPU
+		{AB82112F-9F00-459E-A00D-440746100C3C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AB82112F-9F00-459E-A00D-440746100C3C} = {B07621A2-51FA-292D-4D8F-50A0F6180B59}
 	EndGlobalSection
 EndGlobal

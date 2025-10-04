@@ -1,6 +1,6 @@
 ﻿namespace GrainInterfaces;
 
-public class Class1
+public interface IHello : IGrainWithIntegerKey
 {
-
+    ValueTask<string> SayHello(string greeting);
 }
