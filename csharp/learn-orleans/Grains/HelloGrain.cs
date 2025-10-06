@@ -15,7 +15,7 @@ public class HelloGrain : Grain, IHello
             SayHello message received: greeting = "{Greeting}"
             """,
             greeting);
-        
+
         return ValueTask.FromResult($"""
 
             Client said: "{greeting}", so HelloGrain says: Hello!
